@@ -1,0 +1,7 @@
+android-ndk-r17c
+arm64-v8a
+armeabi-v7a
+x86
+toolchain-aarch64-linux-android
+toolchain-arm-linux-androideabi-4.9
+toolchain-i686-linux-android

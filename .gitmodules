@@ -1,0 +1,42 @@
+[submodule "build/openssl"]
+	path = build/openssl
+	url = https://github.com/bear101/openssl
+[submodule "build/MPC"]
+	path = build/MPC
+	url = https://github.com/bear101/MPC
+[submodule "build/ACE"]
+	path = build/ACE
+	url = https://github.com/bear101/ACE
+[submodule "build/FFmpeg"]
+	path = build/FFmpeg
+	url = https://github.com/bear101/FFmpeg
+[submodule "build/opus"]
+	path = build/opus
+	url = https://github.com/bear101/opus
+[submodule "build/opus-tools"]
+	path = build/opus-tools
+	url = https://github.com/bear101/opus-tools
+[submodule "build/libvpx"]
+	path = build/libvpx
+	url = https://github.com/bear101/libvpx
+[submodule "build/speex"]
+	path = build/speex
+	url = https://github.com/bear101/speex
+[submodule "build/speexdsp"]
+	path = build/speexdsp
+	url = https://github.com/bear101/speexdsp
+[submodule "build/tinyxml"]
+	path = build/tinyxml
+	url = https://github.com/bear101/tinyxml
+[submodule "build/zlib"]
+	path = build/zlib
+	url = https://github.com/bear101/zlib
+[submodule "build/ogg"]
+	path = build/ogg
+	url = https://github.com/bear101/ogg
+[submodule "build/portaudio"]
+	path = build/portaudio
+	url = https://github.com/bear101/portaudio
+[submodule "build/qt5"]
+	path = build/qt5
+	url = https://github.com/qt/qt5
