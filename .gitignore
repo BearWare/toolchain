@@ -5,3 +5,15 @@ x86
 toolchain-aarch64-linux-android
 toolchain-arm-linux-androideabi-4.9
 toolchain-i686-linux-android
+ACE
+MPC
+ffmpeg
+libvpx
+ogg
+openssl
+opus-tools
+opus
+portaudio
+speex
+tinyxml
+zlib

@@ -6,7 +6,7 @@ help:
 
 
 JOBS?=4
-LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5
+LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib
 
 MACCFGFLAGS=CFLAGS=-mmacosx-version-min=10.9 CPPFLAGS=-mmacosx-version-min=10.9
 
@@ -47,7 +47,7 @@ ios-arm64: $(foreach lib,$(LIBS),$(lib)-ios-arm64)
 
 prepare:
 	@echo "This will require a LOT of disk space. Ctrl+C to bail out."
-	@read
+	@read hh
 	git submodule update --init --recursive
 
 openssl-clean:
@@ -145,13 +145,13 @@ ace-build:
 	cd ACE/ACE/protocols/ace/INet && make install -j$(JOBS)
 
 ace-deb64:
-	make BRANCH=bdr/deb64 ace-build
+	make BRANCH=bdr/deb64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-deb32:
-	make BRANCH=bdr/deb32 ace-build
+	make BRANCH=bdr/deb32 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-raspi3:
-	make BRANCH=bdr/raspi3 ace-build
+	make BRANCH=bdr/raspi3 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-android-armeabi-v7a:
 	make BRANCH=bdr/android_armeabi-v7a ACE_ROOT=$(PWD)/ACE/ACE JOBS=1 ace-build
