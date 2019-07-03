@@ -437,7 +437,7 @@ opus-tools-uninstall:
 
 opus-tools-build:
 	cd opus-tools && git checkout v0.1.10
-	ln -fs build/opus-tools $(TTLIBS_ROOT)/opus-tools
+	ln -fs $(PWD)/opus-tools $(TTLIBS_ROOT)/opus-tools
 
 opus-tools-deb64: opus-tools-build
 
