@@ -1,5 +1,7 @@
 #!/bin/bash
 
+TOOLCHAIN_ROOT=$PWD
+
 function mac64() {
     echo "### Setting TeamTalk up for Mac OS x86_64 ###"
 
@@ -142,7 +144,7 @@ function android() {
         arch=$1
     fi
 
-    NDK=$PWD/android-ndk-r17c
+    NDK=$TOOLCHAIN_ROOT/android-ndk-r17c
 
     if ! test -d "$NDK"; then
         echo "Android NDK r17c not found. Must be placed in $NDK"
@@ -158,7 +160,7 @@ function android() {
 
             ANDROID_APP_ABI=armeabi-v7a
             ANDROID_ARCH=arm
-            TOOLCHAIN=$PWD/toolchain-arm-linux-androideabi-4.9
+            TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-arm-linux-androideabi-4.9
 
             ;;
         "2")
@@ -166,14 +168,14 @@ function android() {
 
             ANDROID_APP_ABI=arm64-v8a
             ANDROID_ARCH=arm64
-            TOOLCHAIN=$PWD/toolchain-aarch64-linux-android
+            TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-aarch64-linux-android
             ;;
         "3")
             echo "### Setting TeamTalk up for Android x86 ###"
 
             ANDROID_APP_ABI=x86
             ANDROID_ARCH=x86
-            TOOLCHAIN=$PWD/toolchain-i686-linux-android
+            TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-i686-linux-android
             ;;
         *)
             echo "Unknown arch"
@@ -191,7 +193,7 @@ function android() {
     SYSROOT=$TOOLCHAIN/sysroot
     PATH=$TOOLCHAIN/bin:$PATH
 
-    TTLIBS_ROOT=$PWD/$ARCH
+    TTLIBS_ROOT=$TOOLCHAIN_ROOT/$ARCH
     
     export ANDROID_ABI ANDROID_ARCH ARCH NDK SYSROOT TOOLCHAIN PATH ANDROID_APP_ABI ANDROID_APP_PLATFORM ANDROID_APP_STL
 
@@ -267,6 +269,7 @@ case "$arch" in
         ;;
 esac
 
-echo "TTLIBS_ROOT is at \"$TTLIBS_ROOT\""
+echo "TOOLCHAIN_ROOT is now \"$TOOLCHAIN_ROOT\""
+echo "TTLIBS_ROOT is now \"$TTLIBS_ROOT\""
 
-export TTLIBS_ROOT
+export TTLIBS_ROOT TOOLCHAIN_ROOT
