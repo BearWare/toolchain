@@ -6,13 +6,18 @@ help:
 
 
 JOBS?=4
-LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib
+LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5
 
 MACCFGFLAGS=CFLAGS=-mmacosx-version-min=10.9 CPPFLAGS=-mmacosx-version-min=10.9
 
+clone:
+	git submodule update --init openssl MPC ACE FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib
+	@echo "Done..."
+	@echo ""
+	@echo "Notice that 'qt5' submodule is not cloned to limit disk usage."
+	@echo "Clone manually by calling 'git submodule update --init qt5'"
+
 clean:
-	@echo "This will erase _EVERYTHING_"
-	@read h
 	make clean-all
 
 clean-all: $(foreach lib,$(LIBS),$(lib)-clean)
@@ -45,11 +50,6 @@ ios-x64: $(foreach lib,$(LIBS),$(lib)-ios-x64)
 ios-armv7: $(foreach lib,$(LIBS),$(lib)-ios-armv7)
 ios-arm64: $(foreach lib,$(LIBS),$(lib)-ios-arm64)
 
-prepare:
-	@echo "This will require a LOT of disk space. Ctrl+C to bail out."
-	@read hh
-	git submodule update --init --recursive
-
 openssl-clean:
 	cd openssl && git clean -xdf .
 
@@ -76,7 +76,7 @@ openssl-android-arm64:
 	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(TOOLCHAIN) ./Configure  --prefix=$(TTLIBS_ROOT)/openssl no-shared android-arm64 -D__ANDROID_API__=21
 	cd openssl && ANDROID_NDK_HOME=$(TOOLCHAIN) make install
 
-openssl-android-x86: openssl-android-pre
+openssl-android-x86:
 	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(TOOLCHAIN) ./Configure  --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86 -D__ANDROID_API__=21
 	cd openssl && ANDROID_NDK_HOME=$(TOOLCHAIN) make install
 

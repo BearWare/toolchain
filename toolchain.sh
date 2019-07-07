@@ -28,7 +28,7 @@ function ios_common() {
     export IPHONE_VERSION=9.3 #compilation requires this
 
     ln -sf $COMMON_LIB_ROOT/FacebookSDK TeamTalk5/Client/iTeamTalk/FacebookSDK
-
+    
 if [ -z "$1" ]; then
 echo "1 = i386, 2 = x86_64, 3 = armv6, 4 = armv7, 5 = arm64"
 read arch
