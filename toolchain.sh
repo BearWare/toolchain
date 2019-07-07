@@ -3,7 +3,7 @@
 TOOLCHAIN_ROOT=$PWD
 
 function mac64() {
-    echo "### Setting TeamTalk up for Mac OS x86_64 ###"
+    echo "### Setting TeamTalk Toolchain up for Mac OS x86_64 ###"
 
     TTLIBS_ROOT=$BEARWARE_ROOT/libraries
     QTDIR=$TTLIBS_ROOT/Qt/5.12.0/clang_64
@@ -119,20 +119,9 @@ function ios_export() {
 }
 
 function linux() {
-    echo "### Setting TeamTalk up for Linux ###"
+    echo "### Setting TeamTalk Toolchain up for Linux ###"
 
-    TTLIBS_ROOT=$BEARWARE_ROOT/libraries
-
-    LD_LIBRARY_PATH=$TEAMTALK_ROOT/Library/TeamTalk_DLL:$TEAMTALK_ROOT/Library/TeamTalkJNI/libs:$LD_LIBRARY_PATH
-    export LD_LIBRARY_PATH
-
-    # cmake needs a hint to find Java home
-    if [ "raspberrypi" = `uname -n` ]; then
-        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf
-    fi
-
-    export HAMCRESTCORE_JAR=$TTLIBS_ROOT/hamcrest-core-1.3.jar
-    export JUNIT_JAR=$TTLIBS_ROOT/junit-4.11.jar
+    TTLIBS_ROOT=$TOOLCHAIN_ROOT
 }
 
 function android() {
@@ -240,7 +229,7 @@ function win64() {
 }
 
 
-echo "1 = Win32, 2 = Win64, 3 = macOS, 4 = Android, 5 = iOS"
+echo "1 = Win32, 2 = Win64, 3 = macOS, 4 = Android, 5 = iOS, 6 = Linux"
 if [ -z "$1" ]; then
 read arch
 else
@@ -262,6 +251,9 @@ case "$arch" in
         ;;
     "5")
         ios_common $2
+        ;;
+    "6")
+        linux
         ;;
     *)
         echo "Unknown arch"

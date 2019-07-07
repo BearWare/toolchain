@@ -17,10 +17,7 @@ clone:
 	@echo "Notice that 'qt5' submodule is not cloned to limit disk usage."
 	@echo "Clone manually by calling 'git submodule update --init qt5'"
 
-clean:
-	make clean-all
-
-clean-all: $(foreach lib,$(LIBS),$(lib)-clean)
+clean: $(foreach lib,$(LIBS),$(lib)-clean)
 
 uninstall: 
 	@echo "This will erase _EVERYTHING_"
