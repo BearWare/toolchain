@@ -10,7 +10,7 @@ LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp 
 
 MACCFGFLAGS=CFLAGS=-mmacosx-version-min=10.9 CPPFLAGS=-mmacosx-version-min=10.9
 
-clone:
+prepare:
 	git submodule update --init openssl MPC ACE FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib
 	@echo "Done..."
 	@echo ""
