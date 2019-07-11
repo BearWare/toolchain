@@ -262,13 +262,13 @@ libvpx-uninstall:
 
 libvpx-build:
 	cd libvpx && git checkout $(BRANCH) && \
-	./configure --prefix=$(TTLIBS_ROOT)/libvpx $(CFGFLAGS) --disable-unit-tests --disable-tools --disable-examples --disable-docs && make install -j$(JOBS)
+	./configure --prefix=$(TTLIBS_ROOT)/libvpx $(CFGFLAGS) --disable-unit-tests --disable-examples --disable-docs && make install -j$(JOBS)
 
 libvpx-deb64:
-	make BRANCH=v1.6.1 CFGFLAGS="--target=x86_64-linux-gcc --enable-pic" libvpx-build
+	make BRANCH=v1.6.1 CFGFLAGS="--target=x86_64-linux-gcc --enable-pic --disable-tools" libvpx-build
 
 libvpx-deb32:
-	make BRANCH=v1.6.1 libvpx-build
+	make BRANCH=v1.6.1 CFGFLAGS="--disable-tools" libvpx-build
 
 # if v1.6.1 causes "../libraries/libvpx/lib/libvpx.a(vpx_codec.c.o): relocation R_ARM_MOVW_ABS_NC against `a local symbol' can not be used when making a shared object; recompile with -fPIC"
 libvpx-raspi3:
