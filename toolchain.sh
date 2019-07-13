@@ -191,41 +191,19 @@ function android() {
 }
 
 function win() {
-    TTLIBS_ROOT=$BEARWARE_ROOT/libraries
-    MSBUILDPATH=/cygdrive/c/Windows/Microsoft.NET/Framework64/v4.0.30319
-    MSBUILD=$MSBUILDPATH/msbuild.exe
-
-    PATH=$PATH:$TEAMTALK_ROOT/Library/TeamTalk_DLL:$TEAMTALK_ROOT/Library/TeamTalkJNI/libs:$MSBUILDPATH:
-    SIGNTOOL='"/cygdrive/c/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Bin/signtool.exe"'
-    CLASSPATH="c:\Programming\Libraries\junit-4.11.jar;c:\Programming\Libraries\hamcrest-core-1.3.jar"
-
-    if [ "CYGWIN_NT-10.0" = `uname -s` ]; then
-      MSBUILD='"/cygdrive/c/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe"'
-      PLATFORMTOOLSET="/property:PlatformToolset=v140"
-      SIGNTOOL='"/cygdrive/c/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Bin/signtool.exe"'
-    fi
-
-    export MSBUILD CLASSPATH PLATFORMTOOLSET SIGNTOOL
+    TTLIBS_ROOT=$TOOLCHAIN_ROOT/build
 }
 
 function win32() {
 
     win
 
-    JDK_ROOT=$TTLIBS_ROOT/Java_x86/jdk1.8.0_45
-    PATH=$JDK_ROOT/bin:$PATH
-
-    export PATH JDK_ROOT
 }
 
 function win64() {
 
     win
 
-    JDK_ROOT=$TTLIBS_ROOT/Java_x64/jdk1.8.0_45
-    PATH=$JDK_ROOT/bin:$PATH
-
-    export PATH JDK_ROOT
 }
 
 
