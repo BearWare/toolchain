@@ -325,19 +325,19 @@ libvpx-win:
 	cd libvpx && mkdir -p build_win32
 	@echo "--------------------------------------------------"
 	@echo "Configuring Win32 build...  (Win64 will be configured afterwards)"
-	cd libvpx/build_win32 && ../configure --target=x86-win32-vs14 --disable-examples --disable-docs --enable-static-msvcrt --prefix=../lib/
+	cd libvpx/build_win32 && ../configure --target=x86-win32-vs14 --disable-examples --disable-docs --enable-static-msvcrt
 	cd libvpx && mkdir -p build_win64
 	@echo "--------------------------------------------------"
 	@echo "Configuring Win64 build..."
-	cd libvpx/build_win64 && ../configure --target=x86_64-win64-vs14 --disable-examples --disable-docs --enable-static-msvcrt --prefix=../lib/
+	cd libvpx/build_win64 && ../configure --target=x86_64-win64-vs14 --disable-examples --disable-docs --enable-static-msvcrt
 	@echo "--------------------------------------------------"
 	@echo "Copy yasm.exe for 32-bit to build_win32"
 	@echo "Copy yasm.exe for 64-bit to build_win64"
 	@echo "Afterwards run 'make' in libvpx/build_win32 or libvpx/build_win64"
-	@echo "--------------------------------------------------"
 	@echo "It should be possible to build using MSBUILD but it is not possible to find in PATH..."
 	@echo "Instead open either libvpx/build_win32/vpx.sln or libvpx/build_win64/vpx.sln to build"
 	@echo "manually from Visual Studio."
+	@echo "Change 'Output Directory' for 'vpx' project to '..\lib\$(PlatformName)' in Debug/Release configurations."
 	@echo "Build project 'vpx' in Debug/Release configurations for either Win32 or x64"
 
 ogg-clean:
@@ -497,7 +497,7 @@ portaudio-win:
 	@echo "Now open CMake and put empty string in DXSDK_DSOUND_LIBRARY"
 	@echo "and '.' in remaining DXSDK_* paths (DirectX is included with Visual Studio 2015)."
 	@echo "Generate project for Win32 (default) and 'Visual Studio 2015 - Win64'."
-	@echo "Build project 'portaudio' in Debug/Release configuration either for Win32 or x64."
+	@echo "Build project 'portaudio_static' in Debug/Release configuration either for Win32 or x64."
 
 portaudio-android-armeabi-v7a:
 portaudio-android-arm64:
