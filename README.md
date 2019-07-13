@@ -1,5 +1,7 @@
 # Toolchain for TeamTalkLib
 
+[![Build Status](https://travis-ci.org/bear101/toolchain.svg?branch=master)](https://travis-ci.org/bear101/toolchain)
+
 3rd party libraries for TeamTalk are git submodules in ```build```
 folder. To initialize the submodules go to
 ```Library/TeamTalkLib/toolchain/build``` and type ```make prepare```.
