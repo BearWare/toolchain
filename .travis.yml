@@ -1,0 +1,21 @@
+language: cpp
+
+dist: xenial
+addons:
+  apt:
+    packages:
+      - libasound2-dev
+      
+git:
+  submodules: false
+
+env:
+  global:
+    - TOOLCHAIN_ROOT=$TRAVIS_BUILD_DIR
+    - TTLIBS_ROOT=$TRAVIS_BUILD_DIR
+
+script:
+    - cd build
+    - make prepare
+    - make deb64
+    
