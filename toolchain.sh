@@ -5,20 +5,27 @@ TOOLCHAIN_ROOT=$PWD
 function mac64() {
     echo "### Setting TeamTalk Toolchain up for Mac OS x86_64 ###"
 
-    TTLIBS_ROOT=$BEARWARE_ROOT/libraries
-    QTDIR=$TTLIBS_ROOT/Qt/5.12.0/clang_64
+    TTLIBS_ROOT=$TOOLCHAIN_ROOT
 
-    PATH=$QTDIR/bin:$PATH
-    export QTDIR
-    echo "Setting QTDIR to $QTDIR"
+    xcode=$(xcode-select -p)
+    echo "Xcode is currently pointing to: '$xcode'"
+    echo ""
+    SDK="$TTLIBS_ROOT/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk"
 
-    DYLD_LIBRARY_PATH=$TEAMTALK_ROOT/Library/TeamTalk_DLL:$TEAMTALK_ROOT/Library/TeamTalkJNI/libs:$QTDIR/plugins/accessible:$DYLD_LIBRARY_PATH
-    export DYLD_LIBRARY_PATH
-
-    export SDK=$TTLIBS_ROOT/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk
-
-    export HAMCRESTCORE_JAR=$TTLIBS_ROOT/hamcrest-core-1.3.jar
-    export JUNIT_JAR=$TTLIBS_ROOT/junit-4.11.jar
+    if [ ! -e "$SDK" ] || [ "$xcode" != "$TTLIBS_ROOT/Xcode.app/Contents/Developer" ]; then
+        echo "Building TeamTalk toolchain has currently only been tested on Xcode 9.3."
+        echo "It is therefore recommended to download Xcode 9.3 from Apple and place Xcode"
+        echo "in '$TTLIBS_ROOT/Xcode.app'."
+        echo ""
+        echo "To change default Xcode run 'sudo xcode-select -s $TTLIBS_ROOT/Xcode.app/Contents/Developer'"
+        echo ""
+        echo "To switch back run 'sudo xcode-select -s /Applications/Xcode.app/Contents/Developer'"
+        SDK="$xcode/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
+    fi
+    
+    export SDK
+    echo "Exporting SDK environment variable. This is required by build ACE."
+    echo "TeamTalk toolchain will use $SDK"
 }
 
 function ios_common() {

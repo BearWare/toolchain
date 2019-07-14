@@ -8,7 +8,8 @@ help:
 JOBS?=4
 LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5
 
-MACCFGFLAGS=CFLAGS=-mmacosx-version-min=10.9 CPPFLAGS=-mmacosx-version-min=10.9
+MACMINVERSION="-mmacosx-version-min=10.9"
+MACCFGFLAGS=CFLAGS=$(MACMINVERSION) CPPFLAGS=$(MACMINVERSION)
 
 prepare:
 	git submodule update --init openssl MPC ACE FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib
@@ -63,7 +64,7 @@ openssl-raspi3:
 	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-armv4 && make install
 
 openssl-mac:
-	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc -mmacosx-version-min=10.9 && make install
+	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && make install
 
 openssl-android-armeabi-v7a:
 	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(TOOLCHAIN) ./Configure --prefix=$(TTLIBS_ROOT)/openssl no-shared android-arm -D__ANDROID_API__=21
@@ -173,8 +174,9 @@ ace-ios-x64:
 	make BRANCH=bdr/ios_x86_64 ace-build
 
 ace-mac:
+	@echo "Testing that SDK environment variable has been specified"
 	test -d $(SDK)
-	make BRANCH=bdr/mac64 ace-build
+	make BRANCH=bdr/mac64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-win:
 	cd ACE && git checkout bdr/win
@@ -254,9 +256,9 @@ ffmpeg-mac:
 	--disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes \
 	--disable-libxcb-shape --disable-securetransport \
 	--disable-schannel --disable-xlib --disable-jack \
-	--extra-cflags="-mmacosx-version-min=10.9"  \
-	--extra-cxxflags="-mmacosx-version-min=10.9"  \
-	--extra-ldexeflags="-mmacosx-version-min=10.9" \
+	--extra-cflags="$(MACMINVERSION)"  \
+	--extra-cxxflags="$(MACMINVERSION)"  \
+	--extra-ldexeflags="$(MACMINVERSION)" \
 	--disable-videotoolbox --disable-sdl2 --pkg-config-flags="--static" \
 	--enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl && make -j$(JOBS) install
 
@@ -282,7 +284,7 @@ libvpx-raspi3:
 
 libvpx-mac:
 	cd libvpx && git checkout v1.6.1 && \
-	./configure --extra-cflags="-mmacosx-version-min=10.9" --prefix=$(TTLIBS_ROOT)/libvpx \
+	./configure --extra-cflags="$(MACMINVERSION)" --prefix=$(TTLIBS_ROOT)/libvpx \
 	--target=x86_64-darwin13-gcc && make install -j$(JOBS)
 
 libvpx-android-armeabi-v7a:
@@ -642,7 +644,7 @@ tinyxml-ios-i386:
 tinyxml-ios-x64:
 
 tinyxml-mac:
-	cd tinyxml && git checkout bdr/mac && make CPPFLAGS="-isysroot $(SDK) -fPIC -g -m64 -mmacosx-version-min=10.9 -std=c++11"
+	cd tinyxml && git checkout bdr/mac && make CPPFLAGS="-isysroot $(SDK) -fPIC -g -m64 $(MACMINVERSION) -std=c++11"
 	ln -fs $(PWD)/tinyxml $(TTLIBS_ROOT)/tinyxml
 
 zlib-clean:
