@@ -5,7 +5,8 @@ addons:
   apt:
     packages:
       - libasound2-dev
-      
+      - yasm
+
 git:
   submodules: false
 
@@ -18,4 +19,3 @@ script:
     - cd build
     - make prepare
     - make deb64
-    
