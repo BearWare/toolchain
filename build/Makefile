@@ -375,9 +375,13 @@ ogg-win:
 	@echo "either for Win32 or x64"
 
 ogg-ios-armv7:
+	make BRANCH=v1.3.3 GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin" ogg-build
 ogg-ios-arm64:
+	make BRANCH=v1.3.3 GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin" ogg-build
 ogg-ios-i386:
+	make BRANCH=v1.3.3 GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH)" ogg-build
 ogg-ios-x64:
+	make BRANCH=v1.3.3 GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH)" ogg-build
 
 opus-clean:
 	cd opus && git clean -xdf .
@@ -451,12 +455,12 @@ opus-tools-android-arm64: opus-tools-build
 
 opus-tools-android-x86: opus-tools-build
 
-opus-tools-ios-armv7:
-opus-tools-ios-arm64:
-opus-tools-ios-i386:
-opus-tools-ios-x64:
-opus-tools-win:
+opus-tools-ios-armv7: opus-tools-build
+opus-tools-ios-arm64: opus-tools-build
+opus-tools-ios-i386: opus-tools-build
+opus-tools-ios-x64: opus-tools-build
 
+opus-tools-win:
 
 portaudio-clean:
 	cd portaudio && git clean -xdf .
