@@ -40,3 +40,6 @@
 [submodule "build/qt5"]
 	path = build/qt5
 	url = https://github.com/qt/qt5
+[submodule "build/gas-preprocessor"]
+	path = build/gas-preprocessor
+	url = https://github.com/FFmpeg/gas-preprocessor

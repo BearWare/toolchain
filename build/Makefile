@@ -10,9 +10,10 @@ LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp 
 
 MACMINVERSION="-mmacosx-version-min=10.9"
 MACCFGFLAGS=CFLAGS=$(MACMINVERSION) CPPFLAGS=$(MACMINVERSION)
+ARCHS=deb32 deb64 raspi3 mac win android-armeabi-v7a android-arm64 android-x86 ios-i386 ios-x64 ios-armv7 ios-arm64
 
 prepare:
-	git submodule update --init openssl MPC ACE FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib
+	git submodule update --init openssl MPC ACE gas-preprocessor FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib
 	@echo "Done..."
 	@echo ""
 	@echo "Notice that 'qt5' submodule is not cloned to limit disk usage."
@@ -162,16 +163,16 @@ ace-android-x86:
 	make BRANCH=bdr/android_x86 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-ios-armv7:
-	make BRANCH=bdr/ios_armv7 ace-build
+	make BRANCH=bdr/ios_armv7 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-ios-arm64:
-	make BRANCH=bdr/ios_arm64 ace-build
+	make BRANCH=bdr/ios_arm64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-ios-i386:
-	make BRANCH=bdr/ios_i386 ace-build
+	make BRANCH=bdr/ios_i386 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-ios-x64:
-	make BRANCH=bdr/ios_x86_64 ace-build
+	make BRANCH=bdr/ios_x86_64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-mac:
 	@echo "Testing that SDK environment variable has been specified"
@@ -234,14 +235,10 @@ ffmpeg-ios-build:
 	cd FFmpeg && git checkout release/3.1
 
 ffmpeg-ios-armv7: ffmpeg-ios-build
-	@echo "Put $(PWD)/gas-preprocessor in PATH"
-	read
-	cd FFmpeg && ./configure --arch=arm --target-os=darwin --cc="clang -arch armv7" --sysroot=$(xcrun --sdk iphoneos --show-sdk-path) --cpu=cortex-a8 --enable-pic --disable-doc --disable-programs --enable-cross-compile --as="gas-preprocessor.pl -arch arm -as-type apple-clang -- clang -arch armv7 -v" --prefix=$(TTLIBS_ROOT)/ffmpeg && make -j$(JOBS) install
+	cd FFmpeg && PATH=$(PATH):$(PWD)/gas-preprocessor ./configure --arch=arm --target-os=darwin --cc="clang -arch armv7" --sysroot=$(xcrun --sdk iphoneos --show-sdk-path) --cpu=cortex-a8 --enable-pic --disable-doc --disable-programs --enable-cross-compile --as="gas-preprocessor.pl -arch arm -as-type apple-clang -- clang -arch armv7 -v" --prefix=$(TTLIBS_ROOT)/ffmpeg && make PATH=$(PATH):$(PWD)/gas-preprocessor -j$(JOBS) install
 
 ffmpeg-ios-arm64: ffmpeg-ios-build
-	@echo "Put $(PWD)/gas-preprocessor in PATH"
-	read
-	cd FFmpeg && ./configure --arch=arm64 --target-os=darwin --cc="clang -arch arm64" --sysroot=$(shell xcrun --sdk iphoneos --show-sdk-path)  --enable-pic --disable-doc --disable-programs --enable-cross-compile --as="gas-preprocessor.pl -arch arm64 -as-type apple-clang -- clang -arch arm64 -v" --prefix=$(TTLIBS_ROOT)/ffmpeg && make -j$(JOBS) install
+	cd FFmpeg && PATH=$(PATH):$(PWD)/gas-preprocessor ./configure --arch=arm64 --target-os=darwin --cc="clang -arch arm64" --sysroot=$(shell xcrun --sdk iphoneos --show-sdk-path)  --enable-pic --disable-doc --disable-programs --enable-cross-compile --as="gas-preprocessor.pl -arch arm64 -as-type apple-clang -- clang -arch arm64 -v" --prefix=$(TTLIBS_ROOT)/ffmpeg && make PATH=$(PATH):$(PWD)/gas-preprocessor -j$(JOBS) install
 
 ffmpeg-ios-i386: ffmpeg-ios-build
 	cd FFmpeg && ./configure --arch=i386 --target-os=darwin --cc="clang -arch i386" --sysroot=$(shell xcrun --sdk iphonesimulator --show-sdk-path)  --enable-pic --disable-doc --disable-programs --enable-cross-compile --prefix=$(TTLIBS_ROOT)/ffmpeg && make -j$(JOBS) install
@@ -301,13 +298,6 @@ libvpx-android-x86:
 
 # libvpx on iOS cannot build when environment variables are set. It defaults to /Applications/Xcode
 libvpx-ios-build:
-	@echo "First run:"
-	@echo "# sudo xcode-select -s $(TTLIBS_ROOT)/Xcode.app/Contents/Developer"
-	@echo "where Xcode.app is version 9.3"
-	@echo "Afterwards reset to default Xcode, i.e.:"
-	@echo "# sudo xcode-select -s /Applications/Xcode.app/Contents/Developer"
-	@read
-#	unset XCODE_ROOT IPHONE_TARGET SDK CXX CXXFLAGS LD LDFLAGS CFLAGS && make libvpx-build
 	make libvpx-build
 
 libvpx-ios-armv7:

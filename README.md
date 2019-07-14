@@ -16,21 +16,22 @@ following order:
 1. openssl (Required by macOS, Windows, iOS and Android)
 2. MPC (Required by all platforms)
 3. ACE (Required by all platforms)
-4. ffmpeg (Required by Linux, macOS, Android)
-5. libvpx (Required by Linux, macOS, Windows, Android)
-6. ogg (Required by Linux, macOS, Windows, Android)
-7. opus (Required by all platforms)
-8. opus-tools (Required by Linux, macOS, Windows, Android)
-9. portaudio (Required by Linux, macOS, Windows)
-10. speex (Required by all platforms)
-11. speexdsp (Required by all platforms)
-12. tinyxml (Required by Linux, macOS, Windows)
-13. zlib (Required by Windows)
-14. qt5 (Required Windows)
+4. gas-preprocessor (Required by iOS)
+5. ffmpeg (Required by Linux, macOS, Android)
+6. libvpx (Required by Linux, macOS, Windows, Android)
+7. ogg (Required by Linux, macOS, Windows, Android)
+8. opus (Required by all platforms)
+9. opus-tools (Required by Linux, macOS, Windows, Android)
+10. portaudio (Required by Linux, macOS, Windows)
+11. speex (Required by all platforms)
+12. speexdsp (Required by all platforms)
+13. tinyxml (Required by Linux, macOS, Windows)
+14. zlib (Required by Windows)
+15. qt5 (Required Windows)
 
-## Building on Android
+## Building for Android
 
-### Dependencies for Android Builds
+### Dependencies for Build Android Libraries
 
 For Ubuntu 18.10 download *Android NDK r17c*,
 **android-ndk-r17c-linux-x86_64.zip**, and unpack it in
@@ -47,7 +48,7 @@ On Ubuntu 18.10 install the following tools:
 * Speex, SpeexDSP, OPUS dependencies
 ** ```apt-get install autoconf libtool```
 
-### Build 3rd party Android Dependencies
+### Build 3rd Party Libraries for Android
 
 First source ```toolchain.sh``` in
 ```Library/TeamTalkLib/toolchain```. Select Android architecture
@@ -74,9 +75,9 @@ For Android x86 architecture (useful for simulators) type:
 When building a new architecture make sure to run ```make clean``` to
 delete all intermediate files and configurations.
 
-## Building on Windows
+## Building for Windows
 
-### Dependencies for Windows Builds
+### Dependencies for Building Windows Libraries
 
 Install *Microsoft Visual Studio Community 2015*.
 
@@ -96,7 +97,7 @@ Install *CMake* from https://cmake.org/
 
 * Required by *PortAudio*
 
-### Build 3rd party Windows Dependencies
+### Build 3rd Party Libraries for Windows
 
 Building on Windows is quite a challenge and cannot be done
 automatically. The location of header and libraries is quite different
@@ -118,15 +119,15 @@ LIBNAME-win``` where *LIBNAME* is the name of the library name. Follow
 the instruction output by the Makefile. This is cumbersome and error
 prone process. Sorry...
 
-## Building on Ubuntu 18
+## Building for Ubuntu 18
 
-### Dependencies for Ubuntu 18 Builds
+### Dependencies for Building Ubuntu 18 Libraries
 
 Run the following command to install required packages:
 
 ```sudo apt install libasound2-dev yasm```
 
-### Build 3rd party Ubuntu Dependencies
+### Build 3rd Party Libraries for Ubuntu
 
 First source ```toolchain.sh``` in
 ```Library/TeamTalkLib/toolchain```. Select Linux as platform.
@@ -134,3 +135,40 @@ First source ```toolchain.sh``` in
 Now change to ```Library/TeamTalkLib/toolchain/build```.
 
 Run ```make deb64```.
+
+## Building for iOS
+
+### Dependencies for Building iOS Libraries
+
+Download Xcode 9.3 from Apple and place Xcode.app in
+```Library/TeamTalkLib/toolchain```.
+
+### Build 3rd Party Libraries for iOS
+
+First source ```toolchain.sh``` in
+```Library/TeamTalkLib/toolchain```. Select iOS as platform and then
+choose architecture, i.e. armv7, arm64, i386 or x86_64.
+
+Start a new shell and source ```toolchain.sh``` for every iOS
+architecture.
+
+Now change to ```Library/TeamTalkLib/toolchain/build```.
+
+For iOS armv7 architecture type:
+
+```make ios-armv7```
+
+For iOS arm64 architecture type:
+
+```make ios-arm64```
+
+For iOS i386 architecture (useful for simulators) type:
+
+```make ios-i386```
+
+For iOS x86_64 architecture (useful for simulators) type:
+
+```make ios-x64```
+
+When building a new architecture make sure to run ```make clean``` to
+delete all intermediate files and configurations.
