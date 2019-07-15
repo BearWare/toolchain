@@ -10,8 +10,8 @@ function xcode_setup() {
     echo ""
 
     if [ ! -e "$sdk" ]; then
-        echo "Building TeamTalk toolchain has currently only been tested on Xcode 9.3."
-        echo "It is therefore recommended to download Xcode 9.3 from Apple and place Xcode"
+        echo "Building TeamTalk toolchain has currently only been tested on Xcode 7.3."
+        echo "It is therefore recommended to download Xcode 7.3 from Apple and place Xcode"
         echo "in '$TOOLCHAIN_ROOT/Xcode.app'."
         echo ""
         echo "To change default Xcode run 'sudo xcode-select -s $TOOLCHAIN_ROOT/Xcode.app/Contents/Developer'"
