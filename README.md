@@ -29,6 +29,14 @@ following order:
 14. zlib (Required by Windows)
 15. qt5 (Required Windows)
 
+The following sections explain how to build for each of the supported platforms:
+
+* [Building for Android](#building-for-android)
+* [Building for Windows](#building-for-windows)
+* [Building for Ubuntu 18](#building-for-ubuntu-18)
+* [Building for iOS](#building-for-ios)
+
+
 ## Building for Android
 
 ### Dependencies for Build Android Libraries
