@@ -140,7 +140,7 @@ Run ```make deb64```.
 
 ### Dependencies for Building iOS Libraries
 
-Download Xcode 9.3 from Apple and place Xcode.app in
+Download Xcode 7.3 from Apple and place Xcode.app in
 ```Library/TeamTalkLib/toolchain```.
 
 ### Build 3rd Party Libraries for iOS
