@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TOOLCHAIN_ROOT=$PWD
+TOOLCHAIN_ROOT=$(dirname ${BASH_SOURCE[0]})
 
 function xcode_setup() {
 
@@ -165,6 +165,22 @@ function android() {
     if [ -z "$1" ]; then
         echo "1 = armeabi-v7a, 2 = arm64-v8a, 3 = x86"
         read arch
+
+        case "$arch" in
+            "1")
+                arch=armeabi-v7a
+                ;;
+            "2")
+                arch=arm64-v8a
+                ;;
+            "3")
+                arch=x86
+                ;;
+            *)
+                echo "Unknown selection"
+                return 1
+                ;;
+        esac
     else
         arch=$1
     fi
@@ -180,7 +196,7 @@ function android() {
     ANDROID_APP_STL=gnustl_static
 
     case "$arch" in
-        "1")
+        "armeabi-v7a")
             echo "### Setting TeamTalk up for Android armv7a ###"
 
             ANDROID_APP_ABI=armeabi-v7a
@@ -188,14 +204,14 @@ function android() {
             TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-arm-linux-androideabi-4.9
 
             ;;
-        "2")
+        "arm64-v8a")
             echo "### Setting TeamTalk up for Android arm64 ###"
 
             ANDROID_APP_ABI=arm64-v8a
             ANDROID_ARCH=arm64
             TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-aarch64-linux-android
             ;;
-        "3")
+        "x86")
             echo "### Setting TeamTalk up for Android x86 ###"
 
             ANDROID_APP_ABI=x86
@@ -242,35 +258,58 @@ function win64() {
 
 }
 
-
 echo "1 = Win32, 2 = Win64, 3 = macOS, 4 = Android, 5 = iOS, 6 = Linux"
 if [ -z "$1" ]; then
-read arch
+    read platform
+    case "$platform" in
+        "1")
+            platform=win32
+            ;;
+        "2")
+            platform=win64
+            ;;
+        "3")
+            platform=mac
+            ;;
+        "4")
+            platform=android
+            ;;
+        "5")
+            platform=ios
+            ;;
+        "6")
+            platform=linux
+            ;;
+        *)
+            echo "Unknown arch"
+            return 1
+            ;;
+    esac
 else
-arch=$1
+    platform=$1
 fi
 
-case "$arch" in
-    "1")
+case "$platform" in
+    win32)
         win32
         ;;
-    "2")
+    win64)
         win64
         ;;
-    "3")
+    mac)
         mac64
         ;;
-    "4")
+    android)
         android $2
         ;;
-    "5")
+    ios)
         ios_common $2
         ;;
-    "6")
+    linux)
         linux
         ;;
     *)
-        echo "Unknown arch"
+        echo "Unknown platform"
         return 1
         ;;
 esac
