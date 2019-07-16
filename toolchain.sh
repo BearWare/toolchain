@@ -1,6 +1,10 @@
 #!/bin/bash
 
+# Find absolute path (that works on both macOS and Linux)
 TOOLCHAIN_ROOT=$(dirname ${BASH_SOURCE[0]})
+cd $TOOLCHAIN_ROOT
+TOOLCHAIN_ROOT=$(pwd -P)
+cd -
 
 function xcode_setup() {
 
