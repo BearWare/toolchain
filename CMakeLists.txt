@@ -4,7 +4,6 @@ project (TeamTalkToolchain)
 if (MSVC)
   set (TTLIBS_ROOT ${CMAKE_CURRENT_LIST_DIR}/build)
 else()
-  
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set (TTLIBS_ROOT ${CMAKE_CURRENT_LIST_DIR}/${CMAKE_ANDROID_ARCH_ABI})
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")

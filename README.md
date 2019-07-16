@@ -27,7 +27,7 @@ following order:
 12. speexdsp (Required by all platforms)
 13. tinyxml (Required by Linux, macOS, Windows)
 14. zlib (Required by Windows)
-15. qt5 (Required Windows)
+15. qt5 (Required by Windows)
 
 The following sections explain how to build for each of the supported
 platforms:
