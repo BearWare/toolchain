@@ -29,13 +29,50 @@ following order:
 14. zlib (Required by Windows)
 15. qt5 (Required Windows)
 
-The following sections explain how to build for each of the supported platforms:
+The following sections explain how to build for each of the supported
+platforms:
 
+* [Building for macOS](#building-for-macos)
+* [Building for Ubuntu 18](#building-for-ubuntu-18)
 * [Building for Android](#building-for-android)
 * [Building for Windows](#building-for-windows)
-* [Building for Ubuntu 18](#building-for-ubuntu-18)
 * [Building for iOS](#building-for-ios)
 
+## Building for macOS
+
+### Dependencies for Building macOS Libraries
+
+Install *MacPorts* or *Homebrew* and install the following packages:
+* yasm
+
+### Build 3rd Party Libraries for macOS
+
+First source ```toolchain.sh``` in
+```Library/TeamTalkLib/toolchain```. Select 'macOS' as platform.
+
+Now change to ```Library/TeamTalkLib/toolchain/build```.
+
+Run ```make mac```.
+
+## Building for Ubuntu 18
+
+These are build instructions for Ubuntu 18 but should also work on
+Ubuntu 16 and Debian 9.
+
+### Dependencies for Building Ubuntu 18 Libraries
+
+Run the following command to install required packages:
+
+```sudo apt install libasound2-dev yasm```
+
+### Build 3rd Party Libraries for Ubuntu 18
+
+First source ```toolchain.sh``` in
+```Library/TeamTalkLib/toolchain```. Select Linux as platform.
+
+Now change to ```Library/TeamTalkLib/toolchain/build```.
+
+Run ```make deb64```.
 
 ## Building for Android
 
@@ -126,23 +163,6 @@ Run the following command make command for each library ```make
 LIBNAME-win``` where *LIBNAME* is the name of the library name. Follow
 the instruction output by the Makefile. This is cumbersome and error
 prone process. Sorry...
-
-## Building for Ubuntu 18
-
-### Dependencies for Building Ubuntu 18 Libraries
-
-Run the following command to install required packages:
-
-```sudo apt install libasound2-dev yasm```
-
-### Build 3rd Party Libraries for Ubuntu
-
-First source ```toolchain.sh``` in
-```Library/TeamTalkLib/toolchain```. Select Linux as platform.
-
-Now change to ```Library/TeamTalkLib/toolchain/build```.
-
-Run ```make deb64```.
 
 ## Building for iOS
 
