@@ -193,7 +193,7 @@ function android() {
 
     if ! test -d "$NDK"; then
         echo "Android NDK r17c not found. Must be placed in $NDK"
-        exit 1
+        return 1
     fi
     
     ANDROID_APP_PLATFORM=android-21
@@ -318,7 +318,12 @@ case "$platform" in
         ;;
 esac
 
-echo "TOOLCHAIN_ROOT is now \"$TOOLCHAIN_ROOT\""
-echo "TTLIBS_ROOT is now \"$TTLIBS_ROOT\""
-
-export TTLIBS_ROOT TOOLCHAIN_ROOT
+if [ "$?" -eq 0 ]; then
+    echo "TOOLCHAIN_ROOT is now \"$TOOLCHAIN_ROOT\""
+    echo "TTLIBS_ROOT is now \"$TTLIBS_ROOT\""
+    export TTLIBS_ROOT TOOLCHAIN_ROOT
+    return 0
+else
+    echo "Failed to set up toolchain"
+    return 1
+fi
