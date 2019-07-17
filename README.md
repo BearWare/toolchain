@@ -2,9 +2,13 @@
 
 [![Build Status](https://travis-ci.org/bear101/toolchain.svg?branch=master)](https://travis-ci.org/bear101/toolchain)
 
-3rd party libraries for TeamTalk are git submodules in ```build```
-folder. To initialize the submodules go to
-```Library/TeamTalkLib/toolchain/build``` and type ```make prepare```.
+3rd party libraries for TeamTalk are Git submodules in ```build```
+folder. To initialize the submodules go to ```$TOOLCHAIN_ROOT/build```
+and type ```make prepare```. Throughout this document
+```$TOOLCHAIN_ROOT``` is the root folder of the *toolchain* Git
+repository. Typically the *toolchain* Git repository initialized as a
+submodule of Git repository
+[TeamTalk5](https://github.com/BearWare/TeamTalk5).
 
 Note that submodule *qt5* is not initialized because it is very big and
 only needed on Windows. To initialize a single submodule type ```git
@@ -48,9 +52,9 @@ Install *MacPorts* or *Homebrew* and install the following packages:
 ### Build 3rd Party Libraries for macOS
 
 First source ```toolchain.sh``` in
-```Library/TeamTalkLib/toolchain```. Select 'macOS' as platform.
+```$TOOLCHAIN_ROOT```. Select 'macOS' as platform.
 
-Now change to ```Library/TeamTalkLib/toolchain/build```.
+Now change to ```$TOOLCHAIN_ROOT/build```.
 
 Run ```make mac```.
 
@@ -68,9 +72,9 @@ Run the following command to install required packages:
 ### Build 3rd Party Libraries for Ubuntu 18
 
 First source ```toolchain.sh``` in
-```Library/TeamTalkLib/toolchain```. Select Linux as platform.
+```$TOOLCHAIN_ROOT```. Select Linux as platform.
 
-Now change to ```Library/TeamTalkLib/toolchain/build```.
+Now change to ```$TOOLCHAIN_ROOT/build```.
 
 Run ```make deb64```.
 
@@ -80,7 +84,7 @@ Run ```make deb64```.
 
 For Ubuntu 18.10 download *Android NDK r17c*,
 **android-ndk-r17c-linux-x86_64.zip**, and unpack it in
-```Library/TeamTalkLib/toolchain```.
+```$TOOLCHAIN_ROOT```.
 
 ### Install 3rd party Android Dependencies
 
@@ -96,14 +100,14 @@ On Ubuntu 18.10 install the following tools:
 ### Build 3rd Party Libraries for Android
 
 First source ```toolchain.sh``` in
-```Library/TeamTalkLib/toolchain```. Select Android architecture
+```$TOOLCHAIN_ROOT```. Select Android architecture
 (armeabi-v7a, arm64 or x86) and the shell-script will create a
 toolchain for the archtecture if it doesn't exist already.
 
 Start a new shell and source ```toolchain.sh``` for every Android
 architecture.
 
-Now change to ```Library/TeamTalkLib/toolchain/build```.
+Now change to ```$TOOLCHAIN_ROOT/build```.
 
 For Android armeabi-v7a architecture type:
 
@@ -153,11 +157,11 @@ The 3rd party libraries must be installed in the order described in
 [first section](#toolchain-for-teamtalklib).
 
 Start a cygwin shell and source ```toolchain.sh``` in
-```Library/TeamTalkLib/toolchain```. Choose either Win32 or Win64 as
+```$TOOLCHAIN_ROOT```. Choose either Win32 or Win64 as
 architecture. Each architecture **must** use a separate repository
 checkout.
 
-Now change to ```Library/TeamTalkLib/toolchain/build```.
+Now change to ```$TOOLCHAIN_ROOT/build```.
 
 Run the following command make command for each library ```make
 LIBNAME-win``` where *LIBNAME* is the name of the library name. Follow
@@ -169,18 +173,18 @@ prone process. Sorry...
 ### Dependencies for Building iOS Libraries
 
 Download Xcode 7.3 from Apple and place Xcode.app in
-```Library/TeamTalkLib/toolchain```.
+```$TOOLCHAIN_ROOT```.
 
 ### Build 3rd Party Libraries for iOS
 
 First source ```toolchain.sh``` in
-```Library/TeamTalkLib/toolchain```. Select iOS as platform and then
+```$TOOLCHAIN_ROOT```. Select iOS as platform and then
 choose architecture, i.e. armv7, arm64, i386 or x86_64.
 
 Start a new shell and source ```toolchain.sh``` for every iOS
 architecture.
 
-Now change to ```Library/TeamTalkLib/toolchain/build```.
+Now change to ```$TOOLCHAIN_ROOT/build```.
 
 For iOS armv7 architecture type:
 
