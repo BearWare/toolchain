@@ -5,9 +5,10 @@
 3rd party libraries for TeamTalk are Git submodules in ```build```
 folder. To initialize the submodules go to ```$TOOLCHAIN_ROOT/build```
 and type ```make prepare```. Throughout this document
-```$TOOLCHAIN_ROOT``` is the root folder of the *toolchain* Git
-repository. Typically the *toolchain* Git repository initialized as a
-submodule of Git repository
+```$TOOLCHAIN_ROOT``` is the root folder of the
+[toolchain](https://github.com/bear101/toolchain) Git
+repository. Typically the *toolchain*
+Git repository is initialized as a submodule of Git repository
 [TeamTalk5](https://github.com/BearWare/TeamTalk5).
 
 Note that submodule *qt5* is not initialized because it is very big and
