@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/bear101/toolchain.svg?branch=master)](https://travis-ci.org/bear101/toolchain)
 
-3rd party libraries for TeamTalk are Git submodules in ```build```
+3rd party libraries for [TeamTalk5](https://github.com/BearWare/TeamTalk5) are Git submodules in ```build```
 folder. To initialize the submodules go to ```$TOOLCHAIN_ROOT/build```
 and type ```make prepare```. Throughout this document
 ```$TOOLCHAIN_ROOT``` is the root folder of the
