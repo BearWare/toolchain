@@ -91,12 +91,12 @@ For Ubuntu 18.10 download *Android NDK r17c*,
 
 On Ubuntu 18.10 install the following tools:
 
-* OpenSSL dependencies
- * ```sudo apt-get install libncurses5-dev libncursesw5-dev```
- * ```sudo apt-get install libtinfo5```
+* For OpenSSL install dependencies
+  * ```sudo apt-get install libncurses5-dev libncursesw5-dev```
+  * ```sudo apt-get install libtinfo5```
 
-* Speex, SpeexDSP, OPUS dependencies
- * ```apt-get install autoconf libtool```
+* For Speex, SpeexDSP, OPUS and OPUS tools install dependencies
+  * ```apt-get install autoconf libtool```
 
 ### Build 3rd Party Libraries for Android
 
