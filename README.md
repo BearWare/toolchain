@@ -48,7 +48,9 @@ platforms:
 ### Dependencies for Building macOS Libraries
 
 Install *MacPorts* or *Homebrew* and install the following packages:
+
 * yasm
+  * Required by *libvpx*
 
 ### Build 3rd Party Libraries for macOS
 
@@ -68,7 +70,12 @@ Ubuntu 16 and Debian 9.
 
 Run the following command to install required packages:
 
-```sudo apt install libasound2-dev yasm```
+* ```sudo apt install libasound2-dev```
+  * Required by *portaudio*
+* ```sudo apt install yasm```
+  * Required by *libvpx*
+* ```sudo apt install pkg-config```
+  * Required by *SpeexDSP*
 
 ### Build 3rd Party Libraries for Ubuntu 18
 
@@ -81,13 +88,11 @@ Run ```make deb64```.
 
 ## Building for Android
 
-### Dependencies for Build Android Libraries
+### Dependencies for Building Android Libraries
 
 For Ubuntu 18.10 download *Android NDK r17c*,
 **android-ndk-r17c-linux-x86_64.zip**, and unpack it in
 ```$TOOLCHAIN_ROOT```.
-
-### Install 3rd party Android Dependencies
 
 On Ubuntu 18.10 install the following tools:
 
