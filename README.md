@@ -140,9 +140,7 @@ Install *ActivePerl* and place ```perl.exe``` in %PATH%.
 
 * Required by *ACE*, *MPC* and *OpenSSL*
 
-Install *cygwin* with ```make``` and ```git```.
-
-* Required by *libvpx*
+Install *cygwin* with ```make``` and ```git``` packages.
 
 Install *yasm* from http://yasm.tortall.net/
 
