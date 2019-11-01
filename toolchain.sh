@@ -14,8 +14,8 @@ function xcode_setup() {
     echo ""
 
     if [ ! -e "$sdk" ]; then
-        echo "Building TeamTalk toolchain has currently only been tested on Xcode 7.3."
-        echo "It is therefore recommended to download Xcode 7.3 from Apple and place Xcode"
+        echo "Building TeamTalk toolchain has currently only been tested on Xcode 10.3."
+        echo "It is therefore recommended to download Xcode 10.3 from Apple and place Xcode"
         echo "in '$TOOLCHAIN_ROOT/Xcode.app'."
         echo ""
         echo "To change default Xcode run 'sudo xcode-select -s $TOOLCHAIN_ROOT/Xcode.app/Contents/Developer'"
@@ -46,29 +46,49 @@ function ios_common() {
 
     export XCODE_ROOT=$TOOLCHAIN_ROOT/Xcode.app
 
-    export IPHONE_VERSION=9.3 #compilation requires this
+    export IPHONE_VERSION=12.4 #compilation requires this
 
     if [ -z "$1" ]; then
         echo "1 = i386, 2 = x86_64, 3 = armv7, 4 = arm64"
         read arch
+
+        case "$arch" in
+            "1")
+                arch=i386
+                ;;
+            "2")
+                arch=x86_64
+                ;;
+            "3")
+                arch=armv7
+                ;;
+            "4")
+                arch=arm64
+                ;;
+            *)
+                echo "Unknown arch"
+                return 1
+                ;;
+        esac
+        
     else
         arch=$1
     fi
 
     case "$arch" in
-        "1")
+        "i386")
             ios_i386
             ios_export
             ;;
-        "2")
+        "x86_64")
             ios_x86_64
             ios_export
             ;;
-        "3")
+        "armv7")
             ios_armv7
             ios_export
             ;;
-        "4")
+        "arm64")
             ios_arm64
             ios_export
             ;;

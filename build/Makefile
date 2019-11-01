@@ -107,19 +107,29 @@ mpc-uninstall:
 	rm -f $(TTLIBS_ROOT)/MPC
 
 mpc-build:
-	cd MPC && git checkout ACE+TAO-6_4_5
+	cd MPC && git checkout $(TAG)
 	mkdir -p $(TTLIBS_ROOT)
 	ln -fs $(PWD)/MPC $(TTLIBS_ROOT)/MPC
 
-mpc-deb64: mpc-build
-mpc-deb32: mpc-build
-mpc-raspi3: mpc-build
-mpc-mac: mpc-build
-mpc-ios-armv7: mpc-build
-mpc-ios-arm64: mpc-build
-mpc-ios-i386: mpc-build
-mpc-ios-x64: mpc-build
-mpc-android-armeabi-v7a: mpc-build
+mpc-deb64:
+	make TAG=ACE+TAO-6_4_5 mpc-build
+mpc-deb32:
+	make TAG=ACE+TAO-6_4_5 mpc-build
+mpc-raspi3:
+	make TAG=ACE+TAO-6_4_5 mpc-build
+mpc-mac:
+	make TAG=ACE+TAO-6_4_5 mpc-build
+mpc-ios-armv7:
+	make TAG=ACE+TAO-6_5_6 mpc-build
+mpc-ios-arm64:
+	make TAG=ACE+TAO-6_5_6 mpc-build
+mpc-ios-i386:
+	make TAG=ACE+TAO-6_5_6 mpc-build
+mpc-ios-x64:
+	make TAG=ACE+TAO-6_5_6 mpc-build
+
+mpc-android-armeabi-v7a:
+	make TAG=ACE+TAO-6_4_5 mpc-build
 mpc-android-arm64:
 	cd MPC && git checkout ACE+TAO-6_4_8
 	ln -fs $(PWD)/MPC $(TTLIBS_ROOT)/MPC
@@ -299,16 +309,16 @@ libvpx-ios-build:
 	make libvpx-build
 
 libvpx-ios-armv7:
-	make BRANCH=v1.6.1 CFGFLAGS="--target=armv7-darwin-gcc --disable-examples" libvpx-ios-build
+	make BRANCH=v1.8.1 CFGFLAGS="--target=armv7-darwin-gcc --disable-examples" libvpx-ios-build
 
 libvpx-ios-arm64:
-	make BRANCH=v1.6.1 CFGFLAGS="--target=arm64-darwin-gcc --disable-examples" libvpx-ios-build
+	make BRANCH=v1.8.1 CFGFLAGS="--target=arm64-darwin-gcc --disable-examples" libvpx-ios-build
 
 libvpx-ios-i386:
-	make BRANCH=v1.6.1 CFGFLAGS="--target=x86-iphonesimulator-gcc --disable-examples" libvpx-ios-build
+	make BRANCH=v1.8.1 CFGFLAGS="--target=x86-iphonesimulator-gcc --disable-examples" libvpx-ios-build
 
 libvpx-ios-x64:
-	make BRANCH=v1.6.1 CFGFLAGS="--target=x86_64-iphonesimulator-gcc --disable-examples" libvpx-ios-build
+	make BRANCH=v1.8.1 CFGFLAGS="--target=x86_64-iphonesimulator-gcc --disable-examples" libvpx-ios-build
 
 libvpx-win:
 	cd libvpx && git checkout v1.6.1
