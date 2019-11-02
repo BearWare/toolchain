@@ -568,7 +568,7 @@ speexdsp-uninstall:
 	rm -rf $(TTLIBS_ROOT)/speex
 
 speexdsp-build:
-	cd speexdsp && git checkout 4691839 && ./autogen.sh $(GENFLAGS) && \
+	cd speexdsp && git checkout SpeexDSP-1.2.0 && ./autogen.sh $(GENFLAGS) && \
 	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/speex && make install -j$(JOBS)
 
 speexdsp-mac:
