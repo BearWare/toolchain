@@ -26,6 +26,16 @@ uninstall:
 
 uninstall-all: $(foreach lib,$(LIBS),$(lib)-uninstall)
 
+depend-debian9:
+	apt install cmake g++ libssl-dev yasm automake libtool pkg-config libasound2-dev
+
+depend-ubuntu18:
+	apt install cmake g++ libssl-dev yasm automake libtool pkg-config libasound2-dev
+
+depend-centos7:
+	yum install epel-release # get cmake3
+	yum install cmake3 gcc openssl-devel
+
 deb32: $(foreach lib,$(LIBS),$(lib)-deb32)
 
 deb64: $(foreach lib,$(LIBS),$(lib)-deb64)
