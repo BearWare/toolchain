@@ -43,3 +43,6 @@
 [submodule "build/gas-preprocessor"]
 	path = build/gas-preprocessor
 	url = https://github.com/FFmpeg/gas-preprocessor
+[submodule "build/Catch2"]
+	path = build/Catch2
+	url = https://github.com/catchorg/Catch2
