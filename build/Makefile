@@ -5,7 +5,7 @@ help:
 	@echo "	LIBNAME-ARCH-uninstall"
 
 JOBS?=4
-LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5
+LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5 Catch2
 
 MACMINVERSION="-mmacosx-version-min=10.9"
 MACCFGFLAGS=CFLAGS=$(MACMINVERSION) CPPFLAGS=$(MACMINVERSION)
