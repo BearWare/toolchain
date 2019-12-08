@@ -728,6 +728,26 @@ libvidcap-uninstall:
 libvidcap-clean:
 	cd libvidcap-dsbaseclasses && git clean -xdf .
 
+catch-build:
+	cd $(PWD)/Catch2 && git checkout v1.12.2
+	ln -sf $(PWD)/Catch2 $(TTLIBS_ROOT)/Catch2
+
+Catch2-deb64: catch-build
+Catch2-deb32: catch-build
+Catch2-raspi3: catch-build
+Catch2-mac: catch-build
+Catch2-ios-armv7: catch-build
+Catch2-ios-arm64: catch-build
+Catch2-ios-i386: catch-build
+Catch2-ios-x64: catch-build
+Catch2-android-armeabi-v7a: catch-build
+Catch2-win: catch-build
+Catch2-clean:
+	cd Catch2 && git clean -xdf .
+Catch2-uninstall:
+	rm -f $(TTLIBS_ROOT)/Catch2
+
+
 qt5-deb64:
 qt5-deb32:
 qt5-raspi3:
