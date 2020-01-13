@@ -794,6 +794,7 @@ qt5-ios-x64:
 qt5-android-armeabi-v7a:
 qt5-android-arm64:
 qt5-android-x86:
+qt5-android-x64:
 qt5-win:
 	cd qt5 && git checkout v5.13.0-beta1
 	cd qt5 && git submodule update --init qtbase qttools qtmultimedia qtactiveqt
