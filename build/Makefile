@@ -261,7 +261,7 @@ ffmpeg-android-x86:
 
 ffmpeg-android-x64:
 	cd FFmpeg && git checkout release/3.1
-	cd FFmpeg && ./configure --extra-cflags="-D__ANDROID_API__=21" --cross-prefix=x86_64-linux-android- --arch=x86_64 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic
+	cd FFmpeg && ./configure --extra-cflags="-D__ANDROID_API__=21" --cross-prefix=x86_64-linux-android- --arch=x86_64 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-asm
 	make -C FFmpeg -j$(JOBS) install
 
 ffmpeg-ios-build:
