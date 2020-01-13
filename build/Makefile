@@ -329,6 +329,10 @@ libvpx-android-x86:
 	cd libvpx && git checkout v1.8.0
 	cd libvpx && CROSS=i686-linux-android- ./configure --target=x86-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic --extra-cflags="-D__ANDROID_API__=21" --extra-cxxflags="-D__ANDROID_API__=21" && make -j$(JOBS) install
 
+libvpx-android-x64:
+	cd libvpx && git checkout v1.8.0
+	cd libvpx && CROSS=x86_64-linux-android- ./configure --target=x86_64-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic --extra-cflags="-D__ANDROID_API__=21" --extra-cxxflags="-D__ANDROID_API__=21" && make -j$(JOBS) install
+
 # libvpx on iOS cannot build when environment variables are set. It defaults to /Applications/Xcode
 libvpx-ios-build:
 	make libvpx-build
@@ -400,6 +404,9 @@ ogg-android-arm64:
 ogg-android-x86:
 	make BRANCH=v1.3.3 GENFLAGS="--host=i686-linux-android" CFGFLAGS="--with-pic --host=i686-linux-android --disable-shared" ogg-build-android
 
+ogg-android-x64:
+	make BRANCH=v1.3.3 GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--with-pic --host=x86_64-linux-android --disable-shared" ogg-build-android
+
 ogg-win:
 	cd ogg && git checkout bdr/win
 	@echo "--------------------------------------------------"
@@ -443,6 +450,9 @@ opus-android-arm64:
 opus-android-x86:
 	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --host=i686-linux-android --disable-extra-programs" opus-build
 
+opus-android-x64:
+	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --host=x86_64-linux-android --disable-extra-programs" opus-build
+
 opus-ios-armv7:
 	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-fixed-point --enable-shared=no --enable-static=yes --disable-extra-programs" opus-build
 
@@ -483,11 +493,9 @@ opus-tools-raspi3: opus-tools-build
 opus-tools-mac: opus-tools-build
 
 opus-tools-android-armeabi-v7a: opus-tools-build
-
 opus-tools-android-arm64: opus-tools-build
-
 opus-tools-android-x86: opus-tools-build
-
+opus-tools-android-x64: opus-tools-build
 opus-tools-ios-armv7: opus-tools-build
 opus-tools-ios-arm64: opus-tools-build
 opus-tools-ios-i386: opus-tools-build
