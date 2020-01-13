@@ -105,10 +105,10 @@ On Ubuntu 18.10 install the following tools:
 
 ### Build 3rd Party Libraries for Android
 
-First source ```toolchain.sh``` in
-```$TOOLCHAIN_ROOT```. Select Android architecture
-(armeabi-v7a, arm64 or x86) and the shell-script will create a
-toolchain for the archtecture if it doesn't exist already.
+First source ```toolchain.sh``` in ```$TOOLCHAIN_ROOT```. Select
+Android architecture (armeabi-v7a, arm64, x86 or x86_64) and the
+shell-script will create a toolchain for the archtecture if it doesn't
+exist already.
 
 Start a new shell and source ```toolchain.sh``` for every Android
 architecture.
@@ -126,6 +126,10 @@ For Android arm64 architecture type:
 For Android x86 architecture (useful for simulators) type:
 
 ```make android-x86```
+
+For Android x86_64 architecture (useful for simulators) type:
+
+```make android-x64```
 
 When building a new architecture make sure to run ```make clean``` to
 delete all intermediate files and configurations.

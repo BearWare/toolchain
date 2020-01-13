@@ -52,6 +52,8 @@ android-arm64: $(foreach lib,$(LIBS),$(lib)-android-arm64)
 
 android-x86: $(foreach lib,$(LIBS),$(lib)-android-x86)
 
+android-x64: $(foreach lib,$(LIBS),$(lib)-android-x64)
+
 ios-i386: $(foreach lib,$(LIBS),$(lib)-ios-i386)
 ios-x64: $(foreach lib,$(LIBS),$(lib)-ios-x64)
 ios-armv7: $(foreach lib,$(LIBS),$(lib)-ios-armv7)
@@ -539,6 +541,7 @@ portaudio-win:
 portaudio-android-armeabi-v7a:
 portaudio-android-arm64:
 portaudio-android-x86:
+portaudio-android-x64:
 portaudio-ios-armv7:
 portaudio-ios-arm64:
 portaudio-ios-i386:
@@ -679,6 +682,7 @@ tinyxml-win:
 tinyxml-android-armeabi-v7a:
 tinyxml-android-arm64:
 tinyxml-android-x86:
+tinyxml-android-x64:
 tinyxml-ios-armv7:
 tinyxml-ios-arm64:
 tinyxml-ios-i386:
@@ -717,6 +721,7 @@ zlib-win:
 zlib-android-armeabi-v7a:
 zlib-android-arm64:
 zlib-android-x86:
+zlib-android-x64:
 zlib-ios-armv7:
 zlib-ios-arm64:
 zlib-ios-i386:
@@ -770,6 +775,9 @@ Catch2-ios-arm64: catch-build
 Catch2-ios-i386: catch-build
 Catch2-ios-x64: catch-build
 Catch2-android-armeabi-v7a: catch-build
+Catch2-android-arm64: catch-build
+Catch2-android-x86: catch-build
+Catch2-android-x64: catch-build
 Catch2-win: catch-build
 Catch2-clean:
 	cd Catch2 && git clean -xdf .
