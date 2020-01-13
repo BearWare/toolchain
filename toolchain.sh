@@ -187,7 +187,7 @@ function linux() {
 function android() {
 
     if [ -z "$1" ]; then
-        echo "1 = armeabi-v7a, 2 = arm64-v8a, 3 = x86"
+        echo "1 = armeabi-v7a, 2 = arm64-v8a, 3 = x86, 4 = x86_64"
         read arch
 
         case "$arch" in
@@ -199,6 +199,9 @@ function android() {
                 ;;
             "3")
                 arch=x86
+                ;;
+            "4")
+                arch=x86_64
                 ;;
             *)
                 echo "Unknown selection"
@@ -242,6 +245,13 @@ function android() {
             ANDROID_ARCH=x86
             TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-i686-linux-android
             ;;
+        "x86_64")
+            echo "### Setting TeamTalk up for Android x86_64 ###"
+
+            ANDROID_APP_ABI=x86_64
+            ANDROID_ARCH=x86_64
+            TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-x86_64-linux-android
+            ;;        
         *)
             echo "Unknown arch"
             return 1

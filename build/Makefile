@@ -87,6 +87,10 @@ openssl-android-x86:
 	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(TOOLCHAIN) ./Configure  --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86 -D__ANDROID_API__=21
 	cd openssl && ANDROID_NDK_HOME=$(TOOLCHAIN) make install
 
+openssl-android-x64:
+	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(TOOLCHAIN) ./Configure  --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86_64 -D__ANDROID_API__=21
+	cd openssl && ANDROID_NDK_HOME=$(TOOLCHAIN) make install
+
 openssl-ios-iphone:
 	cd openssl && git checkout OpenSSL_1_1_0g && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneOS.sdk -arch $(ARCH) -fembed-bitcode -miphoneos-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl iphoneos-cross no-shared no-async && make install
 
@@ -146,6 +150,9 @@ mpc-android-arm64:
 mpc-android-x86:
 	cd MPC && git checkout ACE+TAO-6_4_8
 	ln -fs $(PWD)/MPC $(TTLIBS_ROOT)/MPC
+mpc-android-x64:
+	cd MPC && git checkout ACE+TAO-6_4_8
+	ln -fs $(PWD)/MPC $(TTLIBS_ROOT)/MPC
 mpc-win:
 	cd ACE && git submodule update --init --recursive
 
@@ -179,6 +186,9 @@ ace-android-arm64:
 
 ace-android-x86:
 	make BRANCH=bdr/android_x86 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+
+ace-android-x64:
+	make BRANCH=bdr/android_x64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-ios-armv7:
 	make BRANCH=bdr/ios_armv7 ACE_ROOT=$(PWD)/ACE/ACE ace-build
@@ -247,6 +257,11 @@ ffmpeg-android-arm64:
 ffmpeg-android-x86:
 	cd FFmpeg && git checkout release/3.1
 	cd FFmpeg && ./configure --extra-cflags="-D__ANDROID_API__=21" --cross-prefix=i686-linux-android- --arch=x86 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-asm
+	make -C FFmpeg -j$(JOBS) install
+
+ffmpeg-android-x64:
+	cd FFmpeg && git checkout release/3.1
+	cd FFmpeg && ./configure --extra-cflags="-D__ANDROID_API__=21" --cross-prefix=x86_64-linux-android- --arch=x86_64 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic
 	make -C FFmpeg -j$(JOBS) install
 
 ffmpeg-ios-build:
