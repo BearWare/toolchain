@@ -804,11 +804,12 @@ qt5-android-arm64:
 qt5-android-x86:
 qt5-android-x64:
 qt5-win:
-	cd qt5 && git checkout v5.13.0-beta1
+	cd qt5 && git checkout v5.14.0
 	cd qt5 && git submodule update --init qtbase qttools qtmultimedia qtactiveqt
 	sed -i -e "s/-MD/-MT/" qt5/qtbase/mkspecs/common/msvc-desktop.conf
 	@echo "--------------------------------------------------"
-	@echo "Now run in qt5/ 'configure.bat -opensource -confirm-license -static -nomake examples -openssl-linked -I%CD%\..\openssl\include OPENSSL_LIBS=" -L%CD%\..\openssl -lUser32 -lAdvapi32 -lGdi32 -lCrypt32 -lws2_32 -llibssl -llibcrypto" -prefix %CD%\..\..\Qt-5.13.0'"
+	@echo "Now run in qt5/ 'configure.bat -opensource -confirm-license -static -nomake examples -openssl-linked -I%OPENSSL%\include OPENSSL_LIBS=\" -L%OPENSSL% -lUser32 -lAdvapi32 -lGdi32 -lCrypt32 -lws2_32 -llibssl -llibcrypto\" -prefix %CD%\..\..\Qt-5.14.0'"
+	@echo "Where %OPENSSL% is location of built OpenSSL"
 	@echo "http://doc.qt.io/qt-5/windows-building.html"
 	read
 
