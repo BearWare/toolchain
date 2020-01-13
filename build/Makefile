@@ -575,6 +575,9 @@ speex-android-arm64:
 speex-android-x86:
 	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --disable-binaries --host=i686-linux-android" speex-build
 
+speex-android-x64:
+	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --disable-binaries --host=x86_64-linux-android" speex-build
+
 speex-ios-iphone:
 	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--enable-shared=no --enable-static=yes --disable-binaries --enable-fixed-point --host=arm-apple-darwin" speex-build
 
@@ -634,6 +637,9 @@ speexdsp-android-arm64:
 
 speexdsp-android-x86:
 	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --host=i686-linux-android --disable-neon --disable-examples" speexdsp-build
+
+speexdsp-android-x64:
+	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --host=x86_64-linux-android --disable-neon --disable-examples" speexdsp-build
 
 speexdsp-ios-armv7:
 	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-fixed-point --enable-shared=no --enable-static=yes --enable-neon" speexdsp-build
