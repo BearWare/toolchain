@@ -76,6 +76,8 @@ Run the following command to install required packages:
   * Required by *libvpx*
 * ```sudo apt install pkg-config```
   * Required by *SpeexDSP*
+* ```sudo apt install autoconf libtool```
+  * Required by *ogg*
 
 ### Build 3rd Party Libraries for Ubuntu 18
 
