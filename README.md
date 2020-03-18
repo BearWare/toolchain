@@ -103,7 +103,10 @@ On Ubuntu 18.10 install the following tools:
   * ```sudo apt-get install libtinfo5```
 
 * For Speex, SpeexDSP, OPUS and OPUS tools install dependencies
-  * ```apt-get install autoconf libtool```
+  * ```sudo apt-get install autoconf libtool```
+
+* For Android NDK r17c
+  * ```sudo apt-get install python```
 
 ### Build 3rd Party Libraries for Android
 
