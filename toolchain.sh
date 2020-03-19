@@ -212,15 +212,15 @@ function android() {
         arch=$1
     fi
 
-    NDK=$TOOLCHAIN_ROOT/android-ndk-r17c
+    NDK=$TOOLCHAIN_ROOT/android-ndk-r21
 
     if ! test -d "$NDK"; then
-        echo "Android NDK r17c not found. Must be placed in $NDK"
+        echo "Android NDK r21 not found. Must be placed in $NDK"
         return 1
     fi
     
     ANDROID_APP_PLATFORM=android-21
-    ANDROID_APP_STL=gnustl_static
+    ANDROID_APP_STL=libc++
 
     case "$arch" in
         "armeabi-v7a")
@@ -228,7 +228,7 @@ function android() {
 
             ANDROID_APP_ABI=armeabi-v7a
             ANDROID_ARCH=arm
-            TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-arm-linux-androideabi-4.9
+            TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
 
             ;;
         "arm64-v8a")
@@ -258,11 +258,6 @@ function android() {
             ;;
     esac
 
-    if ! test -d "$TOOLCHAIN"; then
-        echo "Toolchain for $ANDROID_APP_ABI not found. Creating new toolchain..."
-        $NDK/build/tools/make_standalone_toolchain.py --arch "$ANDROID_ARCH" --api 21 --stl gnustl --install-dir "$TOOLCHAIN"
-    fi
-    
     ANDROID_ABI=$ANDROID_APP_ABI
     ARCH=$ANDROID_APP_ABI
     SYSROOT=$TOOLCHAIN/sysroot

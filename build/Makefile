@@ -78,20 +78,20 @@ openssl-mac:
 	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && make install
 
 openssl-android-armeabi-v7a:
-	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(TOOLCHAIN) ./Configure --prefix=$(TTLIBS_ROOT)/openssl no-shared android-arm -D__ANDROID_API__=21
-	cd openssl && ANDROID_NDK_HOME=$(TOOLCHAIN) make install
+	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl no-shared android-arm -D__ANDROID_API__=21
+	cd openssl && ANDROID_NDK_HOME=$(NDK) make install
 
 openssl-android-arm64:
-	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(TOOLCHAIN) ./Configure  --prefix=$(TTLIBS_ROOT)/openssl no-shared android-arm64 -D__ANDROID_API__=21
-	cd openssl && ANDROID_NDK_HOME=$(TOOLCHAIN) make install
+	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl no-shared android-arm64 -D__ANDROID_API__=21
+	cd openssl && ANDROID_NDK_HOME=$(NDK) make install
 
 openssl-android-x86:
-	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(TOOLCHAIN) ./Configure  --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86 -D__ANDROID_API__=21
-	cd openssl && ANDROID_NDK_HOME=$(TOOLCHAIN) make install
+	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86 -D__ANDROID_API__=21
+	cd openssl && ANDROID_NDK_HOME=$(NDK) make install
 
 openssl-android-x64:
-	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(TOOLCHAIN) ./Configure  --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86_64 -D__ANDROID_API__=21
-	cd openssl && ANDROID_NDK_HOME=$(TOOLCHAIN) make install
+	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86_64 -D__ANDROID_API__=21
+	cd openssl && ANDROID_NDK_HOME=$(NDK) make install
 
 openssl-ios-iphone:
 	cd openssl && git checkout OpenSSL_1_1_0g && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneOS.sdk -arch $(ARCH) -fembed-bitcode -miphoneos-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl iphoneos-cross no-shared no-async && make install
