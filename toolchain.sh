@@ -221,6 +221,7 @@ function android() {
     
     ANDROID_APP_PLATFORM=android-21
     ANDROID_APP_STL=libc++
+    TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
 
     case "$arch" in
         "armeabi-v7a")
@@ -228,29 +229,24 @@ function android() {
 
             ANDROID_APP_ABI=armeabi-v7a
             ANDROID_ARCH=arm
-            TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
-
             ;;
         "arm64-v8a")
             echo "### Setting TeamTalk up for Android arm64 ###"
 
             ANDROID_APP_ABI=arm64-v8a
             ANDROID_ARCH=arm64
-            TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-aarch64-linux-android
             ;;
         "x86")
             echo "### Setting TeamTalk up for Android x86 ###"
 
             ANDROID_APP_ABI=x86
             ANDROID_ARCH=x86
-            TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-i686-linux-android
             ;;
         "x86_64")
             echo "### Setting TeamTalk up for Android x86_64 ###"
 
             ANDROID_APP_ABI=x86_64
             ANDROID_ARCH=x86_64
-            TOOLCHAIN=$TOOLCHAIN_ROOT/toolchain-x86_64-linux-android
             ;;        
         *)
             echo "Unknown arch"

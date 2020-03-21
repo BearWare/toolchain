@@ -145,16 +145,13 @@ mpc-ios-x64:
 	make TAG=ACE+TAO-6_5_6 mpc-build
 
 mpc-android-armeabi-v7a:
-	make TAG=ACE+TAO-6_4_5 mpc-build
+	make TAG=ACE+TAO-6_5_8 mpc-build
 mpc-android-arm64:
-	cd MPC && git checkout ACE+TAO-6_4_8
-	ln -fs $(PWD)/MPC $(TTLIBS_ROOT)/MPC
+	make TAG=ACE+TAO-6_5_8 mpc-build
 mpc-android-x86:
-	cd MPC && git checkout ACE+TAO-6_4_8
-	ln -fs $(PWD)/MPC $(TTLIBS_ROOT)/MPC
+	make TAG=ACE+TAO-6_5_8 mpc-build
 mpc-android-x64:
-	cd MPC && git checkout ACE+TAO-6_4_8
-	ln -fs $(PWD)/MPC $(TTLIBS_ROOT)/MPC
+	make TAG=ACE+TAO-6_5_8 mpc-build
 mpc-win:
 	cd ACE && git submodule update --init --recursive
 
@@ -181,16 +178,16 @@ ace-raspi3:
 	make BRANCH=bdr/raspi3 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-android-armeabi-v7a:
-	make BRANCH=bdr/android_armeabi-v7a ACE_ROOT=$(PWD)/ACE/ACE JOBS=1 ace-build
+	make BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-android-arm64:
-	make BRANCH=bdr/android_arm64-v8a ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	make BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-android-x86:
-	make BRANCH=bdr/android_x86 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	make BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-android-x64:
-	make BRANCH=bdr/android_x64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	make BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-ios-armv7:
 	make BRANCH=bdr/ios_armv7 ACE_ROOT=$(PWD)/ACE/ACE ace-build
