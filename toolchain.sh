@@ -220,7 +220,7 @@ function android() {
     fi
     
     ANDROID_APP_PLATFORM=android-21
-    ANDROID_APP_STL=libc++
+    ANDROID_APP_STL=c++_static
     TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
 
     case "$arch" in
