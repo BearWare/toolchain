@@ -19,7 +19,7 @@ prepare:
 
 clean: $(foreach lib,$(LIBS),$(lib)-clean)
 
-uninstall: 
+uninstall:
 	@echo "This will erase _EVERYTHING_"
 	@read h
 	make uninstall-all
@@ -244,23 +244,26 @@ ffmpeg-deb32:
 ffmpeg-raspi3: ffmpeg-deb32
 
 ffmpeg-android-armeabi-v7a:
-	cd FFmpeg && git checkout release/3.1
-	cd FFmpeg && ./configure --extra-cflags="-D__ANDROID_API__=21" --cross-prefix=arm-linux-androideabi- --arch=arm --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs
+	# Options --disable-indev=v4l2 and --disable-neon shouldn't be
+	# necessary but this prevents compiler error for v4l2 and neon
+	# linker errors during install
+	cd FFmpeg && git checkout n3.4.7
+	cd FFmpeg && ./configure --cross-prefix=arm-linux-androideabi- --cc="clang --target=armv7a-linux-android21" --arch=arm --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-indev=v4l2 --disable-neon
 	make -C FFmpeg -j$(JOBS) install
 
 ffmpeg-android-arm64:
-	cd FFmpeg && git checkout release/3.1
-	cd FFmpeg && ./configure --extra-cflags="-D__ANDROID_API__=21" --cross-prefix=aarch64-linux-android- --arch=aarch64 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs
+	cd FFmpeg && git checkout n3.4.7
+	cd FFmpeg && ./configure --cross-prefix=aarch64-linux-android- --cc="clang --target=aarch64-linux-android21" --arch=aarch64 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-indev=v4l2
 	make -C FFmpeg -j$(JOBS) install
 
 ffmpeg-android-x86:
-	cd FFmpeg && git checkout release/3.1
-	cd FFmpeg && ./configure --extra-cflags="-D__ANDROID_API__=21" --cross-prefix=i686-linux-android- --arch=x86 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-asm
+	cd FFmpeg && git checkout n3.4.7
+	cd FFmpeg && ./configure --cross-prefix=i686-linux-android- --cc="clang --target=i686-linux-android21" --arch=x86 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-asm --disable-indev=v4l2
 	make -C FFmpeg -j$(JOBS) install
 
 ffmpeg-android-x64:
-	cd FFmpeg && git checkout release/3.1
-	cd FFmpeg && ./configure --extra-cflags="-D__ANDROID_API__=21" --cross-prefix=x86_64-linux-android- --arch=x86_64 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-asm
+	cd FFmpeg && git checkout n3.4.7
+	cd FFmpeg && ./configure --cross-prefix=x86_64-linux-android- --cc="clang --target=x86_64-linux-android21" --arch=x86_64 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-asm --disable-indev=v4l2
 	make -C FFmpeg -j$(JOBS) install
 
 ffmpeg-ios-build:
@@ -318,19 +321,19 @@ libvpx-mac:
 
 libvpx-android-armeabi-v7a:
 	cd libvpx && git checkout v1.8.0
-	cd libvpx && CROSS=arm-linux-androideabi- CC=clang CXX=clang++ ./configure --target=armv7-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --extra-cflags="-D__ANDROID_API__=21" --extra-cxxflags="-D__ANDROID_API__=21" && make -j$(JOBS) install
+	cd libvpx && CROSS=arm-linux-androideabi- CC='clang --target=armv7a-linux-android21' CXX='clang++ --target=armv7a-linux-android21' ./configure --target=armv7-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && make -j$(JOBS) install
 
 libvpx-android-arm64:
 	cd libvpx && git checkout v1.8.0
-	cd libvpx && CROSS=aarch64-linux-android- CC=clang CXX=clang++ ./configure --target=arm64-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --extra-cflags="-D__ANDROID_API__=21" --extra-cxxflags="-D__ANDROID_API__=21" && make -j$(JOBS) install
+	cd libvpx && CROSS=aarch64-linux-android- CC='clang --target=aarch64-linux-android21' CXX='clang++ --target=aarch64-linux-android21' ./configure --target=arm64-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && make -j$(JOBS) install
 
 libvpx-android-x86:
 	cd libvpx && git checkout v1.8.0
-	cd libvpx && CROSS=i686-linux-android- ./configure --target=x86-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic --extra-cflags="-D__ANDROID_API__=21" --extra-cxxflags="-D__ANDROID_API__=21" && make -j$(JOBS) install
+	cd libvpx && CROSS=i686-linux-android- CC='clang --target=i686-linux-android21' CXX='clang++ --target=i686-linux-android21' ./configure --target=x86-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && make -j$(JOBS) install
 
 libvpx-android-x64:
 	cd libvpx && git checkout v1.8.0
-	cd libvpx && CROSS=x86_64-linux-android- ./configure --target=x86_64-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic --extra-cflags="-D__ANDROID_API__=21" --extra-cxxflags="-D__ANDROID_API__=21" && make -j$(JOBS) install
+	cd libvpx && CROSS=x86_64-linux-android- CC='clang --target=x86_64-linux-android21' CXX='clang++ --target=x86_64-linux-android21' ./configure --target=x86_64-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && make -j$(JOBS) install
 
 # libvpx on iOS cannot build when environment variables are set. It defaults to /Applications/Xcode
 libvpx-ios-build:
@@ -395,16 +398,16 @@ ogg-build-android:
 	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/ogg && make install-exec install-data -j$(JOBS)
 
 ogg-android-armeabi-v7a:
-	make BRANCH=v1.3.3 GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --disable-shared" ogg-build-android
+	make BRANCH=v1.3.3 GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --disable-shared CC='clang --target=armv7a-linux-android21'" ogg-build-android
 
 ogg-android-arm64:
-	make BRANCH=v1.3.3 GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--host=aarch64-linux-android --disable-shared" ogg-build-android
+	make BRANCH=v1.3.3 GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--host=aarch64-linux-android --disable-shared CC='clang --target=aarch64-linux-android21'" ogg-build-android
 
 ogg-android-x86:
-	make BRANCH=v1.3.3 GENFLAGS="--host=i686-linux-android" CFGFLAGS="--with-pic --host=i686-linux-android --disable-shared" ogg-build-android
+	make BRANCH=v1.3.3 GENFLAGS="--host=i686-linux-android" CFGFLAGS="--with-pic --host=i686-linux-android --disable-shared CC='clang --target=i686-linux-android21'" ogg-build-android
 
 ogg-android-x64:
-	make BRANCH=v1.3.3 GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--with-pic --host=x86_64-linux-android --disable-shared" ogg-build-android
+	make BRANCH=v1.3.3 GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--with-pic --host=x86_64-linux-android --disable-shared CC='clang --target=x86_64-linux-android21" ogg-build-android
 
 ogg-win:
 	cd ogg && git checkout bdr/win
@@ -441,16 +444,16 @@ opus-raspi3:
 	make CFGFLAGS="--enable-fixed-point" opus-build
 
 opus-android-armeabi-v7a:
-	make GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --host=arm-linux-androideabi --enable-fixed-point --disable-extra-programs" opus-build
+	make GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --enable-fixed-point --disable-extra-programs CC='clang --target=armv7a-linux-android21' --with-pic" opus-build
 
 opus-android-arm64:
-	make GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --host=aarch64-linux-android --enable-fixed-point --disable-extra-programs" opus-build
+	make GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--host=aarch64-linux-android --enable-fixed-point --disable-extra-programs CC='clang --target=aarch64-linux-android21' --with-pic" opus-build
 
 opus-android-x86:
-	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --host=i686-linux-android --disable-extra-programs" opus-build
+	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="--host=i686-linux-android --disable-extra-programs CC='clang --target=i686-linux-android21' --with-pic" opus-build
 
 opus-android-x64:
-	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --host=x86_64-linux-android --disable-extra-programs" opus-build
+	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--host=x86_64-linux-android --disable-extra-programs CC='clang --target=x86_64-linux-android21' --with-pic" opus-build
 
 opus-ios-armv7:
 	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-fixed-point --enable-shared=no --enable-static=yes --disable-extra-programs" opus-build
@@ -567,16 +570,16 @@ speex-raspi3:
 	./configure --enable-fixed-point --prefix=$(TTLIBS_ROOT)/speex && make install -j$(JOBS)
 
 speex-android-armeabi-v7a:
-	make GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --disable-binaries --enable-fixed-point --host=arm-linux-androideabi" speex-build
+	make GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--disable-binaries --enable-fixed-point --host=arm-linux-androideabi CC='clang --target=armv7a-linux-android21' --with-pic" speex-build
 
 speex-android-arm64:
-	make GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --disable-binaries --enable-fixed-point --host=aarch64-linux-android" speex-build
+	make GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--disable-binaries --enable-fixed-point --host=aarch64-linux-android CC='clang --target=aarch64-linux-android21' --with-pic" speex-build
 
 speex-android-x86:
-	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --disable-binaries --host=i686-linux-android" speex-build
+	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="--disable-binaries --host=i686-linux-android CC='clang --target=i686-linux-android21' --with-pic" speex-build
 
 speex-android-x64:
-	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --disable-binaries --host=x86_64-linux-android" speex-build
+	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--disable-binaries --host=x86_64-linux-android CC='clang --target=x86_64-linux-android21' --with-pic" speex-build
 
 speex-ios-iphone:
 	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--enable-shared=no --enable-static=yes --disable-binaries --enable-fixed-point --host=arm-apple-darwin" speex-build
@@ -630,16 +633,16 @@ speexdsp-win:
 
 
 speexdsp-android-armeabi-v7a:
-	make GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="'CFLAGS=-mfloat-abi=softfp -mfpu=neon -D__ANDROID_API__=21' --enable-fixed-point --host=arm-linux-androideabi --enable-neon --disable-examples" speexdsp-build
+	make GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --enable-fixed-point --enable-neon --disable-examples CC='clang --target=armv7a-linux-android21 -mfloat-abi=softfp -mfpu=neon' --with-pic" speexdsp-build
 
 speexdsp-android-arm64:
-	make GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --host=aarch64-linux-android --enable-fixed-point --disable-neon --disable-examples" speexdsp-build
+	make GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--host=aarch64-linux-android --enable-fixed-point --disable-neon --disable-examples CC='clang --target=aarch64-linux-android21' --with-pic" speexdsp-build
 
 speexdsp-android-x86:
-	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --host=i686-linux-android --disable-neon --disable-examples" speexdsp-build
+	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="--host=i686-linux-android --disable-neon --disable-examples CC='clang --target=i686-linux-android21' --with-pic" speexdsp-build
 
 speexdsp-android-x64:
-	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="'CFLAGS=-D__ANDROID_API__=21' --with-pic --host=x86_64-linux-android --disable-neon --disable-examples" speexdsp-build
+	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--host=x86_64-linux-android --disable-neon --disable-examples CC='clang --target=x86_64-linux-android21' --with-pic" speexdsp-build
 
 speexdsp-ios-armv7:
 	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-fixed-point --enable-shared=no --enable-static=yes --enable-neon" speexdsp-build
