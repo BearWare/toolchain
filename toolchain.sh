@@ -221,7 +221,12 @@ function android() {
     
     ANDROID_APP_PLATFORM=android-21
     ANDROID_APP_STL=c++_static
-    TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
+
+    if [ "Darwin" = `uname -s` ]; then
+        TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/darwin-x86_64
+    else
+        TOOLCHAIN=$NDK/toolchains/llvm/prebuilt/linux-x86_64
+    fi
 
     case "$arch" in
         "armeabi-v7a")
