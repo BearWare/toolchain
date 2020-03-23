@@ -78,11 +78,11 @@ openssl-mac:
 	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && make install
 
 openssl-android-armeabi-v7a:
-	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl no-shared android-arm -D__ANDROID_API__=21
+	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-arm -D__ANDROID_API__=21
 	cd openssl && ANDROID_NDK_HOME=$(NDK) make install
 
 openssl-android-arm64:
-	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl no-shared android-arm64 -D__ANDROID_API__=21
+	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-arm64 -D__ANDROID_API__=21
 	cd openssl && ANDROID_NDK_HOME=$(NDK) make install
 
 openssl-android-x86:
