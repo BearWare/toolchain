@@ -407,7 +407,7 @@ ogg-android-x86:
 	make BRANCH=v1.3.3 GENFLAGS="--host=i686-linux-android" CFGFLAGS="--with-pic --host=i686-linux-android --disable-shared CC='clang --target=i686-linux-android21'" ogg-build-android
 
 ogg-android-x64:
-	make BRANCH=v1.3.3 GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--with-pic --host=x86_64-linux-android --disable-shared CC='clang --target=x86_64-linux-android21" ogg-build-android
+	make BRANCH=v1.3.3 GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--with-pic --host=x86_64-linux-android --disable-shared CC='clang --target=x86_64-linux-android21'" ogg-build-android
 
 ogg-win:
 	cd ogg && git checkout bdr/win
