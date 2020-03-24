@@ -22,7 +22,7 @@ clean: $(foreach lib,$(LIBS),$(lib)-clean)
 uninstall:
 	@echo "This will erase _EVERYTHING_"
 	@read h
-	make uninstall-all
+	$(MAKE) uninstall-all
 
 uninstall-all: $(foreach lib,$(LIBS),$(lib)-uninstall)
 
@@ -66,47 +66,47 @@ openssl-uninstall:
 	rm -rf $(TTLIBS_ROOT)/openssl
 
 openssl-deb64:
-	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC linux-x86_64 && make install
+	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC linux-x86_64 && $(MAKE) install
 
 openssl-deb32:
-	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-generic32 && make install
+	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-generic32 && $(MAKE) install
 
 openssl-raspi3:
-	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-armv4 && make install
+	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-armv4 && $(MAKE) install
 
 openssl-mac:
-	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && make install
+	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && $(MAKE) install
 
 openssl-android-armeabi-v7a:
 	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-arm -D__ANDROID_API__=21
-	cd openssl && ANDROID_NDK_HOME=$(NDK) make install
+	cd openssl && ANDROID_NDK_HOME=$(NDK) $(MAKE) install
 
 openssl-android-arm64:
 	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-arm64 -D__ANDROID_API__=21
-	cd openssl && ANDROID_NDK_HOME=$(NDK) make install
+	cd openssl && ANDROID_NDK_HOME=$(NDK) $(MAKE) install
 
 openssl-android-x86:
 	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86 -D__ANDROID_API__=21
-	cd openssl && ANDROID_NDK_HOME=$(NDK) make install
+	cd openssl && ANDROID_NDK_HOME=$(NDK) $(MAKE) install
 
 openssl-android-x64:
 	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86_64 -D__ANDROID_API__=21
-	cd openssl && ANDROID_NDK_HOME=$(NDK) make install
+	cd openssl && ANDROID_NDK_HOME=$(NDK) $(MAKE) install
 
 openssl-ios-iphone:
-	cd openssl && git checkout OpenSSL_1_1_0g && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneOS.sdk -arch $(ARCH) -fembed-bitcode -miphoneos-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl iphoneos-cross no-shared no-async && make install
+	cd openssl && git checkout OpenSSL_1_1_0g && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneOS.sdk -arch $(ARCH) -fembed-bitcode -miphoneos-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl iphoneos-cross no-shared no-async && $(MAKE) install
 
 openssl-ios-armv7: openssl-ios-iphone
 openssl-ios-arm64: openssl-ios-iphone
 
 openssl-ios-simulator:
-	cd openssl && git checkout OpenSSL_1_1_1a && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneSimulator.sdk -arch $(ARCH) -mios-simulator-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl $(DARWIN) no-shared no-async && make install
+	cd openssl && git checkout OpenSSL_1_1_1a && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneSimulator.sdk -arch $(ARCH) -mios-simulator-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl $(DARWIN) no-shared no-async && $(MAKE) install
 
 openssl-ios-i386:
-	make DARWIN=iossimulator-xcrun openssl-ios-simulator
+	$(MAKE) DARWIN=iossimulator-xcrun openssl-ios-simulator
 
 openssl-ios-x64:
-	make DARWIN=darwin64-x86_64-cc openssl-ios-simulator
+	$(MAKE) DARWIN=darwin64-x86_64-cc openssl-ios-simulator
 
 openssl-win:
 	cd openssl && git checkout bdr/win
@@ -128,30 +128,30 @@ mpc-build:
 	ln -fs $(PWD)/MPC $(TTLIBS_ROOT)/MPC
 
 mpc-deb64:
-	make TAG=ACE+TAO-6_4_5 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_4_5 mpc-build
 mpc-deb32:
-	make TAG=ACE+TAO-6_4_5 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_4_5 mpc-build
 mpc-raspi3:
-	make TAG=ACE+TAO-6_4_5 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_4_5 mpc-build
 mpc-mac:
-	make TAG=ACE+TAO-6_4_5 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_4_5 mpc-build
 mpc-ios-armv7:
-	make TAG=ACE+TAO-6_5_6 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_6 mpc-build
 mpc-ios-arm64:
-	make TAG=ACE+TAO-6_5_6 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_6 mpc-build
 mpc-ios-i386:
-	make TAG=ACE+TAO-6_5_6 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_6 mpc-build
 mpc-ios-x64:
-	make TAG=ACE+TAO-6_5_6 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_6 mpc-build
 
 mpc-android-armeabi-v7a:
-	make TAG=ACE+TAO-6_5_8 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_8 mpc-build
 mpc-android-arm64:
-	make TAG=ACE+TAO-6_5_8 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_8 mpc-build
 mpc-android-x86:
-	make TAG=ACE+TAO-6_5_8 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_8 mpc-build
 mpc-android-x64:
-	make TAG=ACE+TAO-6_5_8 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_8 mpc-build
 mpc-win:
 	cd ACE && git submodule update --init --recursive
 
@@ -165,50 +165,50 @@ ace-build:
 	ln -sf $(PWD)/MPC ACE/ACE/MPC
 	cd ACE/ACE/ace && $(ACE_ROOT)/bin/mwc.pl -type gnuace -recurse
 	cd ACE/ACE/protocols/ace/INet && $(ACE_ROOT)/bin/mwc.pl -type gnuace -recurse
-	cd ACE/ACE/ace && make install -j$(JOBS)
-	cd ACE/ACE/protocols/ace/INet && make install -j$(JOBS)
+	cd ACE/ACE/ace && $(MAKE) install -j$(JOBS)
+	cd ACE/ACE/protocols/ace/INet && $(MAKE) install -j$(JOBS)
 
 ace-deb64:
-	make BRANCH=bdr/deb64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/deb64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-deb32:
-	make BRANCH=bdr/deb32 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/deb32 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-raspi3:
-	make BRANCH=bdr/raspi3 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/raspi3 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-android-armeabi-v7a:
-	make BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-android-arm64:
-	make BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-android-x86:
-	make BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-android-x64:
-	make BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-ios-armv7:
-	make BRANCH=bdr/ios_armv7 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/ios_armv7 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-ios-arm64:
-	make BRANCH=bdr/ios_arm64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/ios_arm64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-ios-i386:
-	make BRANCH=bdr/ios_i386 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/ios_i386 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-ios-x64:
-	make BRANCH=bdr/ios_x86_64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/ios_x86_64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-mac:
 	@echo "Testing that SDK environment variable has been specified"
 	test -d $(SDK)
-	make BRANCH=bdr/mac64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/mac64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-win:
 	cd ACE && git checkout bdr/win
-	make mpc-win
+	$(MAKE) mpc-win
 	@echo "--------------------------------------------------"
 	@echo "Now run ACE/ACE/build.bat from 'VS2015 x86 Native Tools Command Prompt'."
 	@echo "Ignore the WARNING messages from MPC."
@@ -233,13 +233,13 @@ ffmpeg-uninstall:
 ffmpeg-build:
 	cd FFmpeg && git checkout $(BRANCH) && \
 	./configure --disable-libxcb --prefix=$(TTLIBS_ROOT)/ffmpeg \
-	$(CFGFLAGS) && make install -j$(JOBS)
+	$(CFGFLAGS) && $(MAKE) install -j$(JOBS)
 
 ffmpeg-deb64:
-	make BRANCH=release/3.4 CFGFLAGS="--enable-pic --enable-openssl" ffmpeg-build
+	$(MAKE) BRANCH=release/3.4 CFGFLAGS="--enable-pic --enable-openssl" ffmpeg-build
 
 ffmpeg-deb32:
-	make BRANCH=release/3.4 CFGFLAGS="--enable-openssl" ffmpeg-build
+	$(MAKE) BRANCH=release/3.4 CFGFLAGS="--enable-openssl" ffmpeg-build
 
 ffmpeg-raspi3: ffmpeg-deb32
 
@@ -249,37 +249,37 @@ ffmpeg-android-armeabi-v7a:
 	# linker errors during install
 	cd FFmpeg && git checkout n3.4.7
 	cd FFmpeg && ./configure --cross-prefix=arm-linux-androideabi- --cc="clang --target=armv7a-linux-android21" --arch=arm --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-indev=v4l2 --disable-neon
-	make -C FFmpeg -j$(JOBS) install
+	$(MAKE) -C FFmpeg -j$(JOBS) install
 
 ffmpeg-android-arm64:
 	cd FFmpeg && git checkout n3.4.7
 	cd FFmpeg && ./configure --cross-prefix=aarch64-linux-android- --cc="clang --target=aarch64-linux-android21" --arch=aarch64 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-indev=v4l2
-	make -C FFmpeg -j$(JOBS) install
+	$(MAKE) -C FFmpeg -j$(JOBS) install
 
 ffmpeg-android-x86:
 	cd FFmpeg && git checkout n3.4.7
 	cd FFmpeg && ./configure --cross-prefix=i686-linux-android- --cc="clang --target=i686-linux-android21" --arch=x86 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-asm --disable-indev=v4l2
-	make -C FFmpeg -j$(JOBS) install
+	$(MAKE) -C FFmpeg -j$(JOBS) install
 
 ffmpeg-android-x64:
 	cd FFmpeg && git checkout n3.4.7
 	cd FFmpeg && ./configure --cross-prefix=x86_64-linux-android- --cc="clang --target=x86_64-linux-android21" --arch=x86_64 --enable-cross-compile --sysroot=$(SYSROOT) --target-os=android --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-doc --disable-programs --enable-pic --disable-asm --disable-indev=v4l2
-	make -C FFmpeg -j$(JOBS) install
+	$(MAKE) -C FFmpeg -j$(JOBS) install
 
 ffmpeg-ios-build:
 	cd FFmpeg && git checkout release/3.1
 
 ffmpeg-ios-armv7: ffmpeg-ios-build
-	cd FFmpeg && PATH=$(PATH):$(PWD)/gas-preprocessor ./configure --arch=arm --target-os=darwin --cc="clang -arch armv7" --sysroot=$(xcrun --sdk iphoneos --show-sdk-path) --cpu=cortex-a8 --enable-pic --disable-doc --disable-programs --enable-cross-compile --as="gas-preprocessor.pl -arch arm -as-type apple-clang -- clang -arch armv7 -v" --prefix=$(TTLIBS_ROOT)/ffmpeg && make PATH=$(PATH):$(PWD)/gas-preprocessor -j$(JOBS) install
+	cd FFmpeg && PATH=$(PATH):$(PWD)/gas-preprocessor ./configure --arch=arm --target-os=darwin --cc="clang -arch armv7" --sysroot=$(xcrun --sdk iphoneos --show-sdk-path) --cpu=cortex-a8 --enable-pic --disable-doc --disable-programs --enable-cross-compile --as="gas-preprocessor.pl -arch arm -as-type apple-clang -- clang -arch armv7 -v" --prefix=$(TTLIBS_ROOT)/ffmpeg && $(MAKE) PATH=$(PATH):$(PWD)/gas-preprocessor -j$(JOBS) install
 
 ffmpeg-ios-arm64: ffmpeg-ios-build
-	cd FFmpeg && PATH=$(PATH):$(PWD)/gas-preprocessor ./configure --arch=arm64 --target-os=darwin --cc="clang -arch arm64" --sysroot=$(shell xcrun --sdk iphoneos --show-sdk-path)  --enable-pic --disable-doc --disable-programs --enable-cross-compile --as="gas-preprocessor.pl -arch arm64 -as-type apple-clang -- clang -arch arm64 -v" --prefix=$(TTLIBS_ROOT)/ffmpeg && make PATH=$(PATH):$(PWD)/gas-preprocessor -j$(JOBS) install
+	cd FFmpeg && PATH=$(PATH):$(PWD)/gas-preprocessor ./configure --arch=arm64 --target-os=darwin --cc="clang -arch arm64" --sysroot=$(shell xcrun --sdk iphoneos --show-sdk-path)  --enable-pic --disable-doc --disable-programs --enable-cross-compile --as="gas-preprocessor.pl -arch arm64 -as-type apple-clang -- clang -arch arm64 -v" --prefix=$(TTLIBS_ROOT)/ffmpeg && $(MAKE) PATH=$(PATH):$(PWD)/gas-preprocessor -j$(JOBS) install
 
 ffmpeg-ios-i386: ffmpeg-ios-build
-	cd FFmpeg && ./configure --arch=i386 --target-os=darwin --cc="clang -arch i386" --sysroot=$(shell xcrun --sdk iphonesimulator --show-sdk-path)  --enable-pic --disable-doc --disable-programs --enable-cross-compile --prefix=$(TTLIBS_ROOT)/ffmpeg && make -j$(JOBS) install
+	cd FFmpeg && ./configure --arch=i386 --target-os=darwin --cc="clang -arch i386" --sysroot=$(shell xcrun --sdk iphonesimulator --show-sdk-path)  --enable-pic --disable-doc --disable-programs --enable-cross-compile --prefix=$(TTLIBS_ROOT)/ffmpeg && $(MAKE) -j$(JOBS) install
 
 ffmpeg-ios-x64: ffmpeg-ios-build
-	cd FFmpeg && ./configure --arch=x86_64 --target-os=darwin --cc="clang -arch x86_64" --sysroot=$(shell xcrun --sdk iphonesimulator --show-sdk-path)  --enable-pic --disable-doc --disable-programs --enable-cross-compile --prefix=$(TTLIBS_ROOT)/ffmpeg && make -j$(JOBS) install
+	cd FFmpeg && ./configure --arch=x86_64 --target-os=darwin --cc="clang -arch x86_64" --sysroot=$(shell xcrun --sdk iphonesimulator --show-sdk-path)  --enable-pic --disable-doc --disable-programs --enable-cross-compile --prefix=$(TTLIBS_ROOT)/ffmpeg && $(MAKE) -j$(JOBS) install
 
 ffmpeg-mac:
 	cd FFmpeg && git checkout release/3.4 && \
@@ -292,7 +292,7 @@ ffmpeg-mac:
 	--extra-cxxflags="$(MACMINVERSION)"  \
 	--extra-ldexeflags="$(MACMINVERSION)" \
 	--disable-videotoolbox --disable-sdl2 --pkg-config-flags="--static" \
-	--enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl && make -j$(JOBS) install
+	--enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl && $(MAKE) -j$(JOBS) install
 
 libvpx-clean:
 	cd libvpx && git clean -xdf .
@@ -302,54 +302,54 @@ libvpx-uninstall:
 
 libvpx-build:
 	cd libvpx && git checkout $(BRANCH) && \
-	./configure --prefix=$(TTLIBS_ROOT)/libvpx $(CFGFLAGS) --disable-unit-tests --disable-examples --disable-docs && make install -j$(JOBS)
+	./configure --prefix=$(TTLIBS_ROOT)/libvpx $(CFGFLAGS) --disable-unit-tests --disable-examples --disable-docs && $(MAKE) install -j$(JOBS)
 
 libvpx-deb64:
-	make BRANCH=v1.6.1 CFGFLAGS="--target=x86_64-linux-gcc --enable-pic --disable-tools" libvpx-build
+	$(MAKE) BRANCH=v1.6.1 CFGFLAGS="--target=x86_64-linux-gcc --enable-pic --disable-tools" libvpx-build
 
 libvpx-deb32:
-	make BRANCH=v1.6.1 CFGFLAGS="--disable-tools" libvpx-build
+	$(MAKE) BRANCH=v1.6.1 CFGFLAGS="--disable-tools" libvpx-build
 
 # if v1.6.1 causes "../libraries/libvpx/lib/libvpx.a(vpx_codec.c.o): relocation R_ARM_MOVW_ABS_NC against `a local symbol' can not be used when making a shared object; recompile with -fPIC"
 libvpx-raspi3:
-	make BRANCH=v1.4.0 libvpx-build
+	$(MAKE) BRANCH=v1.4.0 libvpx-build
 
 libvpx-mac:
 	cd libvpx && git checkout v1.6.1 && \
 	./configure --extra-cflags="$(MACMINVERSION)" --prefix=$(TTLIBS_ROOT)/libvpx \
-	--target=x86_64-darwin13-gcc && make install -j$(JOBS)
+	--target=x86_64-darwin13-gcc && $(MAKE) install -j$(JOBS)
 
 libvpx-android-armeabi-v7a:
 	cd libvpx && git checkout v1.8.0
-	cd libvpx && CROSS=arm-linux-androideabi- CC='clang --target=armv7a-linux-android21' CXX='clang++ --target=armv7a-linux-android21' ./configure --target=armv7-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && make -j$(JOBS) install
+	cd libvpx && CROSS=arm-linux-androideabi- CC='clang --target=armv7a-linux-android21' CXX='clang++ --target=armv7a-linux-android21' ./configure --target=armv7-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && $(MAKE) -j$(JOBS) install
 
 libvpx-android-arm64:
 	cd libvpx && git checkout v1.8.0
-	cd libvpx && CROSS=aarch64-linux-android- CC='clang --target=aarch64-linux-android21' CXX='clang++ --target=aarch64-linux-android21' ./configure --target=arm64-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && make -j$(JOBS) install
+	cd libvpx && CROSS=aarch64-linux-android- CC='clang --target=aarch64-linux-android21' CXX='clang++ --target=aarch64-linux-android21' ./configure --target=arm64-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && $(MAKE) -j$(JOBS) install
 
 libvpx-android-x86:
 	cd libvpx && git checkout v1.8.0
-	cd libvpx && CROSS=i686-linux-android- CC='clang --target=i686-linux-android21' CXX='clang++ --target=i686-linux-android21' ./configure --target=x86-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && make -j$(JOBS) install
+	cd libvpx && CROSS=i686-linux-android- CC='clang --target=i686-linux-android21' CXX='clang++ --target=i686-linux-android21' ./configure --target=x86-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && $(MAKE) -j$(JOBS) install
 
 libvpx-android-x64:
 	cd libvpx && git checkout v1.8.0
-	cd libvpx && CROSS=x86_64-linux-android- CC='clang --target=x86_64-linux-android21' CXX='clang++ --target=x86_64-linux-android21' ./configure --target=x86_64-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && make -j$(JOBS) install
+	cd libvpx && CROSS=x86_64-linux-android- CC='clang --target=x86_64-linux-android21' CXX='clang++ --target=x86_64-linux-android21' ./configure --target=x86_64-android-gcc --prefix=$(TTLIBS_ROOT)/libvpx --disable-examples --disable-docs --enable-pic && $(MAKE) -j$(JOBS) install
 
 # libvpx on iOS cannot build when environment variables are set. It defaults to /Applications/Xcode
 libvpx-ios-build:
-	make libvpx-build
+	$(MAKE) libvpx-build
 
 libvpx-ios-armv7:
-	make BRANCH=v1.8.1 CFGFLAGS="--target=armv7-darwin-gcc --disable-examples" libvpx-ios-build
+	$(MAKE) BRANCH=v1.8.1 CFGFLAGS="--target=armv7-darwin-gcc --disable-examples" libvpx-ios-build
 
 libvpx-ios-arm64:
-	make BRANCH=v1.8.1 CFGFLAGS="--target=arm64-darwin-gcc --disable-examples" libvpx-ios-build
+	$(MAKE) BRANCH=v1.8.1 CFGFLAGS="--target=arm64-darwin-gcc --disable-examples" libvpx-ios-build
 
 libvpx-ios-i386:
-	make BRANCH=v1.8.1 CFGFLAGS="--target=x86-iphonesimulator-gcc --disable-examples" libvpx-ios-build
+	$(MAKE) BRANCH=v1.8.1 CFGFLAGS="--target=x86-iphonesimulator-gcc --disable-examples" libvpx-ios-build
 
 libvpx-ios-x64:
-	make BRANCH=v1.8.1 CFGFLAGS="--target=x86_64-iphonesimulator-gcc --disable-examples" libvpx-ios-build
+	$(MAKE) BRANCH=v1.8.1 CFGFLAGS="--target=x86_64-iphonesimulator-gcc --disable-examples" libvpx-ios-build
 
 libvpx-win:
 	cd libvpx && git checkout v1.6.1
@@ -379,35 +379,35 @@ ogg-uninstall:
 
 ogg-build:
 	cd ogg && ./autogen.sh $(GENFLAGS) && git checkout $(BRANCH) && \
-	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/ogg && make install -j$(JOBS)
+	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/ogg && $(MAKE) install -j$(JOBS)
 
 ogg-deb64:
-	make BRANCH=v1.3.2 CFGFLAGS="--with-pic" ogg-build
+	$(MAKE) BRANCH=v1.3.2 CFGFLAGS="--with-pic" ogg-build
 
 ogg-deb32:
-	make BRANCH=v1.3.2 ogg-build
+	$(MAKE) BRANCH=v1.3.2 ogg-build
 
 ogg-raspi3:
-	make BRANCH=v1.3.2 ogg-build
+	$(MAKE) BRANCH=v1.3.2 ogg-build
 
 ogg-mac:
-	make BRANCH=v1.3.2 CFGFLAGS=$(MACCFGFLAGS) ogg-build
+	$(MAKE) BRANCH=v1.3.2 CFGFLAGS=$(MACCFGFLAGS) ogg-build
 
 ogg-build-android:
 	cd ogg && ./autogen.sh $(GENFLAGS) && git checkout $(BRANCH) && \
-	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/ogg && make install-exec install-data -j$(JOBS)
+	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/ogg && $(MAKE) install-exec install-data -j$(JOBS)
 
 ogg-android-armeabi-v7a:
-	make BRANCH=v1.3.3 GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --disable-shared CC='clang --target=armv7a-linux-android21'" ogg-build-android
+	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --disable-shared CC='clang --target=armv7a-linux-android21'" ogg-build-android
 
 ogg-android-arm64:
-	make BRANCH=v1.3.3 GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--host=aarch64-linux-android --disable-shared CC='clang --target=aarch64-linux-android21'" ogg-build-android
+	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--host=aarch64-linux-android --disable-shared CC='clang --target=aarch64-linux-android21'" ogg-build-android
 
 ogg-android-x86:
-	make BRANCH=v1.3.3 GENFLAGS="--host=i686-linux-android" CFGFLAGS="--with-pic --host=i686-linux-android --disable-shared CC='clang --target=i686-linux-android21'" ogg-build-android
+	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=i686-linux-android" CFGFLAGS="--with-pic --host=i686-linux-android --disable-shared CC='clang --target=i686-linux-android21'" ogg-build-android
 
 ogg-android-x64:
-	make BRANCH=v1.3.3 GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--with-pic --host=x86_64-linux-android --disable-shared CC='clang --target=x86_64-linux-android21'" ogg-build-android
+	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--with-pic --host=x86_64-linux-android --disable-shared CC='clang --target=x86_64-linux-android21'" ogg-build-android
 
 ogg-win:
 	cd ogg && git checkout bdr/win
@@ -417,13 +417,13 @@ ogg-win:
 	@echo "either for Win32 or x64"
 
 ogg-ios-armv7:
-	make BRANCH=v1.3.3 GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin" ogg-build
+	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin" ogg-build
 ogg-ios-arm64:
-	make BRANCH=v1.3.3 GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin" ogg-build
+	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin" ogg-build
 ogg-ios-i386:
-	make BRANCH=v1.3.3 GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH)" ogg-build
+	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH)" ogg-build
 ogg-ios-x64:
-	make BRANCH=v1.3.3 GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH)" ogg-build
+	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH)" ogg-build
 
 opus-clean:
 	cd opus && git clean -xdf .
@@ -433,42 +433,42 @@ opus-uninstall:
 
 opus-build:
 	cd opus && git checkout v1.3 && ./autogen.sh $(GENFLAGS) && \
-	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/opus && make install -j$(JOBS)
+	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/opus && $(MAKE) install -j$(JOBS)
 
 opus-deb64:
-	make CFGFLAGS="--with-pic" opus-build
+	$(MAKE) CFGFLAGS="--with-pic" opus-build
 
 opus-deb32: opus-build
 
 opus-raspi3:
-	make CFGFLAGS="--enable-fixed-point" opus-build
+	$(MAKE) CFGFLAGS="--enable-fixed-point" opus-build
 
 opus-android-armeabi-v7a:
-	make GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --enable-fixed-point --disable-extra-programs CC='clang --target=armv7a-linux-android21' --with-pic" opus-build
+	$(MAKE) GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --enable-fixed-point --disable-extra-programs CC='clang --target=armv7a-linux-android21' --with-pic" opus-build
 
 opus-android-arm64:
-	make GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--host=aarch64-linux-android --enable-fixed-point --disable-extra-programs CC='clang --target=aarch64-linux-android21' --with-pic" opus-build
+	$(MAKE) GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--host=aarch64-linux-android --enable-fixed-point --disable-extra-programs CC='clang --target=aarch64-linux-android21' --with-pic" opus-build
 
 opus-android-x86:
-	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="--host=i686-linux-android --disable-extra-programs CC='clang --target=i686-linux-android21' --with-pic" opus-build
+	$(MAKE) GENFLAGS="--host=i686-linux-android" CFGFLAGS="--host=i686-linux-android --disable-extra-programs CC='clang --target=i686-linux-android21' --with-pic" opus-build
 
 opus-android-x64:
-	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--host=x86_64-linux-android --disable-extra-programs CC='clang --target=x86_64-linux-android21' --with-pic" opus-build
+	$(MAKE) GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--host=x86_64-linux-android --disable-extra-programs CC='clang --target=x86_64-linux-android21' --with-pic" opus-build
 
 opus-ios-armv7:
-	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-fixed-point --enable-shared=no --enable-static=yes --disable-extra-programs" opus-build
+	$(MAKE) GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-fixed-point --enable-shared=no --enable-static=yes --disable-extra-programs" opus-build
 
 opus-ios-arm64:
-	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-shared=no --enable-static=yes --disable-extra-programs" opus-build
+	$(MAKE) GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-shared=no --enable-static=yes --disable-extra-programs" opus-build
 
 opus-ios-simulator:
-	make GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH) --enable-shared=no --enable-static=yes --disable-extra-programs" opus-build
+	$(MAKE) GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH) --enable-shared=no --enable-static=yes --disable-extra-programs" opus-build
 
 opus-ios-i386: opus-ios-simulator
 opus-ios-x64: opus-ios-simulator
 
 opus-mac:
-	make CFGFLAGS=$(MACCFGFLAGS) opus-build
+	$(MAKE) CFGFLAGS=$(MACCFGFLAGS) opus-build
 
 opus-win:
 	cd opus && git checkout bdr/win
@@ -514,21 +514,21 @@ portaudio-uninstall:
 portaudio-build:
 	cd portaudio && git checkout $(BRANCH) && \
 	./configure $(CFGFLAGS) --with-alsa --without-jack --without-oss \
-	--prefix=$(TTLIBS_ROOT)/portaudio && make install
+	--prefix=$(TTLIBS_ROOT)/portaudio && $(MAKE) install
 
 portaudio-deb64:
-	make BRANCH=1bdcb9e CFGFLAGS="--with-pic" portaudio-build
+	$(MAKE) BRANCH=1bdcb9e CFGFLAGS="--with-pic" portaudio-build
 
 portaudio-deb32:
-	make BRANCH=1bdcb9e portaudio-build
+	$(MAKE) BRANCH=1bdcb9e portaudio-build
 
 portaudio-raspi3:
-	make BRANCH=1bdcb9e portaudio-build
+	$(MAKE) BRANCH=1bdcb9e portaudio-build
 
 portaudio-mac:
 	cd portaudio && git checkout $(BRANCH) && \
 	./configure $(MACCFGFLAGS) --disable-mac-universal \
-	--prefix=$(TTLIBS_ROOT)/portaudio && make install
+	--prefix=$(TTLIBS_ROOT)/portaudio && $(MAKE) install
 
 portaudio-win:
 	cd portaudio && git checkout bdr/win32
@@ -555,40 +555,40 @@ speex-uninstall:
 
 speex-build:
 	cd speex && git checkout Speex-1.2.0 && ./autogen.sh $(GENFLAGS) && \
-	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/speex && make install -j$(JOBS)
+	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/speex && $(MAKE) install -j$(JOBS)
 
 speex-deb64:
-	make CFGFLAGS="--with-pic" speex-build
+	$(MAKE) CFGFLAGS="--with-pic" speex-build
 
 speex-deb32: speex-build
 
 speex-mac:
-	make CFGFLAGS=$(MACCFGFLAGS) speex-build
+	$(MAKE) CFGFLAGS=$(MACCFGFLAGS) speex-build
 
 speex-raspi3:
 	cd speex && git checkout Speex-1.2.0 && ./autogen.sh && \
-	./configure --enable-fixed-point --prefix=$(TTLIBS_ROOT)/speex && make install -j$(JOBS)
+	./configure --enable-fixed-point --prefix=$(TTLIBS_ROOT)/speex && $(MAKE) install -j$(JOBS)
 
 speex-android-armeabi-v7a:
-	make GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--disable-binaries --enable-fixed-point --host=arm-linux-androideabi CC='clang --target=armv7a-linux-android21' --with-pic" speex-build
+	$(MAKE) GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--disable-binaries --enable-fixed-point --host=arm-linux-androideabi CC='clang --target=armv7a-linux-android21' --with-pic" speex-build
 
 speex-android-arm64:
-	make GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--disable-binaries --enable-fixed-point --host=aarch64-linux-android CC='clang --target=aarch64-linux-android21' --with-pic" speex-build
+	$(MAKE) GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--disable-binaries --enable-fixed-point --host=aarch64-linux-android CC='clang --target=aarch64-linux-android21' --with-pic" speex-build
 
 speex-android-x86:
-	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="--disable-binaries --host=i686-linux-android CC='clang --target=i686-linux-android21' --with-pic" speex-build
+	$(MAKE) GENFLAGS="--host=i686-linux-android" CFGFLAGS="--disable-binaries --host=i686-linux-android CC='clang --target=i686-linux-android21' --with-pic" speex-build
 
 speex-android-x64:
-	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--disable-binaries --host=x86_64-linux-android CC='clang --target=x86_64-linux-android21' --with-pic" speex-build
+	$(MAKE) GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--disable-binaries --host=x86_64-linux-android CC='clang --target=x86_64-linux-android21' --with-pic" speex-build
 
 speex-ios-iphone:
-	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--enable-shared=no --enable-static=yes --disable-binaries --enable-fixed-point --host=arm-apple-darwin" speex-build
+	$(MAKE) GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--enable-shared=no --enable-static=yes --disable-binaries --enable-fixed-point --host=arm-apple-darwin" speex-build
 
 speex-ios-armv7: speex-ios-iphone
 speex-ios-arm64: speex-ios-iphone
 
 speex-ios-simulator:
-	make GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH) --enable-shared=no --enable-static=yes --disable-binaries" speex-build
+	$(MAKE) GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH) --enable-shared=no --enable-static=yes --disable-binaries" speex-build
 
 speex-ios-i386: speex-ios-simulator
 
@@ -608,22 +608,22 @@ speexdsp-uninstall:
 
 speexdsp-build:
 	cd speexdsp && git checkout SpeexDSP-1.2.0 && ./autogen.sh $(GENFLAGS) && \
-	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/speex && make install -j$(JOBS)
+	./configure $(CFGFLAGS) --prefix=$(TTLIBS_ROOT)/speex && $(MAKE) install -j$(JOBS)
 
 speexdsp-mac:
-	make CFGFLAGS=$(MACCFGFLAGS) speexdsp-build
+	$(MAKE) CFGFLAGS=$(MACCFGFLAGS) speexdsp-build
 
 speexdsp-deb64:
 	dpkg -l | grep pkg-config
-	make CFGFLAGS="--with-pic" speexdsp-build
+	$(MAKE) CFGFLAGS="--with-pic" speexdsp-build
 
 speexdsp-deb32:
 	dpkg -l | grep pkg-config
 	cd speexdsp && git checkout 4691839 && ./autogen.sh && \
-	./configure --prefix=$(TTLIBS_ROOT)/speex && make install -j$(JOBS)
+	./configure --prefix=$(TTLIBS_ROOT)/speex && $(MAKE) install -j$(JOBS)
 
 speexdsp-raspi3:
-	make CFGFLAGS=--enable-fixed-point speexdsp-build
+	$(MAKE) CFGFLAGS=--enable-fixed-point speexdsp-build
 
 speexdsp-win:
 	cd speexdsp && git checkout bdr/win
@@ -633,25 +633,25 @@ speexdsp-win:
 
 
 speexdsp-android-armeabi-v7a:
-	make GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --enable-fixed-point --enable-neon --disable-examples CC='clang --target=armv7a-linux-android21 -mfloat-abi=softfp -mfpu=neon' --with-pic" speexdsp-build
+	$(MAKE) GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --enable-fixed-point --enable-neon --disable-examples CC='clang --target=armv7a-linux-android21 -mfloat-abi=softfp -mfpu=neon' --with-pic" speexdsp-build
 
 speexdsp-android-arm64:
-	make GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--host=aarch64-linux-android --enable-fixed-point --disable-neon --disable-examples CC='clang --target=aarch64-linux-android21' --with-pic" speexdsp-build
+	$(MAKE) GENFLAGS="--host=aarch64-linux-android" CFGFLAGS="--host=aarch64-linux-android --enable-fixed-point --disable-neon --disable-examples CC='clang --target=aarch64-linux-android21' --with-pic" speexdsp-build
 
 speexdsp-android-x86:
-	make GENFLAGS="--host=i686-linux-android" CFGFLAGS="--host=i686-linux-android --disable-neon --disable-examples CC='clang --target=i686-linux-android21' --with-pic" speexdsp-build
+	$(MAKE) GENFLAGS="--host=i686-linux-android" CFGFLAGS="--host=i686-linux-android --disable-neon --disable-examples CC='clang --target=i686-linux-android21' --with-pic" speexdsp-build
 
 speexdsp-android-x64:
-	make GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--host=x86_64-linux-android --disable-neon --disable-examples CC='clang --target=x86_64-linux-android21' --with-pic" speexdsp-build
+	$(MAKE) GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--host=x86_64-linux-android --disable-neon --disable-examples CC='clang --target=x86_64-linux-android21' --with-pic" speexdsp-build
 
 speexdsp-ios-armv7:
-	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-fixed-point --enable-shared=no --enable-static=yes --enable-neon" speexdsp-build
+	$(MAKE) GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-fixed-point --enable-shared=no --enable-static=yes --enable-neon" speexdsp-build
 
 speexdsp-ios-arm64:
-	make GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-shared=no --enable-static=yes --disable-neon" speexdsp-build
+	$(MAKE) GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin --enable-shared=no --enable-static=yes --disable-neon" speexdsp-build
 
 speexdsp-ios-simulator:
-	make GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH) --enable-shared=no --enable-static=yes" speexdsp-build
+	$(MAKE) GENFLAGS="--host=$(ARCH)" CFGFLAGS="--host=$(ARCH) --enable-shared=no --enable-static=yes" speexdsp-build
 
 speexdsp-ios-i386: speexdsp-ios-simulator
 speexdsp-ios-x64: speexdsp-ios-simulator
@@ -662,14 +662,14 @@ tinyxml-uninstall:
 	rm -rf $(TTLIBS_ROOT)/tinyxml
 
 tinyxml-build:
-	cd tinyxml && git checkout $(BRANCH) && make
+	cd tinyxml && git checkout $(BRANCH) && $(MAKE)
 	ln -fs $(PWD)/tinyxml $(TTLIBS_ROOT)/tinyxml
 
 tinyxml-deb64:
-	make BRANCH=bdr/deb64 tinyxml-build
+	$(MAKE) BRANCH=bdr/deb64 tinyxml-build
 
 tinyxml-deb32:
-	make BRANCH=bdr/deb32 tinyxml-build
+	$(MAKE) BRANCH=bdr/deb32 tinyxml-build
 
 tinyxml-raspi3: tinyxml-deb32
 
@@ -689,7 +689,7 @@ tinyxml-ios-i386:
 tinyxml-ios-x64:
 
 tinyxml-mac:
-	cd tinyxml && git checkout bdr/mac && make CPPFLAGS="-isysroot $(SDK) -fPIC -g -m64 $(MACMINVERSION) -std=c++11"
+	cd tinyxml && git checkout bdr/mac && $(MAKE) CPPFLAGS="-isysroot $(SDK) -fPIC -g -m64 $(MACMINVERSION) -std=c++11"
 	ln -fs $(PWD)/tinyxml $(TTLIBS_ROOT)/tinyxml
 
 zlib-clean:
@@ -698,19 +698,19 @@ zlib-uninstall:
 	rm -rf $(TTLIBS_ROOT)/zlib
 
 zlib-build:
-	cd zlib && git checkout $(BRANCH) && $(CFGFLAGS) ./configure --prefix=$(TTLIBS_ROOT)/zlib --static && make install
+	cd zlib && git checkout $(BRANCH) && $(CFGFLAGS) ./configure --prefix=$(TTLIBS_ROOT)/zlib --static && $(MAKE) install
 
 zlib-deb64:
-	make BRANCH=v1.2.9 CFGFLAGS="CFLAGS=-fPIC" zlib-build
+	$(MAKE) BRANCH=v1.2.9 CFGFLAGS="CFLAGS=-fPIC" zlib-build
 
 zlib-deb32:
-	make BRANCH=v1.2.9 zlib-build
+	$(MAKE) BRANCH=v1.2.9 zlib-build
 
 zlib-mac:
-	make BRANCH=v1.2.9 CFGFLAGS=$(MACCFGFLAGS) zlib-build
+	$(MAKE) BRANCH=v1.2.9 CFGFLAGS=$(MACCFGFLAGS) zlib-build
 
 zlib-raspi3:
-	make BRANCH=v1.2.9 zlib-build
+	$(MAKE) BRANCH=v1.2.9 zlib-build
 
 zlib-win:
 	cd zlib && git checkout bdr/win32
