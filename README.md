@@ -92,8 +92,8 @@ Run ```make deb64```.
 
 ### Dependencies for Building Android Libraries
 
-For Ubuntu 18.10 download *Android NDK r17c*,
-**android-ndk-r17c-linux-x86_64.zip**, and unpack it in
+For Ubuntu 18.10 download *Android NDK r21*,
+**android-ndk-r21-linux-x86_64.zip**, and unpack it in
 ```$TOOLCHAIN_ROOT```.
 
 On Ubuntu 18.10 install the following tools:
@@ -104,9 +104,6 @@ On Ubuntu 18.10 install the following tools:
 
 * For Speex, SpeexDSP, OPUS and OPUS tools install dependencies
   * ```sudo apt-get install autoconf libtool```
-
-* For Android NDK r17c
-  * ```sudo apt-get install python```
 
 ### Build 3rd Party Libraries for Android
 
