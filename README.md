@@ -49,6 +49,10 @@ platforms:
 
 Install *MacPorts* or *Homebrew* and install the following packages:
 
+* autoconf
+  * Required by *ffmpeg*
+* pkg-config
+  * Required by *ffmpeg*
 * yasm
   * Required by *libvpx*
 
