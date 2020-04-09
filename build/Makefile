@@ -282,7 +282,7 @@ ffmpeg-ios-x64: ffmpeg-ios-build
 	cd FFmpeg && ./configure --arch=x86_64 --target-os=darwin --cc="clang -arch x86_64" --sysroot=$(shell xcrun --sdk iphonesimulator --show-sdk-path)  --enable-pic --disable-doc --disable-programs --enable-cross-compile --prefix=$(TTLIBS_ROOT)/ffmpeg && $(MAKE) -j$(JOBS) install
 
 ffmpeg-mac:
-	cd FFmpeg && git checkout release/3.4 && \
+	cd FFmpeg && git checkout n3.4.7 && \
 	export PKG_CONFIG_PATH=$(TTLIBS_ROOT)/openssl/lib/pkgconfig && \
 	./configure --prefix=$(TTLIBS_ROOT)/ffmpeg --disable-iconv \
 	--disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes \
