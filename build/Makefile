@@ -267,7 +267,7 @@ ffmpeg-android-x64:
 	$(MAKE) -C FFmpeg -j$(JOBS) install
 
 ffmpeg-ios-build:
-	cd FFmpeg && git checkout release/3.1
+	cd FFmpeg && git checkout n3.4.7
 
 ffmpeg-ios-armv7: ffmpeg-ios-build
 	cd FFmpeg && PATH=$(PATH):$(PWD)/gas-preprocessor ./configure --arch=arm --target-os=darwin --cc="clang -arch armv7" --sysroot=$(xcrun --sdk iphoneos --show-sdk-path) --cpu=cortex-a8 --enable-pic --disable-doc --disable-programs --enable-cross-compile --as="gas-preprocessor.pl -arch arm -as-type apple-clang -- clang -arch armv7 -v" --prefix=$(TTLIBS_ROOT)/ffmpeg && $(MAKE) PATH=$(PATH):$(PWD)/gas-preprocessor -j$(JOBS) install
