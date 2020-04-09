@@ -51,6 +51,10 @@ Install *MacPorts* or *Homebrew* and install the following packages:
 
 * autoconf
   * Required by *ffmpeg*
+* automake
+  * Required by *ogg*
+* libtool
+  * Required by *ogg*
 * pkg-config
   * Required by *ffmpeg*
 * yasm
