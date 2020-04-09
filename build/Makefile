@@ -236,10 +236,10 @@ ffmpeg-build:
 	$(CFGFLAGS) && $(MAKE) install -j$(JOBS)
 
 ffmpeg-deb64:
-	$(MAKE) BRANCH=release/3.4 CFGFLAGS="--enable-pic --enable-openssl" ffmpeg-build
+	$(MAKE) BRANCH=n3.4.7 CFGFLAGS="--enable-pic --enable-openssl" ffmpeg-build
 
 ffmpeg-deb32:
-	$(MAKE) BRANCH=release/3.4 CFGFLAGS="--enable-openssl" ffmpeg-build
+	$(MAKE) BRANCH=n3.4.7 CFGFLAGS="--enable-openssl" ffmpeg-build
 
 ffmpeg-raspi3: ffmpeg-deb32
 
