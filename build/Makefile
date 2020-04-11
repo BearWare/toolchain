@@ -526,9 +526,7 @@ portaudio-raspi3:
 	$(MAKE) BRANCH=1bdcb9e portaudio-build
 
 portaudio-mac:
-	cd portaudio && git checkout $(BRANCH) && \
-	./configure $(MACCFGFLAGS) --disable-mac-universal \
-	--prefix=$(TTLIBS_ROOT)/portaudio && $(MAKE) install
+	$(MAKE) BRANCH=1bdcb9e CFGFLAGS="$(MACCFGFLAGS) --disable-mac-universal" portaudio-build
 
 portaudio-win:
 	cd portaudio && git checkout bdr/win32
