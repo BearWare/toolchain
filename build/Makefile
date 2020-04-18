@@ -529,10 +529,9 @@ portaudio-mac:
 	$(MAKE) BRANCH=1bdcb9e CFGFLAGS="$(MACCFGFLAGS) --disable-mac-universal" portaudio-build
 
 portaudio-win:
-	cd portaudio && git checkout bdr/win32
+	cd portaudio && git checkout bdr/win32_aec
 	@echo "--------------------------------------------------"
-	@echo "Now open CMake and put empty string in DXSDK_DSOUND_LIBRARY"
-	@echo "and '.' in remaining DXSDK_* paths (DirectX is included with Visual Studio 2015)."
+	@echo "Now open CMake."
 	@echo "Generate project for Win32 (default) and 'Visual Studio 2015 - Win64'."
 	@echo "Build project 'portaudio_static' in Debug/Release configuration either for Win32 or x64."
 
