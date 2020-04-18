@@ -105,16 +105,16 @@ These are build instructions for CentOS 7.
 
 Run the following command to install required packages:
 
-* ```yum --enablerepo=extras install epel-release```
-  * Need to enable "Extra Packages for Enterprise Linux 7"
 * ```sudo dnf install alsa-lib-devel```
-  * Required by *portaudio*
+  * Required by *portaudio*, *ffmpeg*
 * ```sudo dnf install nasm```
-  * Required by *libvpx*
+  * Required by *ffmpeg*
 * ```sudo dnf install pkgconfig```
   * Required by *SpeexDSP*
 * ```sudo dnf install autoconf libtool```
   * Required by *ogg*
+* ~~```yum --enablerepo=extras install epel-release```~~
+  * ~~Need to enable "Extra Packages for Enterprise Linux 7"~~
 
 ### Build 3rd Party Libraries for CentOS 7
 
