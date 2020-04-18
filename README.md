@@ -111,7 +111,7 @@ Run the following command to install required packages:
   * Required by *ffmpeg*
 * ```sudo dnf install pkgconfig```
   * Required by *SpeexDSP*
-* ```sudo dnf install autoconf libtool```
+* ```sudo dnf install automake libtool```
   * Required by *ogg*
 * ~~```yum --enablerepo=extras install epel-release```~~
   * ~~Need to enable "Extra Packages for Enterprise Linux 7"~~
