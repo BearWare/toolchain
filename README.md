@@ -39,6 +39,7 @@ platforms:
 
 * [Building for macOS](#building-for-macos)
 * [Building for Ubuntu 18](#building-for-ubuntu-18)
+* [Building for CentOS 7](#building-for-centos-7)
 * [Building for Android](#building-for-android)
 * [Building for Windows](#building-for-windows)
 * [Building for iOS](#building-for-ios)
@@ -95,6 +96,34 @@ First source ```toolchain.sh``` in
 Now change to ```$TOOLCHAIN_ROOT/build```.
 
 Run ```make deb64```.
+
+## Building for CentOS 7
+
+These are build instructions for CentOS 7.
+
+### Dependencies for Building CentOS 7 Libraries
+
+Run the following command to install required packages:
+
+* ```yum --enablerepo=extras install epel-release```
+  * Need to enable "Extra Packages for Enterprise Linux 7"
+* ```sudo dnf install alsa-lib-devel```
+  * Required by *portaudio*
+* ```sudo dnf install nasm```
+  * Required by *libvpx*
+* ```sudo dnf install pkgconfig```
+  * Required by *SpeexDSP*
+* ```sudo dnf install autoconf libtool```
+  * Required by *ogg*
+
+### Build 3rd Party Libraries for CentOS 7
+
+First source ```toolchain.sh``` in
+```$TOOLCHAIN_ROOT```. Select Linux as platform.
+
+Now change to ```$TOOLCHAIN_ROOT/build```.
+
+Run ```make openssl-deb64 mpc-deb64 ace-deb64 ffmpeg-deb64 ogg-deb64 opus-deb64 opus-tools-deb64 portaudio-deb64 speex-deb64 speexdsp-deb64 tinyxml-deb64 zlib-deb64```. Target ```deb64``` cannot be used because *libvpx* does not build on CentOS 7.
 
 ## Building for Android
 
