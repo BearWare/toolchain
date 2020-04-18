@@ -612,11 +612,9 @@ speexdsp-mac:
 	$(MAKE) CFGFLAGS=$(MACCFGFLAGS) speexdsp-build
 
 speexdsp-deb64:
-	dpkg -l | grep pkg-config
 	$(MAKE) CFGFLAGS="--with-pic" speexdsp-build
 
 speexdsp-deb32:
-	dpkg -l | grep pkg-config
 	cd speexdsp && git checkout 4691839 && ./autogen.sh && \
 	./configure --prefix=$(TTLIBS_ROOT)/speex && $(MAKE) install -j$(JOBS)
 
