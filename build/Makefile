@@ -153,6 +153,8 @@ mpc-android-x86:
 mpc-android-x64:
 	$(MAKE) TAG=ACE+TAO-6_5_8 mpc-build
 mpc-win:
+	@echo "ACE requires MPC for generating projects. MPC is placed as submodule ACE/ACE/MPC"
+	@echo "on ACE's branch: bdr/win. Other platforms simply use sym-link"
 	cd ACE && git submodule update --init --recursive
 
 ace-clean:
