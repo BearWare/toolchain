@@ -176,8 +176,7 @@ ace-deb64:
 ace-deb32:
 	$(MAKE) BRANCH=bdr/deb32 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
-ace-raspi3:
-	$(MAKE) BRANCH=bdr/raspi3 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+ace-raspi3: ace-deb32
 
 ace-android-armeabi-v7a:
 	$(MAKE) BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
