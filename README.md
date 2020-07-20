@@ -105,6 +105,12 @@ These are build instructions for CentOS 7.
 
 Run the following command to install required packages:
 
+* ```sudo yum install dnf```
+  * Prefer *dnf* to *yum*
+* ```sudo dnf install make gcc-c++```
+  * Required by *ACE*
+* ```sudo dnf install openssl-devel```
+  * Required by *ACE* and *FFmpeg*
 * ```sudo dnf install alsa-lib-devel```
   * Required by *portaudio*, *ffmpeg*
 * ```sudo dnf install nasm```
