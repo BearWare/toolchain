@@ -119,8 +119,6 @@ Run the following command to install required packages:
   * Required by *SpeexDSP*
 * ```sudo dnf install automake libtool```
   * Required by *ogg*
-* ~~```yum --enablerepo=extras install epel-release```~~
-  * ~~Need to enable "Extra Packages for Enterprise Linux 7"~~
 
 ### Build 3rd Party Libraries for CentOS 7
 
