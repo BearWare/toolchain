@@ -5,16 +5,21 @@ help:
 	@echo "	LIBNAME-ARCH-uninstall"
 
 JOBS?=4
-LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5 Catch2
+LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5 Catch2 webrtc
 
 MACMINVERSION="-mmacosx-version-min=10.9"
 MACCFGFLAGS=CFLAGS=$(MACMINVERSION) CPPFLAGS=$(MACMINVERSION)
 ARCHS=deb32 deb64 raspi3 mac win android-armeabi-v7a android-arm64 android-x86 ios-i386 ios-x64 ios-armv7 ios-arm64
 
-prepare:
-	git submodule update --init --recursive openssl MPC ACE gas-preprocessor FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib Catch2
-	git submodule update --init qt5
+prepare: prepare-github
+	@echo "Cloning WebRTC"
+	$(MAKE) PATH=$(PWD)/depot_tools:$(PATH) webrtc-clone
 	@echo "Done..."
+
+prepare-github:
+	git submodule update --init --recursive openssl MPC ACE gas-preprocessor FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib Catch2 depot_tools
+	@echo "Cloning Qt"
+	git submodule update --init qt5
 	@echo "Note that 'qt5' submodule is not cloned recursively to limit disk usage."
 
 clean: $(foreach lib,$(LIBS),$(lib)-clean)
@@ -817,3 +822,23 @@ qt5-clean:
 	cd qt5/qttools && git clean -xdf .
 	cd qt5/qtmultimedia && git clean -xdf .
 	cd qt5/qtactiveqt && git clean -xdf .
+
+depot-tools-deb64:
+	echo "foo"
+
+webrtc-clone:
+	mkdir -p webrtc
+	cd webrtc && fetch --nohooks webrtc && gclient sync --with_branch_heads --with_tags && git fetch
+
+webrtc-deb64:
+	cd webrtc/src && git checkout branch-heads/3984
+	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync --with_branch_heads --with_tags && \
+	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false use_udev=false use_aura=false use_ozone=false rtc_use_x11=false rtc_use_x11_extensions=false' && \
+	ninja -v -C $(TTLIBS_ROOT)/webrtc agc
+	# TODO: add is_debug=false
+
+webrtc-clean:
+	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D
+
+webrtc-uninstall:
+	rm -rf $(TTLIBS_ROOT)/webrtc

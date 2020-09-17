@@ -46,3 +46,6 @@
 [submodule "build/Catch2"]
 	path = build/Catch2
 	url = https://github.com/catchorg/Catch2
+[submodule "build/depot_tools"]
+	path = build/depot_tools
+	url = https://chromium.googlesource.com/chromium/tools/depot_tools.git
