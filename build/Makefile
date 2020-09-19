@@ -6,6 +6,7 @@ help:
 
 JOBS?=4
 LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5 Catch2 webrtc
+LIBS_GITHUB := $(filter-out webrtc, $(LIBS))
 
 MACMINVERSION="-mmacosx-version-min=10.9"
 MACCFGFLAGS=CFLAGS=$(MACMINVERSION) CPPFLAGS=$(MACMINVERSION)
@@ -44,6 +45,8 @@ depend-centos7:
 deb32: $(foreach lib,$(LIBS),$(lib)-deb32)
 
 deb64: $(foreach lib,$(LIBS),$(lib)-deb64)
+
+deb64-github: $(foreach lib,$(LIBS_GITHUB),$(lib)-deb64)
 
 raspi3: $(foreach lib,$(LIBS),$(lib)-raspi3)
 

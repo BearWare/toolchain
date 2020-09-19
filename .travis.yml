@@ -18,4 +18,4 @@ env:
 script:
     - cd build
     - make prepare-github
-    - make deb64
+    - make deb64-github
