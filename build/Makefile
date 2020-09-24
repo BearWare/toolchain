@@ -836,8 +836,8 @@ webrtc-clone:
 webrtc-deb64:
 	cd webrtc/src && git checkout branch-heads/4264
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync --with_branch_heads --with_tags && \
-	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false use_udev=false use_aura=false use_ozone=false rtc_use_x11=false rtc_use_x11_extensions=false' && \
-	ninja -v -C $(TTLIBS_ROOT)/webrtc agc agc2 ns aecm_core aec3 && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
+	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false use_udev=false use_aura=false use_ozone=false rtc_use_x11=false rtc_use_x11_extensions=false rtc_disable_logging=true rtc_exclude_field_trial_default=true' && \
+	ninja -v -C $(TTLIBS_ROOT)/webrtc agc agc2 ns aecm_core aec3 audio_processing && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
 	# TODO: add is_debug=false
 
 webrtc-clean:
