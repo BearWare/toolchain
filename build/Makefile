@@ -836,10 +836,12 @@ webrtc-clone:
 webrtc-deb64:
 	cd webrtc/src && git checkout branch-heads/4093
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync --with_branch_heads --with_tags && gclient sync -D && \
-	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false use_udev=false use_aura=false use_ozone=false rtc_use_x11=false rtc_use_x11_extensions=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_use_gtk=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false' && \
-	ninja -v -C $(TTLIBS_ROOT)/webrtc audio_processing && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
+	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false use_udev=false use_aura=false use_ozone=false rtc_use_x11=false rtc_use_x11_extensions=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_use_gtk=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="/dev/null"' && \
+	ninja -v -C $(TTLIBS_ROOT)/webrtc webrtc && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
 	# TODO: add is_debug=false
-	# List args: cd webrtc/src && gn args --list $TTLIBS_ROOT/webrtc
+
+webrtc-args:
+	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gn args --list $(TTLIBS_ROOT)/webrtc
 
 webrtc-clean:
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D && git clean -xdf .
