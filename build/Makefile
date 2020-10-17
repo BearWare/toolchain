@@ -836,7 +836,7 @@ webrtc-clone:
 webrtc-mac:
 	cd webrtc/src && git checkout branch-heads/4093
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync --with_branch_heads --with_tags && gclient sync -D && \
-	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false use_aura=false use_ozone=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="/dev/null" rtc_include_builtin_video_codecs=false' && \
+	gn gen $(TTLIBS_ROOT)/webrtc --args='treat_warnings_as_errors=false use_aura=false use_ozone=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="/dev/null" rtc_include_builtin_video_codecs=false is_debug=false' && \
 	ninja -v -C $(TTLIBS_ROOT)/webrtc audio_processing && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
 
 webrtc-deb64:
