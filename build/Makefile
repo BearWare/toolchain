@@ -12,16 +12,18 @@ MACMINVERSION="-mmacosx-version-min=10.9"
 MACCFGFLAGS=CFLAGS=$(MACMINVERSION) CPPFLAGS=$(MACMINVERSION)
 ARCHS=deb32 deb64 raspi3 mac win android-armeabi-v7a android-arm64 android-x86 ios-i386 ios-x64 ios-armv7 ios-arm64
 
-prepare: prepare-github
-	@echo "Cloning WebRTC"
-	$(MAKE) PATH=$(PWD)/depot_tools:$(PATH) webrtc-clone
-	@echo "Done..."
+prepare: prepare-github prepare-webrtc
 
 prepare-github:
 	git submodule update --init --recursive openssl MPC ACE gas-preprocessor FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib Catch2 depot_tools
 	@echo "Cloning Qt"
 	git submodule update --init qt5
 	@echo "Note that 'qt5' submodule is not cloned recursively to limit disk usage."
+
+prepare-webrtc:
+	@echo "Cloning WebRTC"
+	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone
+	@echo "Done..."
 
 clean: $(foreach lib,$(LIBS),$(lib)-clean)
 
@@ -831,6 +833,14 @@ depot-tools-deb64:
 
 webrtc-clone:
 	cd webrtc && fetch --nohooks webrtc && gclient sync --with_branch_heads --with_tags && git fetch
+
+webrtc-win:
+	# set PATH=%CD%;%PATH%;
+	# set DEPOT_TOOLS_WIN_TOOLCHAIN=0
+	# set vs2015_install=c:\Program Files (x86)\Microsoft Visual Studio 14.0
+	# set vs2019_install=c:\Program Files (x86)\Microsoft Visual Studio\2019\Community
+	# gn gen %TTLIBS_ROOT%\webrtc\debug --args="is_clang=false target_cpu=\"x86\" rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root=\"%TTLIBS_ROOT%\build\openssl\include\" is_debug=true"
+	# ninja -v -C %TTLIBS_ROOT%/webrtc/debug teamtalk
 
 webrtc-patch:
 	cd webrtc/src && git apply $(TTLIBS_ROOT)/build/webrtc/libteamtalk.patch
