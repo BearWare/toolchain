@@ -834,6 +834,9 @@ depot-tools-deb64:
 webrtc-clone:
 	cd webrtc && fetch --nohooks webrtc && gclient sync --with_branch_heads --with_tags && git fetch
 
+webrtc-clone-android:
+	cd webrtc && fetch --nohooks webrtc_android && gclient sync --with_branch_heads --with_tags && git fetch
+
 webrtc-win:
 	# set PATH=%CD%;%PATH%;
 	# set DEPOT_TOOLS_WIN_TOOLCHAIN=0
@@ -846,19 +849,29 @@ webrtc-win:
 	# ninja -v -C %TTLIBS_ROOT%/webrtc/debug teamtalk
 
 webrtc-patch:
-	cd webrtc/src && git apply $(TTLIBS_ROOT)/build/webrtc/libteamtalk.patch
+	cd webrtc/src && git checkout modules/audio_processing/BUILD.gn
+	cd webrtc/src && git apply ../libteamtalk.patch
+
+webrtc-android-armeabi-v7a:
+	cd webrtc/src && git checkout branch-heads/4093
+	$(MAKE) webrtc-patch
+	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync --with_branch_heads --with_tags && gclient sync -D && \
+	gn gen $(TTLIBS_ROOT)/webrtc --args='target_os="android" target_cpu="arm" is_component_build=false is_debug=false rtc_include_tests=false is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="$(TTLIBS_ROOT)/openssl/include" rtc_include_builtin_video_codecs=false' && \
+	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk
 
 webrtc-mac:
 	cd webrtc/src && git checkout branch-heads/4093
+	$(MAKE) webrtc-patch
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync --with_branch_heads --with_tags && gclient sync -D && \
 	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_aura=false use_ozone=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="$(TTLIBS_ROOT)/openssl/include" rtc_include_builtin_video_codecs=false is_debug=false clang_base_path="$(shell xcode-select -p)/Toolchains/XcodeDefault.xctoolchain/usr" use_custom_libcxx=false libcxx_is_shared=true' && \
 	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
 
 webrtc-deb64:
 	cd webrtc/src && git checkout branch-heads/4093
+	$(MAKE) webrtc-patch
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync --with_branch_heads --with_tags && gclient sync -D && \
 	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false use_udev=false use_aura=false use_ozone=false rtc_use_x11=false rtc_use_x11_extensions=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_use_gtk=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="/dev/null"' && \
-	ninja -v -C $(TTLIBS_ROOT)/webrtc webrtc && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
+	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
 	# TODO: add is_debug=false
 
 webrtc-args:
