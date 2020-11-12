@@ -15,15 +15,10 @@ ARCHS=deb32 deb64 raspi3 mac win android-armeabi-v7a android-arm64 android-x86 i
 prepare: prepare-github prepare-webrtc
 
 prepare-github:
-	git submodule update --init --recursive openssl MPC ACE gas-preprocessor FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib Catch2 depot_tools
+	git submodule update --init --recursive openssl MPC ACE gas-preprocessor FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib Catch2
 	@echo "Cloning Qt"
 	git submodule update --init qt5
 	@echo "Note that 'qt5' submodule is not cloned recursively to limit disk usage."
-
-prepare-webrtc:
-	@echo "Cloning WebRTC"
-	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone
-	@echo "Done..."
 
 clean: $(foreach lib,$(LIBS),$(lib)-clean)
 
@@ -828,25 +823,73 @@ qt5-clean:
 	cd qt5/qtmultimedia && git clean -xdf .
 	cd qt5/qtactiveqt && git clean -xdf .
 
-depot-tools-deb64:
-	echo "foo"
+prepare-webrtc:
+	git submodule update --init --recursive depot_tools
+	@echo "Cloning WebRTC"
+	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone
+	@echo "Done..."
+
+prepare-webrtc-android:
+	git submodule update --init --recursive depot_tools
+	@echo "Cloning WebRTC"
+	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone-android
+	@echo "Done..."
+
+prepare-webrtc-win:
+	@echo "1. Download depot_tools for Windows: https://storage.googleapis.com/chrome-infra/depot_tools.zip"
+	@echo "2. Extract depot_tools.zip in a directory, e.g. C:\\webrtc\\depot_tools".
+	@echo "3. Start a Visual Studio x86 Command Prompt"
+	@echo "4. Change to C:\\webrtc\\depot_tools"
+	@echo "5. Run: set DEPOT_TOOLS_WIN_TOOLCHAIN=0"
+	@echo "6. Run: fetch --nohooks webrtc"
+	@echo "7. Change to C:\\webrtc\\src"
+	@echo "8. Run: git checkout branch-heads/4093"
+	@echo "9. Run: gclient sync -D --with_branch_heads --with_tags"
+	@echo "10. In C:\\webrtc\\src apply patch $(PWD)/webrtc/libteamtalk.patch, i.e.: git apply libteamtalk.patch"
 
 webrtc-clone:
 	cd webrtc && fetch --nohooks webrtc && gclient sync --with_branch_heads --with_tags && git fetch
+
+webrtc-clone-android:
+	cd webrtc && fetch --nohooks webrtc_android && gclient sync --with_branch_heads --with_tags && git fetch
 
 webrtc-win:
 	# set PATH=%CD%;%PATH%;
 	# set DEPOT_TOOLS_WIN_TOOLCHAIN=0
 	# set vs2015_install=c:\Program Files (x86)\Microsoft Visual Studio 14.0
 	# set vs2019_install=c:\Program Files (x86)\Microsoft Visual Studio\2019\Community
-	# gn gen %TTLIBS_ROOT%\webrtc\debug --args="is_clang=false target_cpu=\"x86\" rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root=\"%TTLIBS_ROOT%\build\openssl\include\" is_debug=true"
+	# Debug build:
+	# gn gen %TTLIBS_ROOT%\webrtc\debug --args="is_clang=false target_cpu=\"x86\" rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root=\"%TTLIBS_ROOT%\build\openssl\include\" is_debug=true use_custom_libcxx=false enable_iterator_debugging=true"
+	# Release build:
+	# gn gen %TTLIBS_ROOT%\webrtc\release --args="is_clang=false target_cpu=\"x86\" rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root=\"%TTLIBS_ROOT%\build\openssl\include\" is_debug=false use_custom_libcxx=false"
 	# ninja -v -C %TTLIBS_ROOT%/webrtc/debug teamtalk
 
 webrtc-patch:
-	cd webrtc/src && git apply $(TTLIBS_ROOT)/build/webrtc/libteamtalk.patch
+	cd webrtc/src && git checkout modules/audio_processing/BUILD.gn
+	cd webrtc/src && git apply ../libteamtalk.patch
+
+webrtc-android:
+	cd webrtc/src && git checkout branch-heads/4093
+	$(MAKE) webrtc-patch
+	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D --with_branch_heads --with_tags && \
+	gn gen $(TTLIBS_ROOT)/webrtc --args='target_os="android" target_cpu="$(ARCH)" is_component_build=false is_debug=false rtc_include_tests=false is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="$(TTLIBS_ROOT)/openssl/include" rtc_include_builtin_video_codecs=false' && \
+	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk
+
+webrtc-android-armeabi-v7a:
+	$(MAKE) ARCH=arm webrtc-android
+
+webrtc-android-arm64:
+	$(MAKE) ARCH=arm64 webrtc-android
+
+webrtc-android-x86:
+	$(MAKE) ARCH=x86 webrtc-android
+
+webrtc-android-x64:
+	$(MAKE) ARCH=x64 webrtc-android
 
 webrtc-mac:
 	cd webrtc/src && git checkout branch-heads/4093
+	$(MAKE) webrtc-patch
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync --with_branch_heads --with_tags && gclient sync -D && \
 	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_aura=false use_ozone=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="$(TTLIBS_ROOT)/openssl/include" rtc_include_builtin_video_codecs=false is_debug=false clang_base_path="$(shell xcode-select -p)/Toolchains/XcodeDefault.xctoolchain/usr" use_custom_libcxx=false libcxx_is_shared=true' && \
 	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
@@ -855,9 +898,8 @@ webrtc-deb64:
 	cd webrtc/src && git checkout branch-heads/4093
 	$(MAKE) webrtc-patch
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync --with_branch_heads --with_tags && gclient sync -D && \
-	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false use_udev=false use_aura=false use_ozone=false rtc_use_x11=false rtc_use_x11_extensions=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_use_gtk=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="/dev/null"' && \
+	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false is_debug=false treat_warnings_as_errors=false use_custom_libcxx=false use_udev=false use_aura=false use_ozone=false rtc_use_x11=false rtc_use_x11_extensions=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_use_gtk=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="/dev/null"' && \
 	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
-	# TODO: add is_debug=false
 
 webrtc-args:
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gn args --list $(TTLIBS_ROOT)/webrtc
