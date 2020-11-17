@@ -6,7 +6,9 @@
 /arm64-v8a
 /armeabi-v7a
 /build/webrtc/.*
-/build/webrtc/src
+/build/webrtc/include
+/build/webrtc/debug
+/build/webrtc/release
 /ffmpeg
 /libvpx
 /ogg
