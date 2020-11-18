@@ -117,7 +117,7 @@ Run ```make deb64```.
 
 Download WebRTC by running the following command: ```make prepare-webrtc```.
 
-Build WebRTC by running the following command: ```make webrtc```.
+Build WebRTC by running the following command: ```make webrtc-deb64```.
 
 ## Building for CentOS 7
 
