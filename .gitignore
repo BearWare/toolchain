@@ -9,6 +9,7 @@
 /build/webrtc/include
 /build/webrtc/debug
 /build/webrtc/release
+/build/webrtc/src
 /ffmpeg
 /libvpx
 /ogg
