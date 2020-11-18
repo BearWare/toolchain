@@ -2,18 +2,26 @@
 
 [![Build Status](https://travis-ci.org/bear101/toolchain.svg?branch=master)](https://travis-ci.org/bear101/toolchain)
 
-3rd party libraries for [TeamTalk5](https://github.com/BearWare/TeamTalk5) are Git submodules in ```build```
-folder. To initialize the submodules go to ```$TOOLCHAIN_ROOT/build```
-and type ```make prepare```. Throughout this document
-```$TOOLCHAIN_ROOT``` is the root folder of the
-[toolchain](https://github.com/bear101/toolchain) Git
-repository. Typically the *toolchain*
-Git repository is initialized as a submodule of Git repository
+3rd party libraries for
+[TeamTalk5](https://github.com/BearWare/TeamTalk5) are Git submodules
+in ```build``` folder.
+
+Throughout this document ```$TOOLCHAIN_ROOT``` is the root folder of
+the [toolchain](https://github.com/bear101/toolchain) Git
+repository. Typically the *toolchain* Git repository is initialized as
+a submodule of Git repository
 [TeamTalk5](https://github.com/BearWare/TeamTalk5).
+
+To initialize the submodules in *toolchain* Git repository go to
+```$TOOLCHAIN_ROOT/build``` and type ```make prepare```.
 
 Note that submodule *qt5* is not initialized because it is very big and
 only needed on Windows. To initialize a single submodule type ```git
 submodule update --init ACE``` to e.g. initialize ACE framework.
+
+Also note that WebRTC is not initialized because it comes with it's
+own repository and tools. Quite a few manual steps are needed to setup
+and build WebRTC.
 
 When building TeamTalk's 3rd party libraries they **must** be built in the
 following order:
@@ -32,7 +40,8 @@ following order:
 12. speexdsp (Required by all platforms)
 13. tinyxml (Required by Linux, macOS, Windows)
 14. zlib (Required by Windows)
-15. qt5 (Required by Windows)
+15. WebRTC (Requested by all platforms)
+16. qt5 (Required by Windows)
 
 The following sections explain how to build for each of the supported
 platforms:
@@ -70,6 +79,13 @@ Now change to ```$TOOLCHAIN_ROOT/build```.
 
 Run ```make mac```.
 
+### Build WebRTC for macOS
+
+Download WebRTC by running the following command: ```make prepare-webrtc```.
+
+Build WebRTC by running the following command: ```make webrtc-mac```.
+
+
 ## Building for Ubuntu 18
 
 These are build instructions for Ubuntu 18 but should also work on
@@ -97,9 +113,17 @@ Now change to ```$TOOLCHAIN_ROOT/build```.
 
 Run ```make deb64```.
 
+### Build WebRTC for Ubuntu 18
+
+Download WebRTC by running the following command: ```make prepare-webrtc```.
+
+Build WebRTC by running the following command: ```make webrtc```.
+
 ## Building for CentOS 7
 
 These are build instructions for CentOS 7.
+
+Note that WebRTC is not supported on CentOS 7.
 
 ### Dependencies for Building CentOS 7 Libraries
 
@@ -128,6 +152,7 @@ First source ```toolchain.sh``` in
 Now change to ```$TOOLCHAIN_ROOT/build```.
 
 Run ```make openssl-deb64 mpc-deb64 ace-deb64 ffmpeg-deb64 ogg-deb64 opus-deb64 opus-tools-deb64 portaudio-deb64 speex-deb64 speexdsp-deb64 tinyxml-deb64 zlib-deb64```. Target ```deb64``` cannot be used because *libvpx* does not build on CentOS 7.
+
 
 ## Building for Android
 
@@ -177,6 +202,32 @@ For Android x86_64 architecture (useful for simulators) type:
 When building a new architecture make sure to run ```make clean``` to
 delete all intermediate files and configurations.
 
+### Build WebRTC for Android
+
+Download WebRTC by running the following command: ```make prepare-webrtc-android```.
+
+Like in the previous section start a new shell and source
+```toolchain.sh``` for every Android architecture.
+
+Now change to ```$TOOLCHAIN_ROOT/build```.
+
+For Android armeabi-v7a architecture type:
+
+```make webrtc-android-armeabi-v7a```
+
+For Android arm64 architecture type:
+
+```make webrtc-android-arm64```
+
+For Android x86 architecture (useful for simulators) type:
+
+```make webrtc-android-x86```
+
+For Android x86_64 architecture (useful for simulators) type:
+
+```make webrtc-android-x64```
+
+
 ## Building for Windows
 
 ### Dependencies for Building Windows Libraries
@@ -218,6 +269,15 @@ Run the following command make command for each library ```make
 LIBNAME-win``` where *LIBNAME* is the name of the library name. Follow
 the instruction output by the Makefile. This is cumbersome and error
 prone process. Sorry...
+
+### Build WebRTC for Windows
+
+Start a Visual Studio x86 Command Prompt and a Visual Studio x64
+Command Prompt. In both consoles change to
+```$TOOLCHAIN_ROOT/build/webrtc```.
+
+Run ```build_win.bat``` and follow the instructions.
+
 
 ## Building for iOS
 
