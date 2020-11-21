@@ -31,7 +31,7 @@ following order:
 3. ACE (Required by all platforms)
 4. gas-preprocessor (Required by iOS)
 5. ffmpeg (Required by Linux, macOS, Android)
-6. libvpx (Required by Linux, macOS, Windows, Android)
+6. libvpx (Required by all platforms)
 7. ogg (Required by Linux, macOS, Windows, Android)
 8. opus (Required by all platforms)
 9. opus-tools (Required by Linux, macOS, Windows, Android)
@@ -40,7 +40,7 @@ following order:
 12. speexdsp (Required by all platforms)
 13. tinyxml (Required by Linux, macOS, Windows)
 14. zlib (Required by Windows)
-15. WebRTC (Requested by all platforms)
+15. WebRTC (Required by Linux, macOS, Windows, Android)
 16. qt5 (Required by Windows)
 
 The following sections explain how to build for each of the supported
