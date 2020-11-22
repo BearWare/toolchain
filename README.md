@@ -1,7 +1,5 @@
 # Toolchain for TeamTalkLib
 
-[![Build Status](https://travis-ci.org/bear101/toolchain.svg?branch=master)](https://travis-ci.org/bear101/toolchain)
-
 3rd party libraries for
 [TeamTalk5](https://github.com/BearWare/TeamTalk5) are Git submodules
 in ```build``` folder.
