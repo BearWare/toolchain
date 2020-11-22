@@ -854,15 +854,7 @@ webrtc-clone-android:
 	cd webrtc && fetch --nohooks webrtc_android && gclient sync --with_branch_heads --with_tags && git fetch
 
 webrtc-win:
-	# set PATH=%CD%;%PATH%;
-	# set DEPOT_TOOLS_WIN_TOOLCHAIN=0
-	# set vs2015_install=c:\Program Files (x86)\Microsoft Visual Studio 14.0
-	# set vs2019_install=c:\Program Files (x86)\Microsoft Visual Studio\2019\Community
-	# Debug build:
-	# gn gen %TTLIBS_ROOT%\webrtc\debug --args="is_clang=false target_cpu=\"x86\" rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root=\"%TTLIBS_ROOT%\build\openssl\include\" is_debug=true use_custom_libcxx=false enable_iterator_debugging=true"
-	# Release build:
-	# gn gen %TTLIBS_ROOT%\webrtc\release --args="is_clang=false target_cpu=\"x86\" rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root=\"%TTLIBS_ROOT%\build\openssl\include\" is_debug=false use_custom_libcxx=false"
-	# ninja -v -C %TTLIBS_ROOT%/webrtc/debug teamtalk
+	@echo "Run webrtc/build_win.bat from Visual Studio Command Prompt"
 
 webrtc-patch:
 	cd webrtc/src && git checkout modules/audio_processing/BUILD.gn
