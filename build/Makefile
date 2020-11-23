@@ -13,6 +13,7 @@ MACCFGFLAGS=CFLAGS=$(MACMINVERSION) CPPFLAGS=$(MACMINVERSION)
 ARCHS=deb32 deb64 raspi3 mac win android-armeabi-v7a android-arm64 android-x86 ios-i386 ios-x64 ios-armv7 ios-arm64
 
 prepare: prepare-github prepare-webrtc
+	git submodule foreach git fetch -t -p
 
 prepare-github:
 	git submodule update --init --recursive openssl MPC ACE gas-preprocessor FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib Catch2
@@ -30,10 +31,10 @@ uninstall:
 uninstall-all: $(foreach lib,$(LIBS),$(lib)-uninstall)
 
 depend-debian9:
-	apt install cmake g++ libssl-dev yasm automake libtool pkg-config libasound2-dev
+	apt install cmake g++ libssl-dev yasm autoconf libtool pkg-config libasound2-dev
 
 depend-ubuntu18:
-	apt install cmake g++ libssl-dev yasm automake libtool pkg-config libasound2-dev
+	apt install cmake g++ libssl-dev yasm autoconf libtool pkg-config libasound2-dev wget python2.7-minimal
 
 depend-centos7:
 	yum install epel-release # get cmake3
@@ -840,18 +841,6 @@ prepare-webrtc-ios:
 	@echo "Cloning WebRTC"
 	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone-ios
 	@echo "Done..."
-
-prepare-webrtc-win:
-	@echo "1. Download depot_tools for Windows: https://storage.googleapis.com/chrome-infra/depot_tools.zip"
-	@echo "2. Extract depot_tools.zip in a directory, e.g. C:\\webrtc\\depot_tools".
-	@echo "3. Start a Visual Studio x86 Command Prompt"
-	@echo "4. Change to C:\\webrtc\\depot_tools"
-	@echo "5. Run: set DEPOT_TOOLS_WIN_TOOLCHAIN=0"
-	@echo "6. Run: fetch --nohooks webrtc"
-	@echo "7. Change to C:\\webrtc\\src"
-	@echo "8. Run: git checkout branch-heads/4093"
-	@echo "9. Run: gclient sync -D --with_branch_heads --with_tags"
-	@echo "10. In C:\\webrtc\\src apply patch $(PWD)/webrtc/libteamtalk.patch, i.e.: git apply libteamtalk.patch"
 
 webrtc-clone:
 	cd webrtc && fetch --nohooks webrtc && gclient sync --with_branch_heads --with_tags && git fetch
