@@ -5,15 +5,14 @@ help:
 	@echo "	LIBNAME-ARCH-uninstall"
 
 JOBS?=4
-LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5 Catch2 webrtc
+LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5 Catch2
 LIBS_GITHUB := $(filter-out webrtc, $(LIBS))
 
 MACMINVERSION="-mmacosx-version-min=10.9"
 MACCFGFLAGS=CFLAGS=$(MACMINVERSION) CPPFLAGS=$(MACMINVERSION)
 ARCHS=deb32 deb64 raspi3 mac win android-armeabi-v7a android-arm64 android-x86 ios-i386 ios-x64 ios-armv7 ios-arm64
 
-prepare: prepare-github prepare-webrtc
-	git submodule foreach git fetch -t -p
+prepare: prepare-github
 
 prepare-github:
 	git submodule update --init --recursive openssl MPC ACE gas-preprocessor FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib Catch2
