@@ -835,18 +835,6 @@ prepare-webrtc-android:
 	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone-android
 	@echo "Done..."
 
-prepare-webrtc-win:
-	@echo "1. Download depot_tools for Windows: https://storage.googleapis.com/chrome-infra/depot_tools.zip"
-	@echo "2. Extract depot_tools.zip in a directory, e.g. C:\\webrtc\\depot_tools".
-	@echo "3. Start a Visual Studio x86 Command Prompt"
-	@echo "4. Change to C:\\webrtc\\depot_tools"
-	@echo "5. Run: set DEPOT_TOOLS_WIN_TOOLCHAIN=0"
-	@echo "6. Run: fetch --nohooks webrtc"
-	@echo "7. Change to C:\\webrtc\\src"
-	@echo "8. Run: git checkout branch-heads/4093"
-	@echo "9. Run: gclient sync -D --with_branch_heads --with_tags"
-	@echo "10. In C:\\webrtc\\src apply patch $(PWD)/webrtc/libteamtalk.patch, i.e.: git apply libteamtalk.patch"
-
 webrtc-clone:
 	cd webrtc && fetch --nohooks webrtc && gclient sync --with_branch_heads --with_tags && git fetch
 
