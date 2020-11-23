@@ -84,12 +84,12 @@ Download WebRTC by running the following command: ```make prepare-webrtc```.
 Build WebRTC by running the following command: ```make webrtc-mac```.
 
 
-## Building for Ubuntu 18
+## Building for Ubuntu 18.04
 
-These are build instructions for Ubuntu 18 but should also work on
+These are build instructions for Ubuntu 18.04 but should also work on
 Ubuntu 16 and Debian 9.
 
-### Dependencies for Building Ubuntu 18 Libraries
+### Dependencies for Building Ubuntu 18.04 Libraries
 
 Run the following command to install required packages:
 
@@ -103,10 +103,10 @@ Run the following command to install required packages:
   * Required by *SpeexDSP*
 * ```sudo apt install autoconf libtool```
   * Required by *ogg*
-* ```sudo apt-get install wget```
+* ```sudo apt-get install wget python2.7-minimal```
   * Required by *WebRTC*
 
-### Build 3rd Party Libraries for Ubuntu 18
+### Build 3rd Party Libraries for Ubuntu 18.04
 
 First source ```toolchain.sh``` in
 ```$TOOLCHAIN_ROOT```. Select Linux as platform.
@@ -115,7 +115,7 @@ Now change to ```$TOOLCHAIN_ROOT/build```.
 
 Run ```make deb64```.
 
-### Build WebRTC for Ubuntu 18
+### Build WebRTC for Ubuntu 18.04
 
 Download WebRTC by running the following command: ```make prepare-webrtc```.
 
@@ -174,7 +174,7 @@ On Ubuntu 18.04 install the following tools:
   * ```sudo apt-get install autoconf libtool```
 
 * For WebRTC install dependencies
-  * ```sudo apt-get install wget```
+  * ```sudo apt-get install wget python2.7-minimal```
 
 ### Build 3rd Party Libraries for Android
 
