@@ -66,7 +66,7 @@ Install *MacPorts* or *Homebrew* and install the following packages:
 * pkg-config
   * Required by *ffmpeg*
 * yasm
-  * Required by *libvpx*
+  * Required by *libvpx*, *ffmpeg*
 
 ### Build 3rd Party Libraries for macOS
 
@@ -93,6 +93,8 @@ Ubuntu 16 and Debian 9.
 
 Run the following command to install required packages:
 
+* ```sudo apt install libssl-dev```
+  * Required by *ACE*, *ffmpeg*
 * ```sudo apt install libasound2-dev```
   * Required by *portaudio*
 * ```sudo apt install yasm```
@@ -156,11 +158,11 @@ Run ```make openssl-deb64 mpc-deb64 ace-deb64 ffmpeg-deb64 ogg-deb64 opus-deb64 
 
 ### Dependencies for Building Android Libraries
 
-For Ubuntu 18.10 download *Android NDK r21*,
+For Ubuntu 18.04 download *Android NDK r21*,
 **android-ndk-r21-linux-x86_64.zip**, and unpack it in
 ```$TOOLCHAIN_ROOT```.
 
-On Ubuntu 18.10 install the following tools:
+On Ubuntu 18.04 install the following tools:
 
 * For OpenSSL install dependencies
   * ```sudo apt-get install libncurses5-dev libncursesw5-dev```
@@ -168,9 +170,6 @@ On Ubuntu 18.10 install the following tools:
 
 * For Speex, SpeexDSP, OPUS and OPUS tools install dependencies
   * ```sudo apt-get install autoconf libtool```
-
-* For WebRTC install dependencies
-  * ```sudo apt-get install wget```
 
 ### Build 3rd Party Libraries for Android
 
