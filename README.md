@@ -103,8 +103,8 @@ Run the following command to install required packages:
   * Required by *SpeexDSP*
 * ```sudo apt install autoconf libtool```
   * Required by *ogg*
-* ```sudo apt-get install wget python2.7-minimal```
-  * Required by *WebRTC*
+* ```sudo apt-get install wget python```
+  * Required by *WebRTC*. Notice "python" is v2.7.
 
 ### Build 3rd Party Libraries for Ubuntu 18.04
 
@@ -174,7 +174,8 @@ On Ubuntu 18.04 install the following tools:
   * ```sudo apt-get install autoconf libtool```
 
 * For WebRTC install dependencies
-  * ```sudo apt-get install wget python2.7-minimal```
+  * ```sudo apt-get install wget python```
+  * Notice "python" is v2.7 in Ubuntu 18.04.
 
 ### Build 3rd Party Libraries for Android
 
