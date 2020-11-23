@@ -171,6 +171,9 @@ On Ubuntu 18.04 install the following tools:
 * For Speex, SpeexDSP, OPUS and OPUS tools install dependencies
   * ```sudo apt-get install autoconf libtool```
 
+* For WebRTC install dependencies
+  * ```sudo apt-get install wget```
+
 ### Build 3rd Party Libraries for Android
 
 First source ```toolchain.sh``` in ```$TOOLCHAIN_ROOT```. Select
