@@ -13,6 +13,7 @@ MACCFGFLAGS=CFLAGS=$(MACMINVERSION) CPPFLAGS=$(MACMINVERSION)
 ARCHS=deb32 deb64 raspi3 mac win android-armeabi-v7a android-arm64 android-x86 ios-i386 ios-x64 ios-armv7 ios-arm64
 
 prepare: prepare-github prepare-webrtc
+	git submodule foreach git fetch -t -p
 
 prepare-github:
 	git submodule update --init --recursive openssl MPC ACE gas-preprocessor FFmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib Catch2
@@ -30,10 +31,10 @@ uninstall:
 uninstall-all: $(foreach lib,$(LIBS),$(lib)-uninstall)
 
 depend-debian9:
-	apt install cmake g++ libssl-dev yasm automake libtool pkg-config libasound2-dev
+	apt install cmake g++ libssl-dev yasm autoconf libtool pkg-config libasound2-dev
 
 depend-ubuntu18:
-	apt install cmake g++ libssl-dev yasm automake libtool pkg-config libasound2-dev
+	apt install cmake g++ libssl-dev yasm autoconf libtool pkg-config libasound2-dev wget python2.7-minimal
 
 depend-centos7:
 	yum install epel-release # get cmake3
