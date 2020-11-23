@@ -103,6 +103,8 @@ Run the following command to install required packages:
   * Required by *SpeexDSP*
 * ```sudo apt install autoconf libtool```
   * Required by *ogg*
+* ```sudo apt-get install wget```
+  * Required by *WebRTC*
 
 ### Build 3rd Party Libraries for Ubuntu 18
 
