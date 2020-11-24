@@ -213,7 +213,7 @@ ace-mac:
 	$(MAKE) BRANCH=bdr/mac64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-win:
-	cd ACE && git checkout bdr/win
+	cd ACE && git checkout bdr/win_vs2015
 	$(MAKE) mpc-win
 	@echo "--------------------------------------------------"
 	@echo "Now run ACE/ACE/build.bat from 'VS2015 x86 Native Tools Command Prompt'."
