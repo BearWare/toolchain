@@ -116,9 +116,9 @@ openssl-ios-x64:
 openssl-win:
 	cd openssl && git checkout bdr/win
 	@echo "--------------------------------------------------"
-	@echo "First install ActivePerl and place it in PATH"
-	@echo "To build open 'VS2015 x86 Native Tools Command Prompt' and run openssl/build_win32.bat'"
-	@echo "or 'VS2015 x64 Native Tools Command Prompt' and run openssl/build_x64.bat'"
+	@echo "First install ActivePerl and place it in PATH."
+	@echo "To build open 'VS2015 x86 Native Tools Command Prompt' and run build_win32.bat'"
+	@echo "or 'VS2015 x64 Native Tools Command Prompt' and run build_x64.bat in openssl directory.'"
 
 mpc-clean:
 	@echo "Nothing to do"
