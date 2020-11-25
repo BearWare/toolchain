@@ -481,8 +481,8 @@ opus-win:
 	cd opus && git checkout bdr/win_vs2019
 	@echo "------------------------------------------------------------"
 	@echo "Now open CMake (www.cmake.org)"
-	@echo "Generate project for "Visual Studio 16 2019" Platform=Win32 in $(PWD)/ogg/build_win32"
-	@echo "and 'Visual Studio 16 2019' Platform=x64 in $(PWD)/ogg/build_win64."
+	@echo "Generate project for "Visual Studio 16 2019" Platform=Win32 in $(PWD)/opus/build_win32"
+	@echo "and 'Visual Studio 16 2019' Platform=x64 in $(PWD)/opus/build_win64."
 	@echo "Build project 'opus' in Debug/Release configuration either for Win32 or x64."
 
 opus-tools-clean:
@@ -538,12 +538,11 @@ portaudio-mac:
 	$(MAKE) BRANCH=1bdcb9e CFGFLAGS="$(MACCFGFLAGS) --disable-mac-universal" portaudio-build
 
 portaudio-win:
-	cd portaudio && git checkout bdr/win32
+	cd portaudio && git checkout bdr/win_vs2019
 	@echo "--------------------------------------------------"
-	@echo "Now open CMake and put empty string in DXSDK_DSOUND_LIBRARY"
-	@echo "and '.' in remaining DXSDK_* paths (DirectX is included with Visual Studio 2015)."
-	@echo "Generate project for Win32 (default) and 'Visual Studio 2015 - Win64'."
-	@echo "Build project 'portaudio_static' in Debug/Release configuration either for Win32 or x64."
+	@echo "Now open CMake (www.cmake.org)"
+	@echo "Generate project for "Visual Studio 16 2019" Platform=Win32 in $(PWD)/portaudio/build_win32"
+	@echo "and 'Visual Studio 16 2019' Platform=x64 in $(PWD)/portaudio/build_win64."
 
 portaudio-android-armeabi-v7a:
 portaudio-android-arm64:
