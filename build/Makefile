@@ -358,15 +358,15 @@ libvpx-ios-x64:
 	$(MAKE) BRANCH=v1.8.1 CFGFLAGS="--target=x86_64-iphonesimulator-gcc --disable-examples" libvpx-ios-build
 
 libvpx-win:
-	cd libvpx && git checkout v1.6.1
+	cd libvpx && git checkout v1.9.0
 	cd libvpx && mkdir -p build_win32
 	@echo "--------------------------------------------------"
 	@echo "Configuring Win32 build...  (Win64 will be configured afterwards)"
-	cd libvpx/build_win32 && ../configure --target=x86-win32-vs14 --disable-examples --disable-docs --enable-static-msvcrt
+	cd libvpx/build_win32 && ../configure --target=x86-win32-vs16 --disable-examples --disable-docs --enable-static-msvcrt
 	cd libvpx && mkdir -p build_win64
 	@echo "--------------------------------------------------"
 	@echo "Configuring Win64 build..."
-	cd libvpx/build_win64 && ../configure --target=x86_64-win64-vs14 --disable-examples --disable-docs --enable-static-msvcrt
+	cd libvpx/build_win64 && ../configure --target=x86_64-win64-vs16 --disable-examples --disable-docs --enable-static-msvcrt
 	@echo "--------------------------------------------------"
 	@echo "Copy yasm.exe for 32-bit to build_win32"
 	@echo "Copy yasm.exe for 64-bit to build_win64"
