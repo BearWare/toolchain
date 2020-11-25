@@ -416,11 +416,12 @@ ogg-android-x64:
 	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--with-pic --host=x86_64-linux-android --disable-shared CC='clang --target=x86_64-linux-android21'" ogg-build-android
 
 ogg-win:
-	cd ogg && git checkout bdr/win
+	cd ogg && git checkout bdr/win_vs2019
 	@echo "--------------------------------------------------"
-	@echo "Now open ogg\win32\VS2015\libogg_static.sln and build"
-	@echo "project 'libogg_static' in Debug/Release configuration"
-	@echo "either for Win32 or x64"
+	@echo "Now open CMake (www.cmake.org)"
+	@echo "Generate project for "Visual Studio 16 2019" Platform=Win32 in $(PWD)/ogg/build_win32"
+	@echo "and 'Visual Studio 16 2019' Platform=x64 in $(PWD)/ogg/build_win64."
+	@echo "Build project 'ogg' in Debug/Release configuration either for Win32 or x64."
 
 ogg-ios-armv7:
 	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin" ogg-build
