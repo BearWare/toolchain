@@ -680,7 +680,7 @@ tinyxml-raspi3: tinyxml-deb32
 tinyxml-win:
 	cd tinyxml && git checkout bdr/win32
 	@echo "--------------------------------------------------"
-	@echo "Now open tinyxml.vcxproj and build"
+	@echo "Now open VS2019 and open tinyxml.vcxproj and build"
 	@echo "in Debug/Release configuration either for Win32 or x64."
 
 tinyxml-android-armeabi-v7a:
@@ -719,7 +719,7 @@ zlib-raspi3:
 zlib-win:
 	cd zlib && git checkout bdr/win32
 	@echo "--------------------------------------------------"
-	@echo "Now open contrib\vstudio\vc14\zlibstat.vcxproj and build 'zlibstat'"
+	@echo "Now VS2019 and open contrib\vstudio\vc14\zlibstat.vcxproj and build 'zlibstat'"
 	@echo "in Debug/ReleaseWithoutASM configuration either for Win32 or x64."
 
 zlib-android-armeabi-v7a:
