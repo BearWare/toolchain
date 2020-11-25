@@ -478,10 +478,12 @@ opus-mac:
 	$(MAKE) CFGFLAGS=$(MACCFGFLAGS) opus-build
 
 opus-win:
-	cd opus && git checkout bdr/win
+	cd opus && git checkout bdr/win_vs2019
 	@echo "------------------------------------------------------------"
-	@echo "Now open opus\win32\VS2015\opus.sln and build project 'opus'"
-	@echo "in Debug/Release configuration either for Win32 or x64."
+	@echo "Now open CMake (www.cmake.org)"
+	@echo "Generate project for "Visual Studio 16 2019" Platform=Win32 in $(PWD)/ogg/build_win32"
+	@echo "and 'Visual Studio 16 2019' Platform=x64 in $(PWD)/ogg/build_win64."
+	@echo "Build project 'opus' in Debug/Release configuration either for Win32 or x64."
 
 opus-tools-clean:
 	true
