@@ -601,9 +601,9 @@ speex-ios-i386: speex-ios-simulator
 speex-ios-x64: speex-ios-simulator
 
 speex-win:
-	cd speex && git checkout bdr/win
+	cd speex && git checkout bdr/win_vs2019
 	@echo "--------------------------------------------------"
-	@echo "Now open VS2015 and open win32\VS2015\libspeex\libspeex.vcxproj"
+	@echo "Now open VS2019 and open win32\VS2015\libspeex\libspeex.vcxproj"
 	@echo "Build project 'libspeex' in Debug/Release_SSE2 configuration either for Win32 or x64."
 
 speexdsp-clean:
@@ -630,9 +630,9 @@ speexdsp-raspi3:
 	$(MAKE) CFGFLAGS=--enable-fixed-point speexdsp-build
 
 speexdsp-win:
-	cd speexdsp && git checkout bdr/win
+	cd speexdsp && git checkout bdr/win_vs2019
 	@echo "--------------------------------------------------"
-	@echo "Now open VS2015 and open speexdsp\win32\VS2015\libspeexdsp.sln."
+	@echo "Now open VS2019 and open speexdsp\win32\VS2015\libspeexdsp.sln."
 	@echo "Build project 'libspeexdsp' in Debug/Release_Static_SSE configuration either for Win32 or x64."
 
 
