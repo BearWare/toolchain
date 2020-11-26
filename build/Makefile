@@ -213,10 +213,10 @@ ace-mac:
 	$(MAKE) BRANCH=bdr/mac64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-win:
-	cd ACE && git checkout bdr/win_vs2015
+	cd ACE && git checkout bdr/win_vs2019
 	$(MAKE) mpc-win
 	@echo "--------------------------------------------------"
-	@echo "Now run ACE/ACE/build.bat from 'VS2015 x86 Native Tools Command Prompt'."
+	@echo "Now run ACE/ACE/build.bat from 'VS2019 x86 Native Tools Command Prompt'."
 	@echo "Ignore the WARNING messages from MPC."
 	@echo ""
 	@echo "Don't press continue until the above step has been performed."
