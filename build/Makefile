@@ -49,7 +49,7 @@ raspi3: $(foreach lib,$(LIBS),$(lib)-raspi3)
 
 mac: $(foreach lib,$(LIBS),$(lib)-mac)
 
-win: $(foreach lib,$(LIBS),$(lib)-mac)
+win: $(foreach lib,$(LIBS),$(lib)-win)
 
 android-armeabi-v7a: $(foreach lib,$(LIBS),$(lib)-android-armeabi-v7a)
 
