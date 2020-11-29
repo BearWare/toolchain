@@ -29,6 +29,25 @@ cmake --version
 msbuild /version
 @if not %ERRORLEVEL% == 0 GOTO nomsbuild
 
+echo.
+echo Choose what to build. Default is All minus Qt
+@set BUILDSEL=single
+@choice /C:da0123456789b /M "D:Default; A:All; 0:OpenSSL; 1:ACE; 2:libvpx; 3:ogg; 4:Opus; 5:PortAudio; 6:Speex; 7:SpeexDSP; 8:TinyXML; 9:ZLib; B:Qt;"
+@if %ERRORLEVEL% == 1 set BUILDSEL=default
+@if %ERRORLEVEL% == 2 set BUILDSEL=all
+@if %ERRORLEVEL% == 3 goto openssl
+@if %ERRORLEVEL% == 4 goto ace
+@if %ERRORLEVEL% == 5 goto libvpx
+@if %ERRORLEVEL% == 6 goto ogg
+@if %ERRORLEVEL% == 7 goto opus
+@if %ERRORLEVEL% == 8 goto portaudio
+@if %ERRORLEVEL% == 9 goto speex
+@if %ERRORLEVEL% == 10 goto speexdsp
+@if %ERRORLEVEL% == 11 goto tinyxml
+@if %ERRORLEVEL% == 12 goto zlib
+@if %ERRORLEVEL% == 13 goto qt
+
+
 :openssl
 @echo --------------------------------------------------
 @echo ----------- Building OpenSSL ---------------------
@@ -36,6 +55,8 @@ msbuild /version
 cd openssl
 call build_%ARCH%.bat
 @if not %ERRORLEVEL% == 0 GOTO buildfail
+
+@if %BUILDSEL% == single goto done
 
 :ace
 @echo --------------------------------------------------
@@ -61,6 +82,8 @@ msbuild %MSBUILD_PLATFORM% protocols\protocols.sln -target:INet /property:Config
 msbuild %MSBUILD_PLATFORM% protocols\protocols.sln -target:INet_SSL /property:Configuration=Release /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 
+@if %BUILDSEL% == single goto done
+
 :libvpx
 @echo --------------------------------------------------
 @echo ------------ Building libvpx ---------------------
@@ -72,6 +95,8 @@ msbuild %MSBUILD_PLATFORM% vpx.sln -target:vpx /property:Configuration=Debug /m:
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 msbuild %MSBUILD_PLATFORM% vpx.sln -target:vpx /property:Configuration=Release /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
+
+@if %BUILDSEL% == single goto done
 
 :ogg
 @echo --------------------------------------------------
@@ -85,6 +110,8 @@ msbuild %MSBUILD_PLATFORM% libogg.sln -target:ogg /property:Configuration=Debug 
 msbuild %MSBUILD_PLATFORM% libogg.sln -target:ogg /property:Configuration=Release /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 
+@if %BUILDSEL% == single goto done
+
 :opus
 @echo --------------------------------------------------
 @echo ------------ Building opus -----------------------
@@ -96,6 +123,8 @@ msbuild %MSBUILD_PLATFORM% opus.sln -target:opus /property:Configuration=Debug /
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 msbuild %MSBUILD_PLATFORM% opus.sln -target:opus /property:Configuration=Release /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
+
+@if %BUILDSEL% == single goto done
 
 :portaudio
 @echo --------------------------------------------------
@@ -109,6 +138,8 @@ msbuild %MSBUILD_PLATFORM% portaudio.sln -target:Portaudio\portaudio_static /pro
 msbuild %MSBUILD_PLATFORM% portaudio.sln -target:Portaudio\portaudio_static /property:Configuration=Release /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 
+@if %BUILDSEL% == single goto done
+
 :speex
 @echo --------------------------------------------------
 @echo ---------------- Building speex ------------------
@@ -118,6 +149,8 @@ msbuild %MSBUILD_PLATFORM% win32\VS2015\libspeex\libspeex.sln -target:libspeex /
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 msbuild %MSBUILD_PLATFORM% win32\VS2015\libspeex\libspeex.sln -target:libspeex /property:Configuration=Release_SSE2 /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
+
+@if %BUILDSEL% == single goto done
 
 :speexdsp
 @echo --------------------------------------------------
@@ -129,6 +162,8 @@ msbuild %MSBUILD_PLATFORM% win32\VS2015\libspeexdsp.sln -target:libspeexdsp /pro
 msbuild %MSBUILD_PLATFORM% win32\VS2015\libspeexdsp.sln -target:libspeexdsp /property:Configuration=Release_SSE /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 
+@if %BUILDSEL% == single goto done
+
 :tinyxml
 @echo --------------------------------------------------
 @echo -------------- Building tinyxml ------------------
@@ -138,6 +173,8 @@ msbuild %MSBUILD_PLATFORM% tinyxml.sln -target:tinyxml /property:Configuration=D
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 msbuild %MSBUILD_PLATFORM% tinyxml.sln -target:tinyxml /property:Configuration=Release /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
+
+@if %BUILDSEL% == single goto done
 
 :zlib
 @echo --------------------------------------------------
@@ -149,7 +186,8 @@ msbuild %MSBUILD_PLATFORM% contrib\vstudio\vc14\zlibvc.sln -target:zlibstat /pro
 msbuild %MSBUILD_PLATFORM% contrib\vstudio\vc14\zlibvc.sln -target:zlibstat /property:Configuration=ReleaseWithoutASM /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 
-goto done
+@if %BUILDSEL% == single goto done
+@if %BUILDSEL% == default goto done
 
 :qt5
 @echo --------------------------------------------------
@@ -164,31 +202,31 @@ nmake
 nmake install
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 
-goto done
+@goto done
 
 :noperl
 @echo Perl.exe is not in PATH
-goto quit
+@goto quit
 
 :nocmake
 @echo CMake.exe is not in PATH
-goto quit
+@goto quit
 
 :nomsbuild
 @echo msbuild.exe is not in PATH
-goto quit
+@goto quit
 
 :noyasm
 @echo Yasm.exe not found in libvpx\build_%ARCH%
-goto quit
+@goto quit
 
 :buildfail
 @echo Build Failed
-goto quit
+@goto quit
 
 :done
 @echo Build completed
-goto quit
+@goto quit
 
 :quit
 @echo Exiting...
