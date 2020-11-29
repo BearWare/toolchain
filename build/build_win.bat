@@ -11,15 +11,17 @@ GOTO buildfail
 
 :win32
 @set ARCH=win32
+@set GENARCH=win32
 goto archdone
 
 :win64
 @set ARCH=win64
+@set GENARCH=x64
 goto archdone
 
 :archdone
-@set MSBUILD_PLATFORM=/property:PlatformToolset=v142 /p:Platform=%ARCH%
-@set VSGENERATE=-G "Visual Studio 16 2019" -A %ARCH%
+@set MSBUILD_PLATFORM=/property:PlatformToolset=v142 /p:Platform=%GENARCH%
+@set VSGENERATE=-G "Visual Studio 16 2019" -A %GENARCH%
 
 :depend
 perl -v
