@@ -281,7 +281,7 @@ ffmpeg-mac:
 	--enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl && $(MAKE) -j$(JOBS) install
 
 ffmpeg-win:
-	
+
 libvpx-clean:
 	cd libvpx && git clean -xdf .
 
@@ -349,6 +349,8 @@ libvpx-win:
 	cd libvpx/build_win64 && ../configure --target=x86_64-win64-vs16 --disable-examples --disable-docs --enable-static-msvcrt
 	cd libvpx/build_win32 && make
 	cd libvpx/build_win64 && make
+	cd libvpx/build_win32 && sed -i -e "s/<OutDir>.*/<OutDir>..\\\lib\\\\\$$(PlatformName)<\/OutDir>/" vpx.vcxproj
+	cd libvpx/build_win64 && sed -i -e "s/<OutDir>.*/<OutDir>..\\\lib\\\\\$$(PlatformName)<\/OutDir>/" vpx.vcxproj
 	@echo "Copy yasm.exe for 32-bit to build_win32"
 	@echo "Copy yasm.exe for 64-bit to build_win64"
 
