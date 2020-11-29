@@ -45,7 +45,7 @@ The following sections explain how to build for each of the supported
 platforms:
 
 * [Building for macOS](#building-for-macos)
-* [Building for Ubuntu 18](#building-for-ubuntu-18)
+* [Building for Ubuntu 18.04](#building-for-ubuntu-1804)
 * [Building for CentOS 7](#building-for-centos-7)
 * [Building for Android](#building-for-android)
 * [Building for Windows](#building-for-windows)
@@ -103,8 +103,8 @@ Run the following command to install required packages:
   * Required by *SpeexDSP*
 * ```sudo apt install autoconf libtool```
   * Required by *ogg*
-* ```sudo apt-get install wget python2.7-minimal```
-  * Required by *WebRTC*
+* ```sudo apt-get install wget python```
+  * Required by *WebRTC*. Notice "python" is v2.7.
 
 ### Build 3rd Party Libraries for Ubuntu 18.04
 
@@ -174,7 +174,8 @@ On Ubuntu 18.04 install the following tools:
   * ```sudo apt-get install autoconf libtool```
 
 * For WebRTC install dependencies
-  * ```sudo apt-get install wget python2.7-minimal```
+  * ```sudo apt-get install wget python```
+  * Notice "python" is v2.7 in Ubuntu 18.04.
 
 ### Build 3rd Party Libraries for Android
 
@@ -237,43 +238,43 @@ For Android x86_64 architecture (useful for simulators) type:
 
 ### Dependencies for Building Windows Libraries
 
-Install *Microsoft Visual Studio Community 2015*.
+Install *Microsoft Visual Studio Community 2019*.
 
 Install *ActivePerl* and place ```perl.exe``` in %PATH%.
-
 * Required by *ACE*, *MPC* and *OpenSSL*
+
+Install *yasm* from http://yasm.tortall.net/
+* Required by *libvpx*
+
+Install *CMake* from https://cmake.org and place ```cmake.exe``` in %PATH%
+* Required by *PortAudio* and *OPUS*
 
 Install *cygwin* with ```make``` and ```git``` packages.
 
-Install *yasm* from http://yasm.tortall.net/
-
-* Required by *libvpx*
-
-Install *CMake* from https://cmake.org/
-
-* Required by *PortAudio*
-
 ### Build 3rd Party Libraries for Windows
 
-Building on Windows is quite a challenge and cannot be done
-automatically. The location of header and libraries is quite different
-from Unix-like systems, since Visual Studio is mostly to build the
-binaries. Basically there's no ```make install```-type installation.
-
-The 3rd party libraries must be installed in the order described in
-[first section](#toolchain-for-teamtalklib).
+Building on Windows is quite different from the other supported platforms.
+Basically there no ```make install```-type installation on Windows, so
+headers and libraries are located in the original source build directories.
 
 Start a cygwin shell and source ```toolchain.sh``` in
 ```$TOOLCHAIN_ROOT```. Choose either Win32 or Win64 as
-architecture. Each architecture **must** use a separate repository
-checkout.
+architecture.
 
 Now change to ```$TOOLCHAIN_ROOT/build```.
 
-Run the following command make command for each library ```make
-LIBNAME-win``` where *LIBNAME* is the name of the library name. Follow
-the instruction output by the Makefile. This is cumbersome and error
-prone process. Sorry...
+Run the following command make command ```make win```.
+
+Copy ```yasm.exe``` for x86 to ```$TOOLCHAIN_ROOT/build/libvpx/build_win32```
+and ```yasm.exe``` for x64 to ```$TOOLCHAIN_ROOT/build/libvpx/build_win64```.
+
+Now start either a "Visual Studio 2019 Command Prompt" for Win32 or
+"Visual Studio 2019 Command Prompt" for x64 depending on the architecture
+chosen in the cygwin shell.
+
+In the "Visual Studio 2019 Command Prompt" change to same directyr as
+```$TOOLCHAIN_ROOT/build``` and run ```build_win.bat```. Follow the
+instructions on what to build. 'Default' build process is recommended.
 
 ### Build WebRTC for Windows
 
