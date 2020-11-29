@@ -149,13 +149,22 @@ msbuild %MSBUILD_PLATFORM% contrib\vstudio\vc14\zlibvc.sln -target:zlibstat /pro
 msbuild %MSBUILD_PLATFORM% contrib\vstudio\vc14\zlibvc.sln -target:zlibstat /property:Configuration=ReleaseWithoutASM /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 
-:qt
+goto done
+
+:qt5
 @echo --------------------------------------------------
 @echo ----------------- Building Qt --------------------
 @cd %TTLIBS_ROOT%
 @set OPENSSL=%TTLIBS_ROOT%\openssl
 cd qt5
 configure.bat -opensource -confirm-license -static -nomake examples -openssl-linked -I%OPENSSL%\include OPENSSL_LIBS=" -L%OPENSSL% -lUser32 -lAdvapi32 -lGdi32 -lCrypt32 -lws2_32 -llibssl -llibcrypto" -prefix %CD%\..\..\Qt-5.14.0
+@if not %ERRORLEVEL% == 0 GOTO buildfail
+nmake
+@if not %ERRORLEVEL% == 0 GOTO buildfail
+nmake install
+@if not %ERRORLEVEL% == 0 GOTO buildfail
+
+goto done
 
 :noperl
 @echo Perl.exe is not in PATH
