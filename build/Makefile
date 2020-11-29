@@ -115,10 +115,6 @@ openssl-ios-x64:
 
 openssl-win:
 	cd openssl && git checkout bdr/win
-	@echo "--------------------------------------------------"
-	@echo "First install ActivePerl and place it in PATH."
-	@echo "To build open 'VS2015 x86 Native Tools Command Prompt' and run build_win32.bat'"
-	@echo "or 'VS2015 x64 Native Tools Command Prompt' and run build_x64.bat in openssl directory.'"
 
 mpc-clean:
 	@echo "Nothing to do"
@@ -158,8 +154,6 @@ mpc-android-x86:
 mpc-android-x64:
 	$(MAKE) TAG=ACE+TAO-6_5_8 mpc-build
 mpc-win:
-	@echo "ACE requires MPC for generating projects. MPC is placed as submodule ACE/ACE/MPC"
-	@echo "on ACE's branch: bdr/win. Other platforms simply use sym-link"
 	cd ACE && git submodule update --init --recursive
 
 ace-clean:
@@ -215,20 +209,6 @@ ace-mac:
 ace-win:
 	cd ACE && git checkout bdr/win_vs2019
 	$(MAKE) mpc-win
-	@echo "--------------------------------------------------"
-	@echo "Now run ACE/ACE/build.bat from 'VS2019 x86 Native Tools Command Prompt'."
-	@echo "Ignore the WARNING messages from MPC."
-	@echo ""
-	@echo "Don't press continue until the above step has been performed."
-	@read
-	@echo "Patching SSL inc32"
-	sed -i -e "s/\\inc32/\\include/" ACE/ACE/ace/SSL/SSL.vcxproj
-	sed -i -e "s/\\inc32/\\include/" ACE/ACE/protocols/ace/INet/INet_SSL.vcxproj
-	@echo "--------------------------------------------------"
-	@echo "Now open ACE/ACE/ace/ace.sln and build Win32 or x64 debug and release"
-	@echo "configurations in projects 'ACE' and 'SSL'."
-	@echo "Afterwards open ACE/ACE/protocols/protocols.sln and build Win32 or x64"
-	@echo "Debug/Release configuration in projects 'INet' and 'INetSSL'."
 
 ffmpeg-clean:
 	cd FFmpeg && git clean -xdf .
@@ -300,6 +280,8 @@ ffmpeg-mac:
 	--disable-videotoolbox --disable-sdl2 --pkg-config-flags="--static" \
 	--enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl && $(MAKE) -j$(JOBS) install
 
+ffmpeg-win:
+	
 libvpx-clean:
 	cd libvpx && git clean -xdf .
 
@@ -360,22 +342,15 @@ libvpx-ios-x64:
 libvpx-win:
 	cd libvpx && git checkout v1.9.0
 	cd libvpx && mkdir -p build_win32
-	@echo "--------------------------------------------------"
 	@echo "Configuring Win32 build...  (Win64 will be configured afterwards)"
 	cd libvpx/build_win32 && ../configure --target=x86-win32-vs16 --disable-examples --disable-docs --enable-static-msvcrt
 	cd libvpx && mkdir -p build_win64
-	@echo "--------------------------------------------------"
 	@echo "Configuring Win64 build..."
 	cd libvpx/build_win64 && ../configure --target=x86_64-win64-vs16 --disable-examples --disable-docs --enable-static-msvcrt
-	@echo "--------------------------------------------------"
+	cd libvpx/build_win32 && make
+	cd libvpx/build_win64 && make
 	@echo "Copy yasm.exe for 32-bit to build_win32"
 	@echo "Copy yasm.exe for 64-bit to build_win64"
-	@echo "Afterwards run 'make' in libvpx/build_win32 or libvpx/build_win64"
-	@echo "It should be possible to build using MSBUILD but it is not possible to find in PATH..."
-	@echo "Instead open either libvpx/build_win32/vpx.sln or libvpx/build_win64/vpx.sln to build"
-	@echo "manually from Visual Studio."
-	@echo "Change 'Output Directory' for 'vpx' project to '..\lib\$(PlatformName)' in Debug/Release configurations."
-	@echo "Build project 'vpx' in Debug/Release configurations for either Win32 or x64"
 
 ogg-clean:
 	cd ogg && git clean -xdf .
@@ -417,11 +392,6 @@ ogg-android-x64:
 
 ogg-win:
 	cd ogg && git checkout bdr/win_vs2019
-	@echo "--------------------------------------------------"
-	@echo "Now open CMake (www.cmake.org)"
-	@echo "Generate project for "Visual Studio 16 2019" Platform=Win32 in $(PWD)/ogg/build_win32"
-	@echo "and 'Visual Studio 16 2019' Platform=x64 in $(PWD)/ogg/build_win64."
-	@echo "Build project 'ogg' in Debug/Release configuration either for Win32 or x64."
 
 ogg-ios-armv7:
 	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin" ogg-build
@@ -479,11 +449,6 @@ opus-mac:
 
 opus-win:
 	cd opus && git checkout bdr/win_vs2019
-	@echo "------------------------------------------------------------"
-	@echo "Now open CMake (www.cmake.org)"
-	@echo "Generate project for "Visual Studio 16 2019" Platform=Win32 in $(PWD)/opus/build_win32"
-	@echo "and 'Visual Studio 16 2019' Platform=x64 in $(PWD)/opus/build_win64."
-	@echo "Build project 'opus' in Debug/Release configuration either for Win32 or x64."
 
 opus-tools-clean:
 	true
@@ -539,10 +504,6 @@ portaudio-mac:
 
 portaudio-win:
 	cd portaudio && git checkout bdr/win_vs2019
-	@echo "--------------------------------------------------"
-	@echo "Now open CMake (www.cmake.org)"
-	@echo "Generate project for "Visual Studio 16 2019" Platform=Win32 in $(PWD)/portaudio/build_win32"
-	@echo "and 'Visual Studio 16 2019' Platform=x64 in $(PWD)/portaudio/build_win64."
 
 portaudio-android-armeabi-v7a:
 portaudio-android-arm64:
@@ -602,9 +563,6 @@ speex-ios-x64: speex-ios-simulator
 
 speex-win:
 	cd speex && git checkout bdr/win_vs2019
-	@echo "--------------------------------------------------"
-	@echo "Now open VS2019 and open win32\VS2015\libspeex\libspeex.vcxproj"
-	@echo "Build project 'libspeex' in Debug/Release_SSE2 configuration either for Win32 or x64."
 
 speexdsp-clean:
 	cd speexdsp && git clean -xdf .
@@ -631,10 +589,6 @@ speexdsp-raspi3:
 
 speexdsp-win:
 	cd speexdsp && git checkout bdr/win_vs2019
-	@echo "--------------------------------------------------"
-	@echo "Now open VS2019 and open speexdsp\win32\VS2015\libspeexdsp.sln."
-	@echo "Build project 'libspeexdsp' in Debug/Release_Static_SSE configuration either for Win32 or x64."
-
 
 speexdsp-android-armeabi-v7a:
 	$(MAKE) GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --enable-fixed-point --enable-neon --disable-examples CC='clang --target=armv7a-linux-android21 -mfloat-abi=softfp -mfpu=neon' --with-pic" speexdsp-build
@@ -679,9 +633,6 @@ tinyxml-raspi3: tinyxml-deb32
 
 tinyxml-win:
 	cd tinyxml && git checkout bdr/win32
-	@echo "--------------------------------------------------"
-	@echo "Now open VS2019 and open tinyxml.vcxproj and build"
-	@echo "in Debug/Release configuration either for Win32 or x64."
 
 tinyxml-android-armeabi-v7a:
 tinyxml-android-arm64:
@@ -718,9 +669,6 @@ zlib-raspi3:
 
 zlib-win:
 	cd zlib && git checkout bdr/win32
-	@echo "--------------------------------------------------"
-	@echo "Now VS2019 and open contrib\vstudio\vc14\zlibstat.vcxproj and build 'zlibstat'"
-	@echo "in Debug/ReleaseWithoutASM configuration either for Win32 or x64."
 
 zlib-android-armeabi-v7a:
 zlib-android-arm64:
