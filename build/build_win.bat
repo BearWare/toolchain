@@ -198,7 +198,7 @@ msbuild %MSBUILD_PLATFORM% contrib\vstudio\vc14\zlibvc.sln -target:zlibstat /pro
 @cd %TTLIBS_ROOT%
 @set OPENSSL=%TTLIBS_ROOT%\openssl
 cd qt5
-call configure.bat -opensource -confirm-license -static -nomake examples -openssl-linked -I%OPENSSL%\lib\%GENARCH%\include OPENSSL_LIBS=" -L%OPENSSL%\lib\%GENARCH%\lib -lUser32 -lAdvapi32 -lGdi32 -lCrypt32 -lws2_32 -llibssl -llibcrypto" -prefix %CD%\..\..\Qt-5.14.2_%GENARCH%
+call configure.bat -opensource -confirm-license -static -nomake examples -openssl-linked -I%OPENSSL%\lib\%GENARCH%\include OPENSSL_LIBS=" -L%OPENSSL%\lib\%GENARCH%\lib -lUser32 -lAdvapi32 -lGdi32 -lCrypt32 -lws2_32 -llibssl -llibcrypto" -prefix %CD%\..\..\Qt-5.15.1_%GENARCH%
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 nmake
 @if not %ERRORLEVEL% == 0 GOTO buildfail
