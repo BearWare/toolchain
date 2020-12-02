@@ -532,7 +532,7 @@ portaudio-raspi3:
 	$(MAKE) BRANCH=1bdcb9e portaudio-build
 
 portaudio-mac:
-	$(MAKE) BRANCH=1bdcb9e CFGFLAGS="$(MACCFGFLAGS) --disable-mac-universal" portaudio-build
+	$(MAKE) BRANCH=521209c CFGFLAGS="$(MACCFGFLAGS) --disable-mac-universal" portaudio-build
 
 portaudio-win:
 	cd portaudio && git checkout bdr/win32
