@@ -114,7 +114,7 @@ openssl-ios-x64:
 	$(MAKE) DARWIN=darwin64-x86_64-cc openssl-ios-simulator
 
 openssl-win:
-	cd openssl && git checkout bdr/win
+	cd openssl && git checkout bdr/win_vs2019
 
 mpc-clean:
 	@echo "Nothing to do"
