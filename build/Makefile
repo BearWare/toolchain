@@ -20,6 +20,9 @@ prepare-github:
 	git submodule update --init qt5
 	@echo "Note that 'qt5' submodule is not cloned recursively to limit disk usage."
 
+sync:
+	git submodule foreach git fetch -t -p
+
 clean: $(foreach lib,$(LIBS),$(lib)-clean)
 
 uninstall:
