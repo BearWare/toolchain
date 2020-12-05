@@ -11,15 +11,17 @@ GOTO buildfail
 
 :win32
 @set ARCH=win32
+@set GENARCH=win32
 goto archdone
 
 :win64
 @set ARCH=win64
+@set GENARCH=x64
 goto archdone
 
 :archdone
-@set MSBUILD_PLATFORM=/property:PlatformToolset=v142 /p:Platform=%ARCH%
-@set VSGENERATE=-G "Visual Studio 16 2019" -A %ARCH%
+@set MSBUILD_PLATFORM=/property:PlatformToolset=v142 /p:Platform=%GENARCH%
+@set VSGENERATE=-G "Visual Studio 16 2019" -A %GENARCH%
 
 :depend
 perl -v
@@ -29,8 +31,9 @@ cmake --version
 msbuild /version
 @if not %ERRORLEVEL% == 0 GOTO nomsbuild
 
-echo.
-echo Choose what to build. Default is All minus Qt
+@echo.
+@echo --------------------------------------------------
+@echo Choose what to build. Default is All minus Qt
 @set BUILDSEL=single
 @choice /C:da0123456789b /M "D:Default; A:All; 0:OpenSSL; 1:ACE; 2:libvpx; 3:ogg; 4:Opus; 5:PortAudio; 6:Speex; 7:SpeexDSP; 8:TinyXML; 9:ZLib; B:Qt;"
 @if %ERRORLEVEL% == 1 set BUILDSEL=default
@@ -45,7 +48,7 @@ echo Choose what to build. Default is All minus Qt
 @if %ERRORLEVEL% == 10 goto speexdsp
 @if %ERRORLEVEL% == 11 goto tinyxml
 @if %ERRORLEVEL% == 12 goto zlib
-@if %ERRORLEVEL% == 13 goto qt
+@if %ERRORLEVEL% == 13 goto qt5
 
 
 :openssl
@@ -195,7 +198,7 @@ msbuild %MSBUILD_PLATFORM% contrib\vstudio\vc14\zlibvc.sln -target:zlibstat /pro
 @cd %TTLIBS_ROOT%
 @set OPENSSL=%TTLIBS_ROOT%\openssl
 cd qt5
-configure.bat -opensource -confirm-license -static -nomake examples -openssl-linked -I%OPENSSL%\include OPENSSL_LIBS=" -L%OPENSSL% -lUser32 -lAdvapi32 -lGdi32 -lCrypt32 -lws2_32 -llibssl -llibcrypto" -prefix %CD%\..\..\Qt-5.14.0
+call configure.bat -opensource -confirm-license -static -nomake examples -openssl-linked -I%OPENSSL%\lib\%GENARCH%\include OPENSSL_LIBS=" -L%OPENSSL%\lib\%GENARCH%\lib -lUser32 -lAdvapi32 -lGdi32 -lCrypt32 -lws2_32 -llibssl -llibcrypto" -prefix %CD%\..\..\Qt-5.15.1_%GENARCH%
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 nmake
 @if not %ERRORLEVEL% == 0 GOTO buildfail
