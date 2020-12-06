@@ -2,9 +2,9 @@
 @ECHO Build WebRTC for TeamTalk
 @ECHO ------------------------------------------------------------------
 @ECHO Ensure 'Windows Search' (WSearch) service is Disabled and Stopped.
-@ECHO Failure to do so may result in file system errors."
+@ECHO Failure to do so may result in file system errors.
 @ECHO ------------------------------------------------------------------
-@ECHO This Command Prompt must run in Visual Studio x86 or x64 mode"
+@ECHO This Command Prompt must run in Visual Studio x86 or x64 mode
 @PAUSE
 @ECHO ------------------------------------------------------------------
 @ECHO Download 'depot_tools' from Chromium Projects and extract it in C:\webrtc\depot_tools.
@@ -15,7 +15,7 @@
 @SET TTLIBS_ROOT=%CD%\..
 @SET INITWEBRTC=%CD%
 @SET DEPOT_TOOLS_WIN_TOOLCHAIN=0
-@ECHO Adding depot_tools to PATH"
+@ECHO Adding depot_tools to PATH
 CD %WEBRTC_ROOT%\depot_tools
 SET PATH=%CD%;%PATH%
 @ECHO ------------------------------------------------------------------
@@ -43,12 +43,12 @@ CALL gclient sync -D --with_branch_heads --with_tags
 @ECHO ------------------------------------------------------------------
 @ECHO Applying patch to build TeamTalk.lib
 CALL git checkout modules/audio_processing/BUILD.gn
-CALL git apply %INITWEBRTC%\libteamtalk.patch
+CALL git apply %INITWEBRTC%\libteamtalk-r4093.patch
 
 :gengnfiles
 @ECHO ------------------------------------------------------------------
 @ECHO Set up Visual Studio version for WebRTC
-@CHOICE /C:12 /M "1 for VS2015, 2 for VS2019
+@CHOICE /C:12 /M "1 for VS2015, 2 for VS2019"
 @IF %ERRORLEVEL% == 1 GOTO vs2015
 @IF %ERRORLEVEL% == 2 GOTO vs2019
 :vs2015

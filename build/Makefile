@@ -20,6 +20,9 @@ prepare-github:
 	git submodule update --init qt5
 	@echo "Note that 'qt5' submodule is not cloned recursively to limit disk usage."
 
+sync:
+	git submodule foreach git fetch -t -p
+
 clean: $(foreach lib,$(LIBS),$(lib)-clean)
 
 uninstall:
@@ -49,7 +52,7 @@ raspi3: $(foreach lib,$(LIBS),$(lib)-raspi3)
 
 mac: $(foreach lib,$(LIBS),$(lib)-mac)
 
-win: $(foreach lib,$(LIBS),$(lib)-mac)
+win: $(foreach lib,$(LIBS),$(lib)-win)
 
 android-armeabi-v7a: $(foreach lib,$(LIBS),$(lib)-android-armeabi-v7a)
 
@@ -114,11 +117,7 @@ openssl-ios-x64:
 	$(MAKE) DARWIN=darwin64-x86_64-cc openssl-ios-simulator
 
 openssl-win:
-	cd openssl && git checkout bdr/win
-	@echo "--------------------------------------------------"
-	@echo "First install ActivePerl and place it in PATH."
-	@echo "To build open 'VS2015 x86 Native Tools Command Prompt' and run build_win32.bat'"
-	@echo "or 'VS2015 x64 Native Tools Command Prompt' and run build_x64.bat in openssl directory.'"
+	cd openssl && git checkout bdr/win_vs2019
 
 mpc-clean:
 	@echo "Nothing to do"
@@ -158,8 +157,6 @@ mpc-android-x86:
 mpc-android-x64:
 	$(MAKE) TAG=ACE+TAO-6_5_8 mpc-build
 mpc-win:
-	@echo "ACE requires MPC for generating projects. MPC is placed as submodule ACE/ACE/MPC"
-	@echo "on ACE's branch: bdr/win. Other platforms simply use sym-link"
 	cd ACE && git submodule update --init --recursive
 
 ace-clean:
@@ -213,22 +210,8 @@ ace-mac:
 	$(MAKE) BRANCH=bdr/mac64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-win:
-	cd ACE && git checkout bdr/win
+	cd ACE && git checkout bdr/win_vs2019
 	$(MAKE) mpc-win
-	@echo "--------------------------------------------------"
-	@echo "Now run ACE/ACE/build.bat from 'VS2015 x86 Native Tools Command Prompt'."
-	@echo "Ignore the WARNING messages from MPC."
-	@echo ""
-	@echo "Don't press continue until the above step has been performed."
-	@read
-	@echo "Patching SSL inc32"
-	sed -i -e "s/\\inc32/\\include/" ACE/ACE/ace/SSL/SSL.vcxproj
-	sed -i -e "s/\\inc32/\\include/" ACE/ACE/protocols/ace/INet/INet_SSL.vcxproj
-	@echo "--------------------------------------------------"
-	@echo "Now open ACE/ACE/ace/ace.sln and build Win32 or x64 debug and release"
-	@echo "configurations in projects 'ACE' and 'SSL'."
-	@echo "Afterwards open ACE/ACE/protocols/protocols.sln and build Win32 or x64"
-	@echo "Debug/Release configuration in projects 'INet' and 'INetSSL'."
 
 ffmpeg-clean:
 	cd FFmpeg && git clean -xdf .
@@ -300,6 +283,8 @@ ffmpeg-mac:
 	--disable-videotoolbox --disable-sdl2 --pkg-config-flags="--static" \
 	--enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl && $(MAKE) -j$(JOBS) install
 
+ffmpeg-win:
+
 libvpx-clean:
 	cd libvpx && git clean -xdf .
 
@@ -358,24 +343,19 @@ libvpx-ios-x64:
 	$(MAKE) BRANCH=v1.8.1 CFGFLAGS="--target=x86_64-iphonesimulator-gcc --disable-examples" libvpx-ios-build
 
 libvpx-win:
-	cd libvpx && git checkout v1.6.1
+	cd libvpx && git checkout v1.9.0
 	cd libvpx && mkdir -p build_win32
-	@echo "--------------------------------------------------"
 	@echo "Configuring Win32 build...  (Win64 will be configured afterwards)"
-	cd libvpx/build_win32 && ../configure --target=x86-win32-vs14 --disable-examples --disable-docs --enable-static-msvcrt
+	cd libvpx/build_win32 && ../configure --target=x86-win32-vs16 --disable-examples --disable-docs --enable-static-msvcrt
 	cd libvpx && mkdir -p build_win64
-	@echo "--------------------------------------------------"
 	@echo "Configuring Win64 build..."
-	cd libvpx/build_win64 && ../configure --target=x86_64-win64-vs14 --disable-examples --disable-docs --enable-static-msvcrt
-	@echo "--------------------------------------------------"
+	cd libvpx/build_win64 && ../configure --target=x86_64-win64-vs16 --disable-examples --disable-docs --enable-static-msvcrt
+	cd libvpx/build_win32 && make
+	cd libvpx/build_win64 && make
+	cd libvpx/build_win32 && sed -i -e "s/<OutDir>.*/<OutDir>..\\\lib\\\\\$$(PlatformName)<\/OutDir>/" vpx.vcxproj
+	cd libvpx/build_win64 && sed -i -e "s/<OutDir>.*/<OutDir>..\\\lib\\\\\$$(PlatformName)<\/OutDir>/" vpx.vcxproj
 	@echo "Copy yasm.exe for 32-bit to build_win32"
 	@echo "Copy yasm.exe for 64-bit to build_win64"
-	@echo "Afterwards run 'make' in libvpx/build_win32 or libvpx/build_win64"
-	@echo "It should be possible to build using MSBUILD but it is not possible to find in PATH..."
-	@echo "Instead open either libvpx/build_win32/vpx.sln or libvpx/build_win64/vpx.sln to build"
-	@echo "manually from Visual Studio."
-	@echo "Change 'Output Directory' for 'vpx' project to '..\lib\$(PlatformName)' in Debug/Release configurations."
-	@echo "Build project 'vpx' in Debug/Release configurations for either Win32 or x64"
 
 ogg-clean:
 	cd ogg && git clean -xdf .
@@ -416,11 +396,7 @@ ogg-android-x64:
 	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--with-pic --host=x86_64-linux-android --disable-shared CC='clang --target=x86_64-linux-android21'" ogg-build-android
 
 ogg-win:
-	cd ogg && git checkout bdr/win
-	@echo "--------------------------------------------------"
-	@echo "Now open ogg\win32\VS2015\libogg_static.sln and build"
-	@echo "project 'libogg_static' in Debug/Release configuration"
-	@echo "either for Win32 or x64"
+	cd ogg && git checkout bdr/win_vs2019
 
 ogg-ios-armv7:
 	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin" ogg-build
@@ -477,10 +453,7 @@ opus-mac:
 	$(MAKE) CFGFLAGS=$(MACCFGFLAGS) opus-build
 
 opus-win:
-	cd opus && git checkout bdr/win
-	@echo "------------------------------------------------------------"
-	@echo "Now open opus\win32\VS2015\opus.sln and build project 'opus'"
-	@echo "in Debug/Release configuration either for Win32 or x64."
+	cd opus && git checkout bdr/win_vs2019
 
 opus-tools-clean:
 	true
@@ -535,12 +508,7 @@ portaudio-mac:
 	$(MAKE) BRANCH=521209c CFGFLAGS="$(MACCFGFLAGS) --disable-mac-universal" portaudio-build
 
 portaudio-win:
-	cd portaudio && git checkout bdr/win32
-	@echo "--------------------------------------------------"
-	@echo "Now open CMake and put empty string in DXSDK_DSOUND_LIBRARY"
-	@echo "and '.' in remaining DXSDK_* paths (DirectX is included with Visual Studio 2015)."
-	@echo "Generate project for Win32 (default) and 'Visual Studio 2015 - Win64'."
-	@echo "Build project 'portaudio_static' in Debug/Release configuration either for Win32 or x64."
+	cd portaudio && git checkout bdr/win_vs2019
 
 portaudio-android-armeabi-v7a:
 portaudio-android-arm64:
@@ -599,10 +567,7 @@ speex-ios-i386: speex-ios-simulator
 speex-ios-x64: speex-ios-simulator
 
 speex-win:
-	cd speex && git checkout bdr/win
-	@echo "--------------------------------------------------"
-	@echo "Now open VS2015 and open win32\VS2015\libspeex\libspeex.vcxproj"
-	@echo "Build project 'libspeex' in Debug/Release_SSE2 configuration either for Win32 or x64."
+	cd speex && git checkout bdr/win_vs2019
 
 speexdsp-clean:
 	cd speexdsp && git clean -xdf .
@@ -628,11 +593,7 @@ speexdsp-raspi3:
 	$(MAKE) CFGFLAGS=--enable-fixed-point speexdsp-build
 
 speexdsp-win:
-	cd speexdsp && git checkout bdr/win
-	@echo "--------------------------------------------------"
-	@echo "Now open VS2015 and open speexdsp\win32\VS2015\libspeexdsp.sln."
-	@echo "Build project 'libspeexdsp' in Debug/Release_Static_SSE configuration either for Win32 or x64."
-
+	cd speexdsp && git checkout bdr/win_vs2019
 
 speexdsp-android-armeabi-v7a:
 	$(MAKE) GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --enable-fixed-point --enable-neon --disable-examples CC='clang --target=armv7a-linux-android21 -mfloat-abi=softfp -mfpu=neon' --with-pic" speexdsp-build
@@ -677,9 +638,6 @@ tinyxml-raspi3: tinyxml-deb32
 
 tinyxml-win:
 	cd tinyxml && git checkout bdr/win32
-	@echo "--------------------------------------------------"
-	@echo "Now open tinyxml.vcxproj and build"
-	@echo "in Debug/Release configuration either for Win32 or x64."
 
 tinyxml-android-armeabi-v7a:
 tinyxml-android-arm64:
@@ -716,9 +674,6 @@ zlib-raspi3:
 
 zlib-win:
 	cd zlib && git checkout bdr/win32
-	@echo "--------------------------------------------------"
-	@echo "Now open contrib\vstudio\vc14\zlibstat.vcxproj and build 'zlibstat'"
-	@echo "in Debug/ReleaseWithoutASM configuration either for Win32 or x64."
 
 zlib-android-armeabi-v7a:
 zlib-android-arm64:
@@ -806,14 +761,9 @@ qt5-android-arm64:
 qt5-android-x86:
 qt5-android-x64:
 qt5-win:
-	cd qt5 && git checkout v5.14.0
+	cd qt5 && git checkout v5.15.1
 	cd qt5 && git submodule update --init qtbase qttools qtmultimedia qtactiveqt
 	sed -i -e "s/-MD/-MT/" qt5/qtbase/mkspecs/common/msvc-desktop.conf
-	@echo "--------------------------------------------------"
-	@echo "Now run in qt5/ 'configure.bat -opensource -confirm-license -static -nomake examples -openssl-linked -I%OPENSSL%\include OPENSSL_LIBS=\" -L%OPENSSL% -lUser32 -lAdvapi32 -lGdi32 -lCrypt32 -lws2_32 -llibssl -llibcrypto\" -prefix %CD%\..\..\Qt-5.14.0'"
-	@echo "Where %OPENSSL% is location of built OpenSSL"
-	@echo "http://doc.qt.io/qt-5/windows-building.html"
-	read
 
 qt5-uninstall:
 qt5-clean:
@@ -835,18 +785,28 @@ prepare-webrtc-android:
 	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone-android
 	@echo "Done..."
 
+prepare-webrtc-ios:
+	git submodule update --init --recursive depot_tools
+	@echo "Cloning WebRTC"
+	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone-ios
+	@echo "Done..."
+
 webrtc-clone:
 	cd webrtc && fetch --nohooks webrtc && gclient sync --with_branch_heads --with_tags && git fetch
 
 webrtc-clone-android:
 	cd webrtc && fetch --nohooks webrtc_android && gclient sync --with_branch_heads --with_tags && git fetch
 
+webrtc-clone-ios:
+	cd webrtc && fetch --nohooks webrtc_ios && gclient sync --with_branch_heads --with_tags && git fetch
+
 webrtc-win:
 	@echo "Run webrtc/build_win.bat from Visual Studio Command Prompt"
 
 webrtc-patch:
+	test $(PATCHFILE)
 	cd webrtc/src && git checkout modules/audio_processing/BUILD.gn
-	cd webrtc/src && git apply ../libteamtalk.patch
+	cd webrtc/src && git apply $(PATCHFILE)
 
 webrtc-copy:
 	mkdir $(TTLIBS_ROOT)/webrtc/include
@@ -860,7 +820,7 @@ webrtc-copy-mac:
 
 webrtc-android:
 	cd webrtc/src && git checkout branch-heads/4093
-	$(MAKE) webrtc-patch
+	$(MAKE) PATCHFILE=../libteamtalk-r4093.patch webrtc-patch
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D --with_branch_heads --with_tags && \
 	gn gen $(TTLIBS_ROOT)/webrtc --args='target_os="android" target_cpu="$(ARCH)" is_component_build=false is_debug=false rtc_include_tests=false is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="$(TTLIBS_ROOT)/openssl/include" rtc_include_builtin_video_codecs=false' && \
 	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk
@@ -878,27 +838,48 @@ webrtc-android-x86:
 webrtc-android-x64:
 	$(MAKE) ARCH=x64 webrtc-android
 
-webrtc-mac:
+webrtc-deb64:
 	cd webrtc/src && git checkout branch-heads/4093
-	$(MAKE) webrtc-patch
-	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D --with_branch_heads --with_tags && \
+	$(MAKE) PATCHFILE=../libteamtalk-r4093.patch webrtc-patch
+	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D && \
+	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false is_debug=false treat_warnings_as_errors=false use_custom_libcxx=false use_udev=false use_aura=false use_ozone=false rtc_use_x11=false rtc_use_x11_extensions=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_use_gtk=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="/dev/null"' && \
+	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
+	$(MAKE) webrtc-copy
+
+webrtc-mac:
+	cd webrtc/src && git checkout branch-heads/4332
+	$(MAKE) PATCHFILE=../libteamtalk-r4332.patch webrtc-patch
+	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D && \
 	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false treat_warnings_as_errors=false use_aura=false use_ozone=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="$(TTLIBS_ROOT)/openssl/include" rtc_include_builtin_video_codecs=false is_debug=false clang_base_path="$(shell xcode-select -p)/Toolchains/XcodeDefault.xctoolchain/usr" use_custom_libcxx=false libcxx_is_shared=true' && \
 	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
 	$(MAKE) webrtc-copy-mac
 
-webrtc-deb64:
-	cd webrtc/src && git checkout branch-heads/4093
-	$(MAKE) webrtc-patch
-	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D --with_branch_heads --with_tags  && \
-	gn gen $(TTLIBS_ROOT)/webrtc --args='is_clang=false is_debug=false treat_warnings_as_errors=false use_custom_libcxx=false use_udev=false use_aura=false use_ozone=false rtc_use_x11=false rtc_use_x11_extensions=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_use_gtk=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="/dev/null"' && \
+webrtc-ios:
+	cd webrtc/src && git checkout branch-heads/4332
+	$(MAKE) PATCHFILE=../libteamtalk-r4332.patch webrtc-patch
+	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D && \
+	gn gen $(TTLIBS_ROOT)/webrtc --args='$(ARGSEXTRA) target_os="ios" target_cpu="$(IOSARCH)" enable_dsyms=true enable_ios_bitcode=true use_xcode_clang=true ios_deployment_target="7.0" treat_warnings_as_errors=false use_aura=false use_ozone=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false is_component_build=false use_rtti=true rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="$(TTLIBS_ROOT)/openssl/include" rtc_include_builtin_video_codecs=false is_debug=false clang_base_path="$(shell xcode-select -p)/Toolchains/XcodeDefault.xctoolchain/usr" use_custom_libcxx=false libcxx_is_shared=true' && \
 	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk && gn gen -ide=qtcreator $(TTLIBS_ROOT)/webrtc
-	$(MAKE) webrtc-copy
+	$(MAKE) webrtc-copy-mac
+
+webrtc-ios-i386:
+	$(MAKE) IOSARCH=x86 webrtc-ios
+
+webrtc-ios-x64:
+	$(MAKE) IOSARCH=x64 webrtc-ios
+
+webrtc-ios-armv7:
+	$(MAKE) IOSARCH=arm ARGSEXTRA="arm_use_neon=true" webrtc-ios
+
+webrtc-ios-arm64:
+	$(MAKE) IOSARCH=arm64 webrtc-ios
+
 
 webrtc-args:
 	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gn args --list $(TTLIBS_ROOT)/webrtc
 
 webrtc-clean:
-	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D && git clean -xdf .
+	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && git clean -xdf .
 
 webrtc-uninstall:
 	rm -rf $(TTLIBS_ROOT)/webrtc
