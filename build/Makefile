@@ -277,6 +277,7 @@ ffmpeg-mac:
 	--disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes \
 	--disable-libxcb-shape --disable-securetransport \
 	--disable-schannel --disable-xlib --disable-jack \
+	--disable-lzma \
 	--extra-cflags="$(MACMINVERSION)"  \
 	--extra-cxxflags="$(MACMINVERSION)"  \
 	--extra-ldexeflags="$(MACMINVERSION)" \
