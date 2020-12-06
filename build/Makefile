@@ -331,16 +331,16 @@ libvpx-ios-build:
 	$(MAKE) libvpx-build
 
 libvpx-ios-armv7:
-	$(MAKE) BRANCH=v1.8.1 CFGFLAGS="--target=armv7-darwin-gcc --disable-examples" libvpx-ios-build
+	$(MAKE) BRANCH=v1.9.0 CFGFLAGS="--target=armv7-darwin-gcc --disable-examples" libvpx-ios-build
 
 libvpx-ios-arm64:
-	$(MAKE) BRANCH=v1.8.1 CFGFLAGS="--target=arm64-darwin-gcc --disable-examples" libvpx-ios-build
+	$(MAKE) BRANCH=v1.9.0 CFGFLAGS="--target=arm64-darwin-gcc --disable-examples" libvpx-ios-build
 
 libvpx-ios-i386:
-	$(MAKE) BRANCH=v1.8.1 CFGFLAGS="--target=x86-iphonesimulator-gcc --disable-examples" libvpx-ios-build
+	$(MAKE) BRANCH=v1.9.0 CFGFLAGS="--target=x86-iphonesimulator-gcc --disable-examples" libvpx-ios-build
 
 libvpx-ios-x64:
-	$(MAKE) BRANCH=v1.8.1 CFGFLAGS="--target=x86_64-iphonesimulator-gcc --disable-examples" libvpx-ios-build
+	$(MAKE) BRANCH=v1.9.0 CFGFLAGS="--target=x86_64-iphonesimulator-gcc --disable-examples" libvpx-ios-build
 
 libvpx-win:
 	cd libvpx && git checkout v1.9.0

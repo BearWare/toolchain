@@ -13,29 +13,20 @@ function xcode_setup() {
     echo "Xcode is currently pointing to: '$xcode'"
     echo ""
 
-    if [ ! -e "$sdk" ]; then
-        echo "Building TeamTalk toolchain has currently only been tested on Xcode 10.3."
-        echo "It is therefore recommended to download Xcode 10.3 from Apple and place Xcode"
-        echo "in '$TOOLCHAIN_ROOT/Xcode.app'."
-        echo ""
-        echo "To change default Xcode run 'sudo xcode-select -s $TOOLCHAIN_ROOT/Xcode.app/Contents/Developer'"
-        echo ""
-        echo "To switch back run 'sudo xcode-select -s /Applications/Xcode.app/Contents/Developer'"
-        return 1
-    else
-        return 0
-    fi
+    echo "Building TeamTalk toolchain has currently only been tested on Xcode 12.2."
+    echo "It is therefore recommended to download Xcode 12.2 from Apple and change"
+    echo "default Xcode to point to downloaded Xcode."
+    echo ""
+    echo "To change default Xcode run 'sudo xcode-select -s TOOLCHAIN_ROOT/Xcode.app/Contents/Developer'"
+    echo "where TOOLCHAIN_ROOT is the location of Xcode.app."
+    echo "To switch back run 'sudo xcode-select -s /Applications/Xcode.app/Contents/Developer'"
 }
 
 function mac64() {
     echo "### Setting TeamTalk Toolchain up for Mac OS x86_64 ###"
 
     TTLIBS_ROOT=$TOOLCHAIN_ROOT
-    SDK="$TOOLCHAIN_ROOT/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk"
-    
-    if ! xcode_setup $SDK; then
-        SDK=$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
-    fi
+    SDK=$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
     
     export SDK
     echo "Exporting SDK environment variable. This is required by build ACE."
@@ -44,9 +35,9 @@ function mac64() {
 
 function ios_common() {
 
-    export XCODE_ROOT=$TOOLCHAIN_ROOT/Xcode.app
-
-    export IPHONE_VERSION=12.4 #compilation requires this
+    xcode_setup
+    
+    export IPHONE_VERSION=14.2 #compilation requires this
 
     if [ -z "$1" ]; then
         echo "1 = i386, 2 = x86_64, 3 = armv7, 4 = arm64"
@@ -105,10 +96,7 @@ function ios_armv7() {
     export IPHONE_TARGET=HARDWARE
     export ARCH=armv7
     
-    SDK="$TOOLCHAIN_ROOT/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS"$IPHONE_VERSION".sdk"
-    if ! xcode_setup $SDK; then
-        SDK=$(xcode-select -p)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
-    fi
+    SDK=$(xcode-select -p)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
     
     export SDK
 }
@@ -119,10 +107,7 @@ function ios_arm64() {
     export IPHONE_TARGET=HARDWARE
     export ARCH=arm64
 
-    SDK="$TOOLCHAIN_ROOT/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS"$IPHONE_VERSION".sdk"
-    if ! xcode_setup $SDK; then
-        SDK=$(xcode-select -p)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
-    fi
+    SDK=$(xcode-select -p)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
     
     export SDK
 }
@@ -133,11 +118,7 @@ function ios_i386() {
     export IPHONE_TARGET=SIMULATOR
 
     export ARCH=i386
-    export SDK="$TOOLCHAIN_ROOT/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator"${IPHONE_VERSION}".sdk"
-
-    if ! xcode_setup $SDK; then
-        SDK=$(xcode-select -p)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
-    fi
+    SDK=$(xcode-select -p)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
     
     export SDK
 }
@@ -149,11 +130,7 @@ function ios_x86_64() {
 
     export ARCH=x86_64
 
-    export SDK="$TOOLCHAIN_ROOT/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator"${IPHONE_VERSION}".sdk"
-
-    if ! xcode_setup $SDK; then
-        SDK=$(xcode-select -p)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
-    fi
+    SDK=$(xcode-select -p)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
     
     export SDK
 }
