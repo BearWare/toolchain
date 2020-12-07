@@ -26,8 +26,6 @@ sync:
 clean: $(foreach lib,$(LIBS),$(lib)-clean)
 
 uninstall:
-	@echo "This will erase _EVERYTHING_"
-	@read h
 	$(MAKE) uninstall-all
 
 uninstall-all: $(foreach lib,$(LIBS),$(lib)-uninstall)
@@ -74,13 +72,16 @@ openssl-uninstall:
 	rm -rf $(TTLIBS_ROOT)/openssl
 
 openssl-deb64:
-	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC linux-x86_64 && $(MAKE) install
+	true
+#	cd openssl && git checkout OpenSSL_1_1_1h && ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC linux-x86_64 && $(MAKE) install
 
 openssl-deb32:
-	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-generic32 && $(MAKE) install
+	true
+#	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-generic32 && $(MAKE) install
 
 openssl-raspi3:
-	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-armv4 && $(MAKE) install
+	true
+#	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-armv4 && $(MAKE) install
 
 openssl-mac:
 	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && $(MAKE) install
@@ -132,7 +133,7 @@ mpc-build:
 	ln -fs $(PWD)/MPC $(TTLIBS_ROOT)/MPC
 
 mpc-deb64:
-	$(MAKE) TAG=ACE+TAO-6_4_5 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_12 mpc-build
 mpc-deb32:
 	$(MAKE) TAG=ACE+TAO-6_4_5 mpc-build
 mpc-raspi3:
@@ -173,7 +174,7 @@ ace-build:
 	cd ACE/ACE/protocols/ace/INet && $(MAKE) install -j$(JOBS)
 
 ace-deb64:
-	$(MAKE) BRANCH=bdr/deb64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=bdr/deb64_ACE+TAO-6_5_12 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-deb32:
 	$(MAKE) BRANCH=bdr/deb32 ACE_ROOT=$(PWD)/ACE/ACE ace-build
@@ -225,7 +226,7 @@ ffmpeg-build:
 	$(CFGFLAGS) && $(MAKE) install -j$(JOBS)
 
 ffmpeg-deb64:
-	$(MAKE) BRANCH=n3.4.7 CFGFLAGS="--enable-pic --enable-openssl" ffmpeg-build
+	$(MAKE) BRANCH=n3.4.7 CFGFLAGS="--enable-pic --enable-openssl --disable-jack" ffmpeg-build
 
 ffmpeg-deb32:
 	$(MAKE) BRANCH=n3.4.7 CFGFLAGS="--enable-openssl" ffmpeg-build
