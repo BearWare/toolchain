@@ -811,11 +811,13 @@ webrtc-patch:
 	cd webrtc/src && git apply $(PATCHFILE)
 
 webrtc-copy:
+	rm -rf $(TTLIBS_ROOT)/webrtc/include
 	mkdir $(TTLIBS_ROOT)/webrtc/include
 	cd webrtc/src && find . -type f -name "*.h" -exec cp --parents \{\} $(TTLIBS_ROOT)/webrtc/include/ \;
 	@echo "$(TTLIBS_ROOT)/build/webrtc/src can now be deleted"
 
 webrtc-copy-mac:
+	rm -rf $(TTLIBS_ROOT)/webrtc/include
 	mkdir $(TTLIBS_ROOT)/webrtc/include
 	cd webrtc/src && find . -type f -name "*.h" -exec ditto \{\} $(TTLIBS_ROOT)/webrtc/include/\{\} \;
 	@echo "$(TTLIBS_ROOT)/build/webrtc/src can now be deleted"
@@ -823,7 +825,7 @@ webrtc-copy-mac:
 webrtc-android:
 	cd webrtc/src && git checkout branch-heads/4093
 	$(MAKE) PATCHFILE=../libteamtalk-r4093.patch webrtc-patch
-	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D --with_branch_heads --with_tags && \
+	export PATH=$(PWD)/depot_tools:$(PATH) && cd webrtc/src && gclient sync -D && \
 	gn gen $(TTLIBS_ROOT)/webrtc --args='target_os="android" target_cpu="$(ARCH)" is_component_build=false is_debug=false rtc_include_tests=false is_clang=false treat_warnings_as_errors=false use_custom_libcxx=false rtc_disable_logging=true rtc_exclude_field_trial_default=true rtc_enable_protobuf=false rtc_enable_sctp=false gtest_enable_absl_printers=false rtc_include_tests=false rtc_build_examples=false rtc_build_libvpx=false rtc_libvpx_build_vp9=false rtc_build_opus=false rtc_include_opus=false rtc_build_ssl=false rtc_builtin_ssl_root_certificates=false rtc_ssl_root="$(TTLIBS_ROOT)/openssl/include" rtc_include_builtin_video_codecs=false' && \
 	ninja -v -C $(TTLIBS_ROOT)/webrtc teamtalk
 	$(MAKE) webrtc-copy
