@@ -806,9 +806,8 @@ webrtc-win:
 	@echo "Run webrtc/build_win.bat from Visual Studio Command Prompt"
 
 webrtc-patch:
-	test $(PATCHFILE)
 	cd webrtc/src && git checkout modules/audio_processing/BUILD.gn
-	cd webrtc/src && git apply $(PATCHFILE)
+	cd webrtc/src && test -e $(PATCHFILE) && git apply $(PATCHFILE)
 
 webrtc-copy:
 	rm -rf $(TTLIBS_ROOT)/webrtc/include
