@@ -42,6 +42,7 @@ CD %WEBRTC_ROOT%\src
 @IF NOT %ERRORLEVEL% == 0 GOTO buildfail
 CALL git clean -xdf .
 CALL git checkout modules/audio_processing/BUILD.gn
+CALL git fetch -p -t
 CALL git checkout branch-heads/4332
 @ECHO Synchronizing checkout
 CALL gclient sync -D --with_branch_heads --with_tags
