@@ -37,7 +37,7 @@ function ios_common() {
 
     xcode_setup
     
-    export IPHONE_VERSION=14.2 #compilation requires this
+    export IPHONE_VERSION="" #compilation requires this
 
     if [ -z "$1" ]; then
         echo "1 = i386, 2 = x86_64, 3 = armv7, 4 = arm64"

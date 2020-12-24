@@ -272,7 +272,7 @@ Now start either a "Visual Studio 2019 Command Prompt" for Win32 or
 "Visual Studio 2019 Command Prompt" for x64 depending on the architecture
 chosen in the cygwin shell.
 
-In the "Visual Studio 2019 Command Prompt" change to same directyr as
+In the "Visual Studio 2019 Command Prompt" change to same directory as
 ```$TOOLCHAIN_ROOT/build``` and run ```build_win.bat```. Follow the
 instructions on what to build. 'Default' build process is recommended.
 
@@ -289,17 +289,14 @@ Run ```build_win.bat``` and follow the instructions.
 
 ### Dependencies for Building iOS Libraries
 
-Download Xcode 7.3 from Apple and place Xcode.app in
-```$TOOLCHAIN_ROOT```.
+Download Xcode 12.3 from Apple and place it in
+```$TOOLCHAIN_ROOT```. Change default Xcode to Xcode 12.3:
+```xcode-select -s $TOOLCHAIN_ROOT/Xcode.app/Contents/Developer```
 
 ### Build 3rd Party Libraries for iOS
 
-First source ```toolchain.sh``` in
-```$TOOLCHAIN_ROOT```. Select iOS as platform and then
-choose architecture, i.e. armv7, arm64, i386 or x86_64.
-
 Start a new shell and source ```toolchain.sh``` for every iOS
-architecture.
+architecture, i.e. armv7, arm64, i386 or x86_64.
 
 Now change to ```$TOOLCHAIN_ROOT/build```.
 
