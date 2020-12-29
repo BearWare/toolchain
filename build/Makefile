@@ -510,7 +510,7 @@ portaudio-mac:
 	$(MAKE) BRANCH=521209c CFGFLAGS="$(MACCFGFLAGS) --disable-mac-universal" portaudio-build
 
 portaudio-win:
-	cd portaudio && git checkout d4bbae6
+	cd portaudio && git checkout 5146971
 
 portaudio-android-armeabi-v7a:
 portaudio-android-arm64:
