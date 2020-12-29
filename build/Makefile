@@ -31,7 +31,7 @@ uninstall:
 uninstall-all: $(foreach lib,$(LIBS),$(lib)-uninstall)
 
 depend-debian9:
-	apt install cmake g++ libssl-dev yasm autoconf libtool pkg-config libasound2-dev
+	apt install cmake g++ libssl-dev yasm autoconf libtool pkg-config libasound2-dev wget python
 
 depend-ubuntu18:
 	apt install cmake g++ libssl-dev yasm autoconf libtool pkg-config libasound2-dev wget python2.7-minimal
