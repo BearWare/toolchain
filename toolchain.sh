@@ -2,6 +2,10 @@
 
 # Find absolute path (that works on both macOS and Linux)
 TOOLCHAIN_ROOT=$(dirname ${BASH_SOURCE[0]})
+if [ -z "$TOOLCHAIN_ROOT" ]; then
+    TOOLCHAIN_ROOT=$PWD
+    echo "Cannot find PWD forcing: $TOOLCHAIN_ROOT"
+fi
 cd $TOOLCHAIN_ROOT
 TOOLCHAIN_ROOT=$(pwd -P)
 cd -
