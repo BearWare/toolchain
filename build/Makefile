@@ -569,7 +569,7 @@ speex-ios-i386: speex-ios-simulator
 speex-ios-x64: speex-ios-simulator
 
 speex-win:
-	cd speex && git checkout bdr/win_vs2019
+	cd speex && git checkout 62ad6a6
 
 speexdsp-clean:
 	cd speexdsp && git clean -xdf .
@@ -595,7 +595,7 @@ speexdsp-raspi3:
 	$(MAKE) CFGFLAGS=--enable-fixed-point speexdsp-build
 
 speexdsp-win:
-	cd speexdsp && git checkout bdr/win_vs2019
+	cd speexdsp && git checkout 2907b00
 
 speexdsp-android-armeabi-v7a:
 	$(MAKE) GENFLAGS="--host=arm-linux-androideabi" CFGFLAGS="--host=arm-linux-androideabi --enable-fixed-point --enable-neon --disable-examples CC='clang --target=armv7a-linux-android21 -mfloat-abi=softfp -mfpu=neon' --with-pic" speexdsp-build
@@ -675,7 +675,7 @@ zlib-raspi3:
 	$(MAKE) BRANCH=v1.2.9 zlib-build
 
 zlib-win:
-	cd zlib && git checkout bdr/win32
+	cd zlib && git checkout 56c3219
 
 zlib-android-armeabi-v7a:
 zlib-android-arm64:
