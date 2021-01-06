@@ -240,7 +240,7 @@ For Android x86_64 architecture (useful for simulators) type:
 
 Install *Microsoft Visual Studio Community 2019*.
 
-Install *ActivePerl* and place ```perl.exe``` in %PATH%.
+Install *ActivePerl* or *Strawberry Perl* and place ```perl.exe``` in %PATH%.
 * Required by *ACE*, *MPC* and *OpenSSL*
 
 Install *yasm* from http://yasm.tortall.net/
@@ -268,19 +268,21 @@ Run the following command make command ```make win```.
 Copy ```yasm.exe``` for x86 to ```$TOOLCHAIN_ROOT/build/libvpx/build_win32```
 and ```yasm.exe``` for x64 to ```$TOOLCHAIN_ROOT/build/libvpx/build_win64```.
 
-Now start either a "Visual Studio 2019 Command Prompt" for Win32 or
-"Visual Studio 2019 Command Prompt" for x64 depending on the architecture
-chosen in the cygwin shell.
+Now start either a Visual Studio 2019 command prompt, either "x86
+Native Tools Command Prompt for VS 2019" for Win32 or "x64 Native
+Tools Command Prompt for VS 2019" for x64 depending on the
+architecture chosen in the cygwin shell.
 
-In the "Visual Studio 2019 Command Prompt" change to same directory as
+In the Visual Studio 2019 command prompt change to same directory as
 ```$TOOLCHAIN_ROOT/build``` and run ```build_win.bat```. Follow the
 instructions on what to build. 'Default' build process is recommended.
 
 ### Build WebRTC for Windows
 
-Start a Visual Studio x86 Command Prompt and a Visual Studio x64
-Command Prompt. In both consoles change to
-```$TOOLCHAIN_ROOT/build/webrtc```.
+Start a Visual Studio 2019 command prompt, either "x86 Native Tools
+Command Prompt for VS 2019" or "x64 Native Tools Command Prompt for VS
+2019" depending on the architecture to build for. In the command prompt
+change to ```$TOOLCHAIN_ROOT/build/webrtc```.
 
 Run ```build_win.bat``` and follow the instructions.
 
