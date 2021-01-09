@@ -238,7 +238,10 @@ For Android x86_64 architecture (useful for simulators) type:
 
 ### Dependencies for Building Windows Libraries
 
-Install *Microsoft Visual Studio Community 2019*.
+Install *Microsoft Visual Studio Community 2019*
+
+Install *Windows 10 SDK 10.0.19041.1* (or later) including "Debugging Tools for Windows"
+* Required by *WebRTC*
 
 Install *ActivePerl* or *Strawberry Perl* and place ```perl.exe``` in %PATH%.
 * Required by *ACE*, *MPC* and *OpenSSL*
