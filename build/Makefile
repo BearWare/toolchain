@@ -775,19 +775,19 @@ qt5-clean:
 	cd qt5/qtmultimedia && git clean -xdf .
 	cd qt5/qtactiveqt && git clean -xdf .
 
-prepare-webrtc:
+prepare-webrtc: webrtc-erase
 	git submodule update --init --recursive depot_tools
 	@echo "Cloning WebRTC"
 	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone
 	@echo "Done..."
 
-prepare-webrtc-android:
+prepare-webrtc-android: webrtc-erase
 	git submodule update --init --recursive depot_tools
 	@echo "Cloning WebRTC"
 	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone-android
 	@echo "Done..."
 
-prepare-webrtc-ios:
+prepare-webrtc-ios: webrtc-erase
 	git submodule update --init --recursive depot_tools
 	@echo "Cloning WebRTC"
 	$(MAKE) PATH="$(PWD)/depot_tools:$(PATH)" webrtc-clone-ios
@@ -801,6 +801,10 @@ webrtc-clone-android:
 
 webrtc-clone-ios:
 	cd webrtc && fetch --nohooks webrtc_ios && gclient sync --with_branch_heads --with_tags && git fetch
+
+webrtc-erase:
+	cd webrtc && git clean -xdf .
+	cd webrtc && rm -rf src
 
 webrtc-win:
 	@echo "Run webrtc/build_win.bat from Visual Studio Command Prompt"
