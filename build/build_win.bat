@@ -121,7 +121,7 @@ msbuild %MSBUILD_PLATFORM% libogg.sln -target:ogg /property:Configuration=Releas
 @cd %TTLIBS_ROOT%
 mkdir opus\build_%ARCH%
 cd opus\build_%ARCH%
-cmake %VSGENERATE% -DCMAKE_SYSTEM_VERSION=10.0 ..
+cmake %VSGENERATE% -DCMAKE_SYSTEM_VERSION=10.0 -DAVX_SUPPORTED=OFF ..
 msbuild %MSBUILD_PLATFORM% opus.sln -target:opus /property:Configuration=Debug /m:4
 @if not %ERRORLEVEL% == 0 GOTO buildfail
 msbuild %MSBUILD_PLATFORM% opus.sln -target:opus /property:Configuration=Release /m:4
