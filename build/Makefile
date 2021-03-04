@@ -137,7 +137,7 @@ mpc-deb64:
 mpc-deb32:
 	$(MAKE) TAG=ACE+TAO-6_4_5 mpc-build
 mpc-raspi3:
-	$(MAKE) TAG=ACE+TAO-6_4_5 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_12 mpc-build
 mpc-mac:
 	$(MAKE) TAG=ACE+TAO-6_4_5 mpc-build
 mpc-ios-armv7:
@@ -179,7 +179,8 @@ ace-deb64:
 ace-deb32:
 	$(MAKE) BRANCH=bdr/deb32 ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
-ace-raspi3: ace-deb32
+ace-raspi3:
+	$(MAKE) BRANCH=6312ccc2d1f ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-android-armeabi-v7a:
 	$(MAKE) BRANCH=bdr/android ACE_ROOT=$(PWD)/ACE/ACE ace-build
