@@ -14,7 +14,8 @@ jobs:
       run: source toolchain.sh linux
 
     - name: Install Dependencies
-      run: sudo apt install libasound2-dev yasm
+      working-directory: ${{runner.workspace}}/toolchain/build
+      run: make depend-ubuntu18
 
     - name: Sync submodules
       # Some projects don't allow in-source building, so create a separate build directory
@@ -24,8 +25,9 @@ jobs:
         make prepare-github
 
     - name: Build
-      working-directory: ${{runner.workspace}}/toolchain/build
+      working-directory: ${{runner.workspace}}/toolchain
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
-        make deb64-github
+        source toolchain.sh linux
+        make -C build deb64-github
