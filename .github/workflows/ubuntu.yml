@@ -9,6 +9,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Source environment
+      working-directory: ${{runner.workspace}}/toolchain
+      run: source toolchain.sh linux
+
     - name: Install Dependencies
       run: sudo apt install libasound2-dev yasm
 
