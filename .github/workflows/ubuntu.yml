@@ -15,7 +15,7 @@ jobs:
 
     - name: Install Dependencies
       working-directory: ${{runner.workspace}}/toolchain/build
-      run: make depend-ubuntu18
+      run: sudo make depend-ubuntu18
 
     - name: Sync submodules
       # Some projects don't allow in-source building, so create a separate build directory
