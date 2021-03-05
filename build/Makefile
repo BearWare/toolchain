@@ -40,7 +40,7 @@ depend-centos7:
 	yum install epel-release # get cmake3
 	yum install cmake3 gcc openssl-devel
 
-depend-macos:
+depend-mac:
 	brew install autoconf automake libtool pkg-config yasm
 
 deb32: $(foreach lib,$(LIBS),$(lib)-deb32)
