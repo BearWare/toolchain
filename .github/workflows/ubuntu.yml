@@ -14,17 +14,16 @@ jobs:
       run: source toolchain.sh linux
 
     - name: Install Dependencies
-      working-directory: ${{runner.workspace}}/toolchain
+      working-directory: ${{runner.workspace}}/toolchain/build
       run: |
-        sudo make -C build depend-ubuntu18
+        sudo make depend-ubuntu18
 
     - name: Sync submodules
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
-      working-directory: ${{runner.workspace}}/toolchain
+      working-directory: ${{runner.workspace}}/toolchain/build
       run: |
-        make -C build
-        make -C build prepare-github
+        make prepare-github
 
     - name: Build
       working-directory: ${{runner.workspace}}/toolchain
@@ -32,4 +31,5 @@ jobs:
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
         source toolchain.sh linux
-        make -C build deb64-github
+        cd build
+        make deb64-github
