@@ -25,7 +25,7 @@ jobs:
       run: |
         make prepare-github
 
-    - name: Build
+    - name: Build for MacOS
       working-directory: ${{runner.workspace}}/toolchain
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
@@ -33,3 +33,12 @@ jobs:
         source toolchain.sh mac
         cd build
         make mac
+
+    - name: Build for iOS i386
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: |
+        source toolchain.sh ios i386
+        cd build
+        make ios-i386
