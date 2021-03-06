@@ -30,6 +30,8 @@ jobs:
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
+        printenv
         source toolchain.sh linux
         cd build
         make deb64-github
+        
