@@ -108,19 +108,19 @@ openssl-android-x64:
 	cd openssl && ANDROID_NDK_HOME=$(NDK) $(MAKE) install
 
 openssl-ios-iphone:
-	cd openssl && git checkout OpenSSL_1_1_1h && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneOS.sdk -arch $(ARCH) -fembed-bitcode -miphoneos-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl iphoneos-cross no-shared no-async && $(MAKE) install
+	cd openssl && git checkout OpenSSL_1_1_1j && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneOS.sdk -arch $(ARCH) -fembed-bitcode -miphoneos-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl iphoneos-cross no-shared no-async && $(MAKE) install
 
 openssl-ios-armv7: openssl-ios-iphone
 openssl-ios-arm64: openssl-ios-iphone
 
 openssl-ios-simulator:
-	cd openssl && git checkout OpenSSL_1_1_1h && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneSimulator.sdk -arch $(ARCH) -mios-simulator-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl $(DARWIN) no-shared no-async && $(MAKE) install
+	cd openssl && git checkout OpenSSL_1_1_1j && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneSimulator.sdk -arch $(ARCH) -mios-simulator-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl $(DARWIN) no-shared no-async && $(MAKE) install
 
 openssl-ios-i386:
 	$(MAKE) DARWIN=iossimulator-xcrun openssl-ios-simulator
 
 openssl-ios-x64:
-	$(MAKE) DARWIN=darwin64-x86_64-cc openssl-ios-simulator
+	$(MAKE) DARWIN=iossimulator-xcrun openssl-ios-simulator
 
 openssl-win:
 	cd openssl && git checkout bdr/win_vs2019
