@@ -16,12 +16,38 @@ jobs:
       run: |
         make prepare-github
 
-    - name: Build
+    - name: Build for Android armeabi-v7a
       working-directory: ${{runner.workspace}}/toolchain
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
-        printenv | sort
         source toolchain.sh android armeabi-v7a
         cd build
         make android-armeabi-v7a
+
+    - name: Build for Android arm64-v8a
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: |
+        source toolchain.sh android arm64-v8a
+        cd build
+        make android-arm64
+
+    - name: Build for Android x86
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: |
+        source toolchain.sh android x86
+        cd build
+        make android-x86
+
+    - name: Build for Android x86_64
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: |
+        source toolchain.sh android x86_64
+        cd build
+        make android-x64
