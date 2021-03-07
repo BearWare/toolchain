@@ -23,7 +23,7 @@ jobs:
       run: |
         source toolchain.sh android armeabi-v7a
         cd build
-        make android-armeabi-v7a
+        make clean android-armeabi-v7a
 
     - name: Build for Android arm64-v8a
       working-directory: ${{runner.workspace}}/toolchain
@@ -32,7 +32,7 @@ jobs:
       run: |
         source toolchain.sh android arm64-v8a
         cd build
-        make android-arm64
+        make clean android-arm64
 
     - name: Build for Android x86
       working-directory: ${{runner.workspace}}/toolchain
@@ -41,7 +41,7 @@ jobs:
       run: |
         source toolchain.sh android x86
         cd build
-        make android-x86
+        make clean android-x86
 
     - name: Build for Android x86_64
       working-directory: ${{runner.workspace}}/toolchain
@@ -50,4 +50,4 @@ jobs:
       run: |
         source toolchain.sh android x86_64
         cd build
-        make android-x64
+        make clean android-x64

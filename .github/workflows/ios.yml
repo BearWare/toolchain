@@ -29,7 +29,7 @@ jobs:
       run: |
         source toolchain.sh ios armv7
         cd build
-        make ios-armv7
+        make clean ios-armv7
 
     - name: Build for iOS arm64
       working-directory: ${{runner.workspace}}/toolchain
@@ -38,7 +38,7 @@ jobs:
       run: |
         source toolchain.sh ios arm64
         cd build
-        make ios-arm64
+        make clean ios-arm64
 
     - name: Build for iOS i386
       working-directory: ${{runner.workspace}}/toolchain
@@ -47,7 +47,7 @@ jobs:
       run: |
         source toolchain.sh ios i386
         cd build
-        make ios-i386
+        make clean ios-i386
 
     - name: Build for iOS x86_64
       working-directory: ${{runner.workspace}}/toolchain
@@ -56,4 +56,4 @@ jobs:
       run: |
         source toolchain.sh ios x86_64
         cd build
-        make ios-x64
+        make clean ios-x64
