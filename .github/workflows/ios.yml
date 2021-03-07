@@ -12,7 +12,7 @@ jobs:
     - name: Install Dependencies
       working-directory: ${{runner.workspace}}/toolchain/build
       run: |
-        brew install autoconf automake
+        brew install autoconf automake yasm
         # Installing 'libtool' seems to screw up OpenSSL build
 
     - name: Sync submodules
