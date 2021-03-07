@@ -9,10 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Source environment
-      working-directory: ${{runner.workspace}}/toolchain
-      run: source toolchain.sh mac
-
     - name: Install Dependencies
       working-directory: ${{runner.workspace}}/toolchain/build
       run: |
@@ -33,39 +29,3 @@ jobs:
         source toolchain.sh mac
         cd build
         make mac
-
-    - name: Build for iOS armv7
-      working-directory: ${{runner.workspace}}/toolchain
-      shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: |
-        source toolchain.sh ios armv7
-        cd build
-        make ios-armv7
-
-    - name: Build for iOS arm64
-      working-directory: ${{runner.workspace}}/toolchain
-      shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: |
-        source toolchain.sh ios arm64
-        cd build
-        make ios-arm64
-
-    - name: Build for iOS i386
-      working-directory: ${{runner.workspace}}/toolchain
-      shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: |
-        source toolchain.sh ios i386
-        cd build
-        make ios-i386
-
-    - name: Build for iOS x86_64
-      working-directory: ${{runner.workspace}}/toolchain
-      shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: |
-        source toolchain.sh ios x86_64
-        cd build
-        make ios-x64
