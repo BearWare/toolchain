@@ -193,11 +193,17 @@ function android() {
         arch=$1
     fi
 
-    NDK=$TOOLCHAIN_ROOT/android-ndk-r21
+    if [ -z "$ANDROID_NDK_HOME" ]; then
+        NDK=$TOOLCHAIN_ROOT/android-ndk-r21
+    else
+        NDK=$ANDROID_NDK_HOME
+    fi
 
     if ! test -d "$NDK"; then
-        echo "Android NDK r21 not found. Must be placed in $NDK"
+        echo "Android NDK not found. Must be placed in $NDK"
         return 1
+    else
+        echo "Using Android NDK located in $NDK"
     fi
     
     ANDROID_APP_PLATFORM=android-21
