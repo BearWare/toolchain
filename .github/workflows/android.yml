@@ -74,5 +74,5 @@ jobs:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.GITHUB_SHA }}-toolchain-android
+        name: ${{ env.githash }}-toolchain-android
         path: ${{runner.workspace}}/toolchain/android_artifacts/*
