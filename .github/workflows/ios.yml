@@ -1,0 +1,59 @@
+name: iOS
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      working-directory: ${{runner.workspace}}/toolchain/build
+      run: |
+        brew install autoconf automake yasm
+        # Installing 'libtool' seems to screw up OpenSSL build
+
+    - name: Sync submodules
+      # Some projects don't allow in-source building, so create a separate build directory
+      # We'll use this as our working directory for all subsequent commands
+      working-directory: ${{runner.workspace}}/toolchain/build
+      run: |
+        make prepare-github
+
+    - name: Build for iOS armv7
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: |
+        source toolchain.sh ios armv7
+        cd build
+        make clean ios-armv7
+
+    - name: Build for iOS arm64
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: |
+        source toolchain.sh ios arm64
+        cd build
+        make clean ios-arm64
+
+    - name: Build for iOS i386
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: |
+        source toolchain.sh ios i386
+        cd build
+        make clean ios-i386
+
+    - name: Build for iOS x86_64
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: |
+        source toolchain.sh ios x86_64
+        cd build
+        make clean ios-x64

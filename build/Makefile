@@ -40,11 +40,16 @@ depend-centos7:
 	yum install epel-release # get cmake3
 	yum install cmake3 gcc openssl-devel
 
+depend-mac:
+	brew install autoconf automake libtool pkg-config yasm
+
 deb32: $(foreach lib,$(LIBS),$(lib)-deb32)
 
 deb64: $(foreach lib,$(LIBS),$(lib)-deb64)
 
 deb64-github: $(foreach lib,$(LIBS_GITHUB),$(lib)-deb64)
+
+mac-github: $(foreach lib,$(LIBS_GITHUB),$(lib)-mac)
 
 raspi3: $(foreach lib,$(LIBS),$(lib)-raspi3)
 
@@ -84,7 +89,7 @@ openssl-raspi3:
 #	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-armv4 && $(MAKE) install
 
 openssl-mac:
-	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && $(MAKE) install
+	cd openssl && git checkout OpenSSL_1_1_1h && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && $(MAKE) install
 
 openssl-android-armeabi-v7a:
 	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-arm -D__ANDROID_API__=21
@@ -103,19 +108,19 @@ openssl-android-x64:
 	cd openssl && ANDROID_NDK_HOME=$(NDK) $(MAKE) install
 
 openssl-ios-iphone:
-	cd openssl && git checkout OpenSSL_1_1_0g && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneOS.sdk -arch $(ARCH) -fembed-bitcode -miphoneos-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl iphoneos-cross no-shared no-async && $(MAKE) install
+	cd openssl && git checkout OpenSSL_1_1_1j && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneOS.sdk -arch $(ARCH) -fembed-bitcode -miphoneos-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl iphoneos-cross no-shared no-async no-tests && $(MAKE) install
 
 openssl-ios-armv7: openssl-ios-iphone
 openssl-ios-arm64: openssl-ios-iphone
 
 openssl-ios-simulator:
-	cd openssl && git checkout OpenSSL_1_1_1a && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneSimulator.sdk -arch $(ARCH) -mios-simulator-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl $(DARWIN) no-shared no-async && $(MAKE) install
+	cd openssl && git checkout OpenSSL_1_1_1j && export CROSS_TOP="$(SDK)/../.." CROSS_SDK="iPhoneSimulator.sdk -arch $(ARCH) -mios-simulator-version-min=7.0" && ./Configure --prefix=$(TTLIBS_ROOT)/openssl $(DARWIN) no-shared no-async no-tests && $(MAKE) install
 
 openssl-ios-i386:
 	$(MAKE) DARWIN=iossimulator-xcrun openssl-ios-simulator
 
 openssl-ios-x64:
-	$(MAKE) DARWIN=darwin64-x86_64-cc openssl-ios-simulator
+	$(MAKE) DARWIN=iossimulator-xcrun openssl-ios-simulator
 
 openssl-win:
 	cd openssl && git checkout bdr/win_vs2019

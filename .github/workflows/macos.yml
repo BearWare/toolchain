@@ -1,10 +1,10 @@
-name: Ubuntu
+name: MacOS
 
 on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -12,7 +12,7 @@ jobs:
     - name: Install Dependencies
       working-directory: ${{runner.workspace}}/toolchain/build
       run: |
-        sudo make depend-ubuntu18
+        make depend-mac
 
     - name: Sync submodules
       # Some projects don't allow in-source building, so create a separate build directory
@@ -21,13 +21,11 @@ jobs:
       run: |
         make prepare-github
 
-    - name: Build
+    - name: Build for MacOS
       working-directory: ${{runner.workspace}}/toolchain
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
-        printenv
-        source toolchain.sh linux
+        source toolchain.sh mac
         cd build
-        make deb64-github
-        
+        make mac
