@@ -61,12 +61,14 @@ jobs:
       working-directory: ${{runner.workspace}}/toolchain
       shell: bash
       run: |
-        mkdir android_artifacts
-        git_hash=$(git rev-parse --short "$GITHUB_SHA")
-        echo $GITHUB_SHA > toolchain.githash
-        7z a android_artifacts/android-${git_hash}.7z armeabi-v7a arm64-v8a x86 x86_64 toolchain.githash
+        mkdir android
+        mv armeabi-v7a android/
+        mv arm64-v8a android/
+        mv x86 android/
+        mv x86_64 android/
+        echo $GITHUB_SHA > android/toolchain.githash
 
     - uses: actions/upload-artifact@v2
       with:
         name: toolchain-android
-        path: ${{runner.workspace}}/toolchain/android_artifacts/*
+        path: ${{runner.workspace}}/toolchain/android/*

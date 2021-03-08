@@ -35,12 +35,9 @@ jobs:
       working-directory: ${{runner.workspace}}/toolchain
       shell: bash
       run: |
-        mkdir ubuntu_artifacts
-        git_hash=$(git rev-parse --short "$GITHUB_SHA")
-        echo $GITHUB_SHA > toolchain.githash
-        7z a ubuntu_artifacts/ubuntu-${git_hash}.7z ubuntu/* toolchain.githash
+        echo $GITHUB_SHA > ubuntu/toolchain.githash
 
     - uses: actions/upload-artifact@v2
       with:
         name: toolchain-ubuntu
-        path: ${{runner.workspace}}/toolchain/ubuntu_artifacts/*
+        path: ${{runner.workspace}}/toolchain/ubuntu/*
