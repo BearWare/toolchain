@@ -64,7 +64,8 @@ jobs:
       run: |
         mkdir ios_artifacts
         git_hash=$(git rev-parse --short "$GITHUB_SHA")
-        7z a ios_artifacts/ios-${git_hash}.7z armv7 arm64 i386 x86_64
+        echo $GITHUB_SHA > toolchain.githash
+        7z a ios_artifacts/ios-${git_hash}.7z armv7 arm64 i386 x86_64 toolchain.githash
 
     - uses: actions/upload-artifact@v2
       with:
