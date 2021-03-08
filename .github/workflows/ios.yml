@@ -57,3 +57,19 @@ jobs:
         source toolchain.sh ios x86_64
         cd build
         make clean ios-x64
+
+    - name: Archive iOS build
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      run: |
+        mkdir ios
+        mv armv7 ios/
+        mv arm64 ios/
+        mv i386 ios/
+        mv x86_64 ios/
+        echo $GITHUB_SHA > ios/toolchain.githash
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: toolchain-ios
+        path: ${{runner.workspace}}/toolchain/ios/*

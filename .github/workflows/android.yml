@@ -9,6 +9,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install Dependencies
+      working-directory: ${{runner.workspace}}/toolchain/build
+      run: |
+        sudo apt install p7zip-full
+
     - name: Sync submodules
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
@@ -51,3 +56,19 @@ jobs:
         source toolchain.sh android x86_64
         cd build
         make clean android-x64
+
+    - name: Archive Android build
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      run: |
+        mkdir android
+        mv armeabi-v7a android/
+        mv arm64-v8a android/
+        mv x86 android/
+        mv x86_64 android/
+        echo $GITHUB_SHA > android/toolchain.githash
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: toolchain-android
+        path: ${{runner.workspace}}/toolchain/android/*

@@ -29,9 +29,11 @@ function xcode_setup() {
 function mac64() {
     echo "### Setting TeamTalk Toolchain up for Mac OS x86_64 ###"
 
-    TTLIBS_ROOT=$TOOLCHAIN_ROOT
+    if [ -z "$TTLIBS_ROOT" ]; then
+        TTLIBS_ROOT=$TOOLCHAIN_ROOT
+    fi
     SDK=$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
-    
+
     export SDK
     echo "Exporting SDK environment variable. This is required by build ACE."
     echo "TeamTalk toolchain will use $SDK"
@@ -40,7 +42,7 @@ function mac64() {
 function ios_common() {
 
     xcode_setup
-    
+
     export IPHONE_VERSION="" #compilation requires this
 
     if [ -z "$1" ]; then
@@ -65,7 +67,7 @@ function ios_common() {
                 return 1
                 ;;
         esac
-        
+
     else
         arch=$1
     fi
@@ -99,9 +101,9 @@ function ios_armv7() {
 
     export IPHONE_TARGET=HARDWARE
     export ARCH=armv7
-    
+
     SDK=$(xcode-select -p)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
-    
+
     export SDK
 }
 
@@ -112,7 +114,7 @@ function ios_arm64() {
     export ARCH=arm64
 
     SDK=$(xcode-select -p)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
-    
+
     export SDK
 }
 
@@ -123,7 +125,7 @@ function ios_i386() {
 
     export ARCH=i386
     SDK=$(xcode-select -p)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
-    
+
     export SDK
 }
 
@@ -135,13 +137,15 @@ function ios_x86_64() {
     export ARCH=x86_64
 
     SDK=$(xcode-select -p)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
-    
+
     export SDK
 }
 
 function ios_export() {
 
-    TTLIBS_ROOT=$TOOLCHAIN_ROOT/$ARCH
+    if [ -z "$TTLIBS_ROOT" ]; then
+        TTLIBS_ROOT=$TOOLCHAIN_ROOT/$ARCH
+    fi
 
     export CC="clang"
 
@@ -162,7 +166,9 @@ function ios_export() {
 function linux() {
     echo "### Setting TeamTalk Toolchain up for Linux ###"
 
-    TTLIBS_ROOT=$TOOLCHAIN_ROOT
+    if [ -z "$TTLIBS_ROOT" ]; then
+        TTLIBS_ROOT=$TOOLCHAIN_ROOT
+    fi
 }
 
 function android() {
@@ -205,7 +211,7 @@ function android() {
     else
         echo "Using Android NDK located in $NDK"
     fi
-    
+
     ANDROID_APP_PLATFORM=android-21
     ANDROID_APP_STL=c++_static
 
@@ -239,7 +245,7 @@ function android() {
 
             ANDROID_APP_ABI=x86_64
             ANDROID_ARCH=x86_64
-            ;;        
+            ;;
         *)
             echo "Unknown arch"
             return 1
@@ -251,8 +257,10 @@ function android() {
     SYSROOT=$TOOLCHAIN/sysroot
     PATH=$TOOLCHAIN/bin:$PATH
 
-    TTLIBS_ROOT=$TOOLCHAIN_ROOT/$ARCH
-    
+    if [ -z "$TTLIBS_ROOT" ]; then
+        TTLIBS_ROOT=$TOOLCHAIN_ROOT/$ARCH
+    fi
+
     export ANDROID_ABI ANDROID_ARCH ARCH NDK SYSROOT TOOLCHAIN PATH ANDROID_APP_ABI ANDROID_APP_PLATFORM ANDROID_APP_STL
 
     echo "Android NDK: $NDK"
@@ -260,7 +268,9 @@ function android() {
 }
 
 function win() {
-    TTLIBS_ROOT=$TOOLCHAIN_ROOT/build
+    if [ -z "$TTLIBS_ROOT" ]; then
+        TTLIBS_ROOT=$TOOLCHAIN_ROOT/build
+    fi
 }
 
 function win32() {
