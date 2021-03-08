@@ -26,6 +26,21 @@ jobs:
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
+        export TTLIBS_ROOT=$PWD/macos
         source toolchain.sh mac
         cd build
         make mac
+
+    - name: Archive MacOS build
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      run: |
+        mkdir macos_artifacts
+        git_hash=$(git rev-parse --short "$GITHUB_SHA")
+        echo $GITHUB_SHA > toolchain.githash
+        7z a macos_artifacts/macos-${git_hash}.7z macos/* toolchain.githash
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: toolchain-macos
+        path: ${{runner.workspace}}/toolchain/macos_artifacts/*

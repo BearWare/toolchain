@@ -26,8 +26,21 @@ jobs:
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
-        printenv
+        export TTLIBS_ROOT=$PWD/ubuntu
         source toolchain.sh linux
         cd build
         make deb64-github
-        
+
+    - name: Archive Ubuntu build
+      working-directory: ${{runner.workspace}}/toolchain
+      shell: bash
+      run: |
+        mkdir ubuntu_artifacts
+        git_hash=$(git rev-parse --short "$GITHUB_SHA")
+        echo $GITHUB_SHA > toolchain.githash
+        7z a ubuntu_artifacts/ubuntu-${git_hash}.7z ubuntu/* toolchain.githash
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: toolchain-ubuntu
+        path: ${{runner.workspace}}/toolchain/ubuntu_artifacts/*
