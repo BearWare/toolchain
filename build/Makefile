@@ -770,8 +770,9 @@ qt5-android-x86:
 qt5-android-x64:
 qt5-win:
 	cd qt5 && git checkout v5.15.1
-	cd qt5 && git submodule update --init qtbase qttools qtmultimedia qtactiveqt
+	cd qt5 && git submodule update --init qtbase qttools qtmultimedia qtactiveqt qtspeech
 	sed -i -e "s/-MD/-MT/" qt5/qtbase/mkspecs/common/msvc-desktop.conf
+	# -opensource -confirm-license -static -nomake examples -openssl-linked -IC:\tt5dist\toolchain\build\openssl\lib\x64\include "OPENSSL_LIBS= -LC:\tt5dist\toolchain\build\openssl\lib\x64\lib -lUser32 -lAdvapi32 -lGdi32 -lCrypt32 -lws2_32 -llibssl -llibcrypto" -prefix C:\tt5dist\toolchain\build\qt5\..\..\Qt-5.15.1_x64
 
 qt5-uninstall:
 qt5-clean:
@@ -780,6 +781,7 @@ qt5-clean:
 	cd qt5/qttools && git clean -xdf .
 	cd qt5/qtmultimedia && git clean -xdf .
 	cd qt5/qtactiveqt && git clean -xdf .
+	cd qt5/qtspeech && git clean -xdf .
 
 prepare-webrtc: webrtc-erase
 	git submodule update --init --recursive depot_tools
