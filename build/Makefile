@@ -144,7 +144,7 @@ mpc-deb32:
 mpc-raspi3:
 	$(MAKE) TAG=ACE+TAO-6_5_12 mpc-build
 mpc-mac:
-	$(MAKE) TAG=ACE+TAO-6_4_5 mpc-build
+	$(MAKE) TAG=ACE+TAO-6_5_12 mpc-build
 mpc-ios-armv7:
 	$(MAKE) TAG=ACE+TAO-6_5_6 mpc-build
 mpc-ios-arm64:
@@ -214,7 +214,7 @@ ace-ios-x64:
 ace-mac:
 	@echo "Testing that SDK environment variable has been specified"
 	test -d $(SDK)
-	$(MAKE) BRANCH=bdr/mac64 ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=7e4fa7ecb6c ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-win:
 	cd ACE && git checkout bdr/win_vs2019
