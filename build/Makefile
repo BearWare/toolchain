@@ -8,7 +8,7 @@ JOBS?=4
 LIBS=openssl mpc ace ffmpeg libvpx ogg opus opus-tools portaudio speex speexdsp tinyxml zlib qt5 Catch2
 LIBS_GITHUB := $(filter-out webrtc, $(LIBS))
 
-MACMINVERSION="-mmacosx-version-min=10.9"
+MACMINVERSION="-mmacosx-version-min=$(MACOSX_DEPLOYMENT_TARGET)"
 MACCFGFLAGS=CFLAGS=$(MACMINVERSION) CPPFLAGS=$(MACMINVERSION)
 ARCHS=deb32 deb64 raspi3 mac win android-armeabi-v7a android-arm64 android-x86 ios-i386 ios-x64 ios-armv7 ios-arm64
 
@@ -89,7 +89,7 @@ openssl-raspi3:
 #	cd openssl && git checkout OpenSSL_1_1_0g && ./Configure --prefix=$(TTLIBS_ROOT)/openssl linux-armv4 && $(MAKE) install
 
 openssl-mac:
-	cd openssl && git checkout OpenSSL_1_1_1h && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && $(MAKE) install
+	cd openssl && git checkout OpenSSL_1_1_1k && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && $(MAKE) install
 
 openssl-android-armeabi-v7a:
 	cd openssl && git checkout OpenSSL_1_1_1k && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-arm -D__ANDROID_API__=21
@@ -215,7 +215,7 @@ ace-ios-x64:
 ace-mac:
 	@echo "Testing that SDK environment variable has been specified"
 	test -d $(SDK)
-	$(MAKE) BRANCH=7e4fa7ecb6c ACE_ROOT=$(PWD)/ACE/ACE ace-build
+	$(MAKE) BRANCH=2b9c1bb43ae ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-win:
 	cd ACE && git checkout bdr/win_vs2019
