@@ -92,19 +92,19 @@ openssl-mac:
 	cd openssl && git checkout OpenSSL_1_1_1h && ./Configure --prefix=$(TTLIBS_ROOT)/openssl darwin64-x86_64-cc $(MACMINVERSION) && $(MAKE) install
 
 openssl-android-armeabi-v7a:
-	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-arm -D__ANDROID_API__=21
+	cd openssl && git checkout OpenSSL_1_1_1k && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-arm -D__ANDROID_API__=21
 	cd openssl && ANDROID_NDK_HOME=$(NDK) $(MAKE) install
 
 openssl-android-arm64:
-	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-arm64 -D__ANDROID_API__=21
+	cd openssl && git checkout OpenSSL_1_1_1k && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-arm64 -D__ANDROID_API__=21
 	cd openssl && ANDROID_NDK_HOME=$(NDK) $(MAKE) install
 
 openssl-android-x86:
-	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86 -D__ANDROID_API__=21
+	cd openssl && git checkout OpenSSL_1_1_1k && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86 -D__ANDROID_API__=21
 	cd openssl && ANDROID_NDK_HOME=$(NDK) $(MAKE) install
 
 openssl-android-x64:
-	cd openssl && git checkout OpenSSL_1_1_1b && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86_64 -D__ANDROID_API__=21
+	cd openssl && git checkout OpenSSL_1_1_1k && ANDROID_NDK_HOME=$(NDK) ./Configure --prefix=$(TTLIBS_ROOT)/openssl -DPIC -fPIC no-shared android-x86_64 -D__ANDROID_API__=21
 	cd openssl && ANDROID_NDK_HOME=$(NDK) $(MAKE) install
 
 openssl-ios-iphone:
@@ -123,7 +123,8 @@ openssl-ios-x64:
 	$(MAKE) DARWIN=iossimulator-xcrun openssl-ios-simulator
 
 openssl-win:
-	cd openssl && git checkout bdr/win_vs2019
+	# Branch: bdr/vs2019_OpenSSL 1.1.1k
+	cd openssl && git checkout 2c3f861718
 
 mpc-clean:
 	@echo "Nothing to do"
