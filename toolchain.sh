@@ -33,7 +33,7 @@ function mac64() {
         TTLIBS_ROOT=$TOOLCHAIN_ROOT
     fi
     SDK=$(xcode-select -p)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
-    MACOSX_DEPLOYMENT_TARGET=10.9
+    MACOSX_DEPLOYMENT_TARGET=10.10
     export SDK MACOSX_DEPLOYMENT_TARGET
     echo "Exporting SDK environment variable. This is required by build ACE."
     echo "TeamTalk toolchain will use $SDK"
