@@ -218,7 +218,7 @@ ace-mac:
 	$(MAKE) BRANCH=2b9c1bb43ae ACE_ROOT=$(PWD)/ACE/ACE ace-build
 
 ace-win:
-	cd ACE && git checkout bdr/win_vs2019
+	cd ACE && git checkout 3bd8589385a
 	$(MAKE) mpc-win
 
 ffmpeg-clean:
