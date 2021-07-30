@@ -462,7 +462,7 @@ opus-mac:
 	$(MAKE) CFGFLAGS=$(MACCFGFLAGS) opus-build
 
 opus-win:
-	cd opus && git checkout bdr/win_vs2019
+	cd opus && git checkout 41980bc1
 
 opus-tools-clean:
 	true
