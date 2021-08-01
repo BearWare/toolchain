@@ -405,7 +405,7 @@ ogg-android-x64:
 	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=x86_64-linux-android" CFGFLAGS="--with-pic --host=x86_64-linux-android --disable-shared CC='clang --target=x86_64-linux-android21'" ogg-build-android
 
 ogg-win:
-	cd ogg && git checkout bdr/win_vs2019
+	cd ogg && git checkout e558913
 
 ogg-ios-armv7:
 	$(MAKE) BRANCH=v1.3.3 GENFLAGS="--host=arm-apple-darwin" CFGFLAGS="--host=arm-apple-darwin" ogg-build
